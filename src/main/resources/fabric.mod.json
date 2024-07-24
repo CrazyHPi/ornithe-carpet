@@ -1,30 +1,28 @@
 {
 	"schemaVersion": 1,
-	"id": "example_mod",
+	"id": "carpet",
 	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Carpet Mod",
+	"description": "Ornithe port of carpermod112, but with modern carpet implement",
 	"authors": [
-		"Me!"
+		"Crazy_H"
 	],
 	"contact": {
-		"homepage": "https://example.com/",
-		"sources": "https://github.com/OrnitheMC/ornithe-template-mod"
+		"homepage": "https://github.com/CrazyHPi/ornithe-carpet",
+		"sources": "https://github.com/CrazyHPi/ornithe-carpet"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/example_mod/icon.png",
+	"license": "LGPL-3.0-or-later",
+	"icon": "assets/carpet/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"init": [
-			"com.example.example_mod.ExampleMod"
-		]
+		"client": ["carpet.CarpetServer::onGameStarted"],
+    "server": ["carpet.CarpetServer::onGameStarted"]
 	},
 	"mixins": [
-		"example_mod.mixins.json"
+    "carpet.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
-		"minecraft": "1.7.2",
-		"osl-entrypoints": ">=0.4.0"
+		"minecraft": "1.12.2"
 	}
 }
