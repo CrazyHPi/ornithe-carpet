@@ -15,14 +15,13 @@
 	"icon": "assets/carpet/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"client": ["carpet.CarpetServer::onGameStarted"],
-    "server": ["carpet.CarpetServer::onGameStarted"]
+		"preLaunch": ["carpet.CarpetServer::onGameStarted"]
 	},
 	"mixins": [
     "carpet.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.21",
+		"fabricloader": ">=0.13.3",
 		"minecraft": "1.12.2"
 	}
 }
