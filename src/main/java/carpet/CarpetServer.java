@@ -1,6 +1,8 @@
 package carpet;
 
 import carpet.api.settings.SettingsManager;
+import carpet.network.CarpetClient;
+import carpet.network.ServerNetworkHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
@@ -43,18 +45,23 @@ public class CarpetServer {
         extensions.forEach(e -> registerCarpetCommands(registry));
     }
 
-    // todo
     public static void onPlayerLoggedIn(ServerPlayerEntity player) {
+        ServerNetworkHandler.onPlayerJoin(player);
+        extensions.forEach(e -> e.onPlayerLoggedIn(player));
     }
 
     public static void onPlayerLoggedOut(ServerPlayerEntity player) {
+        ServerNetworkHandler.onPlayerLoggedOut(player);
+        extensions.forEach(e -> e.onPlayerLoggedOut(player));
     }
 
+    // scarpet
     public static void clientPreClosing() {
     }
 
     public static void onServerClosed(MinecraftServer server) {
         if (minecraftServer != null) {
+            ServerNetworkHandler.close();
             extensions.forEach(e -> e.onServerClosed(server));
             minecraftServer = null;
         }

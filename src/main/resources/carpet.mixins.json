@@ -4,11 +4,14 @@
   "package": "carpet.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "carpetmod.CommandManagerMixin",
-    "carpetmod.MinecraftServerMixin"
+    "carpetmod.core.CommandManagerMixin",
+    "carpetmod.core.MinecraftServerMixin",
+    "carpetmod.network.PlayerManagerMixin",
+    "carpetmod.network.ServerPlayNetworkHandlerMixin"
   ],
   "client": [
-    "carpetmod.IntegratedServerMixin"
+    "carpetmod.core.IntegratedServerMixin",
+    "carpetmod.network.ClientPlayNetworkHandlerMixin"
   ],
   "server": [
   ],
