@@ -62,7 +62,7 @@ public class CarpetSettings {
             desc = "Carpet command permission level. Can only be set via .conf file",
             category = CREATIVE,
             validators = CarpetPermissionLevel.class,
-            options = {"ops", "2", "4"}
+            options = {"ops", "0", "2", "4"}
     )
     public static String carpetCommandPermissionLevel = "ops";
 

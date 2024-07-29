@@ -466,7 +466,7 @@ public class SettingsManager {
 
         @Override
         public boolean canUse(MinecraftServer server, CommandSource source) {
-            return source.canUseCommand(this.getRequiredPermissionLevel(), this.getName());
+            return canUseCommand(source, CarpetSettings.carpetCommandPermissionLevel);
         }
 
         @Override
@@ -537,9 +537,37 @@ public class SettingsManager {
             if (sm.locked()) {
                 return Collections.emptyList();
             }
-            if (args.length == 1) {
 
+            if (args.length == 1) {
+                List<String> list = new ArrayList<>();
+                list.add("list");
+                list.add("removeDefault");
+                list.add("setDefault");
+                list.addAll(sm.getRulesSorted().stream().map(CarpetRule::name).collect(Collectors.toList()));
+                return suggestMatching(args, list.toArray(new String[0]));
             }
+
+            if (args.length == 2) {
+                if ("list".equalsIgnoreCase(args[0])) {
+                    List<String> list = new ArrayList<>();
+                    sm.getCategories().forEach(list::add);
+                    return suggestMatching(args, list.toArray(new String[0]));
+                }
+                if ("removeDefault".equalsIgnoreCase(args[0]) || "setDefault".equalsIgnoreCase(args[0])) {
+                    List<String> list = sm.getRulesSorted().stream().map(CarpetRule::name).collect(Collectors.toList());
+                    return suggestMatching(args, list.toArray(new String[0]));
+                }
+                CarpetRule<?> rule = sm.rules.get(args[0]);
+                return suggestMatching(args, rule.suggestions());
+            }
+
+            if (args.length == 3) {
+                if ("setDefault".equalsIgnoreCase(args[0])) {
+                    CarpetRule<?> rule = sm.rules.get(args[1]);
+                    return suggestMatching(args, rule.suggestions());
+                }
+            }
+
             return Collections.emptyList();
         }
     }
