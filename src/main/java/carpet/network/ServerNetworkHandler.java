@@ -59,6 +59,7 @@ public class ServerNetworkHandler {
         player.networkHandler.sendPacket(data.build());
     }
 
+    // backbone for client API commands, not sure what this is for, scarpet?
     private static void handleClientCommand(ServerPlayerEntity player, NbtCompound commandData) {
         String command = commandData.getString("command");
         String id = commandData.getString("id");
@@ -86,7 +87,6 @@ public class ServerNetworkHandler {
 
     public static void onClientData(ServerPlayerEntity player, NbtCompound compound) {
         for (String key : compound.getKeys()) {
-            System.out.println(key);
             if (dataHandlers.containsKey(key)) {
                 dataHandlers.get(key).accept(player, compound.get(key));
             } else {

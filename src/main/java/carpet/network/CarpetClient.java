@@ -22,7 +22,6 @@ public class CarpetClient {
     public static final String CHANNEL = CARPET_CHANNEL.toString();
 
     public static void gameJoined(LocalClientPlayerEntity player) {
-        System.out.println(player);
         clientPlayer = player;
     }
 
@@ -49,6 +48,7 @@ public class CarpetClient {
         return isServerCarpet;
     }
 
+    // backbone for client API commands, not sure what this is for
     public static boolean sendClientCommand(String command) {
         if (!isServerCarpet && CarpetServer.minecraftServer == null) {
             return false;
