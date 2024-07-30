@@ -7,11 +7,14 @@
     "carpetmod.core.CommandManagerMixin",
     "carpetmod.core.MinecraftServerMixin",
     "carpetmod.network.PlayerManagerMixin",
-    "carpetmod.network.ServerPlayNetworkHandlerMixin"
+    "carpetmod.network.ServerPlayNetworkHandlerMixin",
+    "rule.creativeNoClip.PlayerEntityMixin"
   ],
   "client": [
     "carpetmod.core.IntegratedServerMixin",
-    "carpetmod.network.ClientPlayNetworkHandlerMixin"
+    "carpetmod.network.ClientPlayNetworkHandlerMixin",
+    "carpetmod.network.LocalClientPlayerEntityMixin",
+    "rule.creativeNoClip.GameRendererMixin"
   ],
   "server": [
   ],

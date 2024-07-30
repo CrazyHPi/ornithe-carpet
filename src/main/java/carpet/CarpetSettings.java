@@ -1,7 +1,6 @@
 package carpet;
 
 import carpet.api.settings.CarpetRule;
-import carpet.api.settings.ParsedRule;
 import carpet.api.settings.Rule;
 import carpet.api.settings.Validator;
 import carpet.utils.Messenger;
@@ -10,7 +9,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.source.CommandSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.NoSuchElementException;
 
@@ -20,6 +18,7 @@ public class CarpetSettings {
     public static final String carpetVersion = FabricLoader.getInstance().getModContainer("carpet").orElseThrow(() -> new NoSuchElementException("No value present")).getMetadata().getVersion().toString();
     public static final Logger LOG = LogManager.getLogger("carpet");
 
+    // carpet command related
     private static class LanguageValidator extends Validator<String> {
         @Override
         public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
@@ -66,34 +65,64 @@ public class CarpetSettings {
     )
     public static String carpetCommandPermissionLevel = "ops";
 
-    // DEBUG for early dev, will remove later
-    public static final String DEBUG = "Debug";
-    @Rule(
-            desc = "Boolean debug",
-            category = DEBUG
-    )
-    public static boolean boolrule = false;
+    // ================ //
+    // ==== BUGFIX ==== //
+    // ================ //
+
+    @Rule(desc = "Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.", category = BUGFIX)
+    public static boolean elytraCheckFix;
+
+    // ================== //
+    // ==== SURVIVAL ==== //
+    // ================== //
+
+    @Rule(desc = "Prevents players from rubberbanding when moving too fast", category = SURVIVAL)
+    public static boolean antiCheatSpeed = false;
+
+    // ================== //
+    // ==== CREATIVE ==== //
+    // ================== //
 
     @Rule(
-            desc = "Int debug",
-            category = DEBUG,
-            options = {"1", "2", "3"}
+            desc = "Creative No Clip",
+            extra = {
+                    "On servers it needs to be set on both ",
+                    "client and server to function properly.",
+                    "Has no effect when set on the server only",
+                    "Can allow to phase through walls",
+                    "if only set on the carpet client side",
+                    "but requires some trapdoor magic to",
+                    "allow the player to enter blocks"
+            },
+            category = {CREATIVE, CLIENT}
     )
-    public static int intrule = 1;
+    public static boolean creativeNoClip = false;
 
-    @Rule(
-            desc = "Double debug",
-            category = DEBUG,
-            options = {"6.9", "4.20"}
-    )
-    public static double doublerule = 6.9D;
+    // ====================== //
+    // ==== EXPERIMENTAL ==== //
+    // ====================== //
 
-    @Rule(
-            desc = "String debug",
-            category = DEBUG,
-            options = {"abd", "def"}
-    )
-    public static String str = "aString";
 
+    // ====================== //
+    // ==== OPTIMIZATION ==== //
+    // ====================== //
+
+
+    // ================= //
+    // ==== FEATURE ==== //
+    // ================= //
+
+
+    // ================= //
+    // ==== COMMAND ==== //
+    // ================= //
+
+
+    // ============= //
+    // ==== TNT ==== //
+    // ============= //
+
+    @Rule(desc = "Explosions won't destroy blocks", category = TNT)
+    public static boolean explosionNoBlockDamage = false;
 
 }
