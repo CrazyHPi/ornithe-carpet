@@ -59,7 +59,7 @@ public abstract class CarpetAbstractCommand extends AbstractCommand {
             case "true": return true;
             case "false": return false;
             case "ops": return source.canUseCommand(2, source.getName()); // typical for other cheaty commands
-            case "0":
+            case "0": return true;
             case "1":
             case "2":
             case "3":
