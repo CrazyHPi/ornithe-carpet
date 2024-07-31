@@ -2,6 +2,7 @@ package carpet;
 
 import carpet.api.settings.SettingsManager;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 
 import java.util.Collections;
@@ -39,6 +40,16 @@ public interface CarpetExtension {
      * @param server The current {@link MinecraftServer} instance
      */
     default void onTick(MinecraftServer server) {
+    }
+
+    /**
+     * Register your own commands right after vanilla commands are added
+     * If that matters for you
+     *
+     * @param registry The CommandRegistry you use to register your commands
+     *
+     */
+    default void registerCommands(CommandRegistry registry) {
     }
 
     default SettingsManager extensionSettingsManager() {

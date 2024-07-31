@@ -1,7 +1,6 @@
 package carpet;
 
 import carpet.api.settings.SettingsManager;
-import carpet.network.CarpetClient;
 import carpet.network.ServerNetworkHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
@@ -15,6 +14,17 @@ public class CarpetServer {
     public static MinecraftServer minecraftServer;
     public static SettingsManager settingsManager;
     public static final List<CarpetExtension> extensions = new ArrayList<>();
+
+    /**
+     * Registers a {@link CarpetExtension} to be managed by Carpet.<br>
+     * Should be called before Carpet's startup, like in Fabric Loader's
+     * {@link net.fabricmc.api.ModInitializer} entrypoint
+     *
+     * @param extension The instance of a {@link CarpetExtension} to be registered
+     */
+    public static void manageExtension(CarpetExtension extension) {
+        extensions.add(extension);
+    }
 
     public static void onGameStarted() {
         settingsManager = new SettingsManager(CarpetSettings.carpetVersion, "carpet", "Carpet Mod");
@@ -42,7 +52,7 @@ public class CarpetServer {
         }
         registry.register(new SettingsManager.CarpetCommand(settingsManager));
 
-        extensions.forEach(e -> registerCarpetCommands(registry));
+        extensions.forEach(e -> e.registerCommands(registry));
     }
 
     public static void onPlayerLoggedIn(ServerPlayerEntity player) {
@@ -83,7 +93,13 @@ public class CarpetServer {
         }
     }
 
+    // todo carpet logger
     public static void registerExtensionLoggers() {
         extensions.forEach(CarpetExtension::registerLoggers);
+    }
+
+    // not used in 1.12
+    public static void onReload(MinecraftServer server) {
+        extensions.forEach(e -> e.onReload(server));
     }
 }
