@@ -1,11 +1,19 @@
 package carpet.utils;
 
+import carpet.CarpetSettings;
+import net.minecraft.entity.living.mob.MobCategory;
 import net.minecraft.entity.living.player.PlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.text.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -77,6 +85,29 @@ public class Messenger {
         return myStyle;
     }
 
+    public static String heatmap_color(double actual, double reference) {
+        String color = "g";
+        if (actual >= 0.0D) color = "e";
+        if (actual > 0.5D * reference) color = "y";
+        if (actual > 0.8D * reference) color = "r";
+        if (actual > reference) color = "m";
+        return color;
+    }
+
+    public static String creatureTypeColor(MobCategory type) {
+        switch (type) {
+            case MONSTER:
+                return "n";
+            case CREATURE:
+                return "e";
+            case AMBIENT:
+                return "f";
+            case WATER_CREATURE:
+                return "v";
+        }
+        return "w";
+    }
+
     public static BaseText getChatComponentFromDesc(String message, BaseText previousMessage) {
         if (message.equalsIgnoreCase("")) {
             return new LiteralText("");
@@ -98,7 +129,7 @@ public class Messenger {
         }
         Style previousStyle = previousMessage.getStyle();
         BaseText ret = previousMessage;
-        // questionable ?!^@&
+        // no copy event in 1.12
         switch (desc.charAt(0)) {
             case '?':
                 previousMessage.setStyle(previousStyle.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, message.substring(1))));
@@ -122,6 +153,82 @@ public class Messenger {
         return ret;
     }
 
+    public static Text tp(String desc, Vec3d pos) {
+        return tp(desc, pos.x, pos.y, pos.z);
+    }
+
+    public static Text tp(String desc, BlockPos pos) {
+        return tp(desc, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static Text tp(String desc, double x, double y, double z) {
+        return tp(desc, (float) x, (float) y, (float) z);
+    }
+
+    public static Text tp(String desc, float x, float y, float z) {
+        return getCoordsTextComponent(desc, x, y, z, false);
+    }
+
+    public static Text tp(String desc, int x, int y, int z) {
+        return getCoordsTextComponent(desc, x, y, z, true);
+    }
+
+    /// to be continued
+    public static Text dbl(String style, double double_value) {
+        return c(String.format("%s %.1f", style, double_value), String.format("^w %f", double_value));
+    }
+
+    public static Text dbls(String style, double... doubles) {
+        StringBuilder str = new StringBuilder(style + " [ ");
+        String prefix = "";
+        for (double dbl : doubles) {
+            str.append(String.format("%s%.1f", prefix, dbl));
+            prefix = ", ";
+        }
+        str.append(" ]");
+        return c(str.toString());
+    }
+
+    public static Text dblf(String style, double... doubles) {
+        StringBuilder str = new StringBuilder(style + " [ ");
+        String prefix = "";
+        for (double dbl : doubles) {
+            str.append(String.format("%s%f", prefix, dbl));
+            prefix = ", ";
+        }
+        str.append(" ]");
+        return c(str.toString());
+    }
+
+    public static Text dblt(String style, double... doubles) {
+        List<Object> components = new ArrayList<>();
+        components.add(style + " [ ");
+        String prefix = "";
+        for (double dbl : doubles) {
+
+            components.add(String.format("%s %s%.1f", style, prefix, dbl));
+            components.add("?" + dbl);
+            components.add("^w " + dbl);
+            prefix = ", ";
+        }
+        //components.remove(components.size()-1);
+        components.add(style + "  ]");
+        return c(components.toArray(new Object[0]));
+    }
+
+    private static Text getCoordsTextComponent(String style, float x, float y, float z, boolean isInt) {
+        String text;
+        String command;
+        if (isInt) {
+            text = String.format("%s [ %d, %d, %d ]", style, (int) x, (int) y, (int) z);
+            command = String.format("!/tp %d %d %d", (int) x, (int) y, (int) z);
+        } else {
+            text = String.format("%s [ %.1f, %.1f, %.1f]", style, x, y, z);
+            command = String.format("!/tp %.3f %.3f %.3f", x, y, z);
+        }
+        return c(text, command);
+    }
+
     public static void m(CommandSource source, Object... fields) {
         if (source != null) {
             source.sendMessage(Messenger.c(fields));
@@ -132,6 +239,7 @@ public class Messenger {
         player.sendMessage(Messenger.c(fields));
     }
 
+    // builds single line, multi-component message, optionally returns it to sender, and returns as one chat message
     public static Text c(Object... fields) {
         BaseText message = new LiteralText("");
         BaseText previousComponent = null;
@@ -149,5 +257,42 @@ public class Messenger {
             previousComponent = comp;
         }
         return message;
+    }
+
+    // simple message
+    public static Text s(String text) {
+        return s(text, "");
+    }
+
+    public static Text s(String text, String style) {
+        Text message = new LiteralText(text);
+        message.setStyle(parseStyle(style));
+        return message;
+    }
+
+    public static void send(CommandSource source, Text ... messages){
+        send(source, Arrays.asList(messages));
+    }
+    public static void send(CommandSource source, List<Text> list) {
+        list.forEach(source::sendMessage);
+    }
+
+    public static void print_server_message(MinecraftServer server, String message) {
+        if (server == null)
+            CarpetSettings.LOG.error("Message not delivered: " + message);
+        server.sendMessage(new LiteralText(message));
+        Text txt = c("gi " + message);
+        for (PlayerEntity player : server.getPlayerManager().getAll()) {
+            player.sendMessage(txt);
+        }
+    }
+
+    public static void print_server_message(MinecraftServer server, Text message) {
+        if (server == null)
+            CarpetSettings.LOG.error("Message not delivered: " + message.getString());
+        server.sendMessage(message);
+        for (PlayerEntity player : server.getPlayerManager().getAll()) {
+            player.sendMessage(message);
+        }
     }
 }

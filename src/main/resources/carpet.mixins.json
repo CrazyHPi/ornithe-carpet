@@ -6,6 +6,7 @@
   "mixins": [
     "carpetmod.core.CommandManagerMixin",
     "carpetmod.core.MinecraftServerMixin",
+    "carpetmod.logging.TabListS2CPacketAccessor",
     "carpetmod.network.PlayerManagerMixin",
     "carpetmod.network.ServerPlayNetworkHandlerMixin",
     "rule.creativeNoClip.PlayerEntityMixin"

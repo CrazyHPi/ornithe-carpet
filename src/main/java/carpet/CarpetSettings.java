@@ -98,6 +98,15 @@ public class CarpetSettings {
     )
     public static boolean creativeNoClip = false;
 
+    @Rule(
+            desc = "sets these loggers in their default configurations for all new players",
+            extra = "use csv, like 'tps,mobcaps' for multiple loggers, none for nothing",
+            category = {CREATIVE, SURVIVAL},
+            options = {"none", "tps", "mobcaps,tps"},
+            strict = false
+    )
+    public static String defaultLoggers = "none";
+
     // ====================== //
     // ==== EXPERIMENTAL ==== //
     // ====================== //
@@ -112,6 +121,26 @@ public class CarpetSettings {
     // ==== FEATURE ==== //
     // ================= //
 
+    private static class HUDUpdateIntervalValidator extends Validator<Integer> {
+        @Override
+        public Integer validate(@Nullable CommandSource source, CarpetRule<Integer> changingRule, Integer newValue, String userInput) {
+            if (newValue >=1 && newValue <= 2000) {
+                return newValue;
+            }
+            return null;
+        }
+    }
+    @Rule(
+            desc = "HUD update interval",
+            category = FEATURE,
+            options = {"1", "5", "20", "100"},
+            validators = HUDUpdateIntervalValidator.class
+    )
+    public static int HUDUpdateInterval = 20;
+    public static boolean validateHUDUpdateInterval(int value){
+        if (value >=1 && value <=2000){return true;}
+        return false;
+    }
 
     // ================= //
     // ==== COMMAND ==== //

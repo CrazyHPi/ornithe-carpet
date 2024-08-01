@@ -1,6 +1,9 @@
 package carpet;
 
 import carpet.api.settings.SettingsManager;
+import carpet.commands.LogCommand;
+import carpet.logging.HUDController;
+import carpet.logging.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
@@ -36,6 +39,7 @@ public class CarpetServer {
         CarpetServer.minecraftServer = server;
         forEachManager(sm -> sm.attachServer(server));
         extensions.forEach(e -> e.onServerLoaded(server));
+        LoggerRegistry.initLoggers();
     }
 
     public static void onServerLoadedWorlds(MinecraftServer minecraftServer) {
@@ -43,6 +47,9 @@ public class CarpetServer {
     }
 
     public static void tick(MinecraftServer server) {
+        // todo tickrate
+
+        HUDController.updateHUD(server);
         extensions.forEach(e -> e.onTick(server));
     }
 
@@ -93,7 +100,6 @@ public class CarpetServer {
         }
     }
 
-    // todo carpet logger
     public static void registerExtensionLoggers() {
         extensions.forEach(CarpetExtension::registerLoggers);
     }
