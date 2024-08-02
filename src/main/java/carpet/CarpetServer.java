@@ -40,6 +40,7 @@ public class CarpetServer {
         forEachManager(sm -> sm.attachServer(server));
         extensions.forEach(e -> e.onServerLoaded(server));
         LoggerRegistry.initLoggers();
+        LoggerRegistry.readSaveFile(server);
     }
 
     public static void onServerLoadedWorlds(MinecraftServer minecraftServer) {
@@ -58,17 +59,20 @@ public class CarpetServer {
             return;
         }
         registry.register(new SettingsManager.CarpetCommand(settingsManager));
+        registry.register(new LogCommand());
 
         extensions.forEach(e -> e.registerCommands(registry));
     }
 
     public static void onPlayerLoggedIn(ServerPlayerEntity player) {
         ServerNetworkHandler.onPlayerJoin(player);
+        LoggerRegistry.playerConnected(player);
         extensions.forEach(e -> e.onPlayerLoggedIn(player));
     }
 
     public static void onPlayerLoggedOut(ServerPlayerEntity player) {
         ServerNetworkHandler.onPlayerLoggedOut(player);
+        LoggerRegistry.playerDisconnected(player);
         extensions.forEach(e -> e.onPlayerLoggedOut(player));
     }
 

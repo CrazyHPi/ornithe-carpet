@@ -183,7 +183,7 @@ public class Logger {
             subscribedOnlinePlayers.put(playerName, subscribedOfflinePlayers.get(playerName));
             subscribedOfflinePlayers.remove(playerName);
         } else if (firstTime) {
-            Set<String> loggingOptions = new HashSet<>(Arrays.asList(CarpetSettings.defaultLoggers.split(",")));
+            Set<String> loggingOptions = new HashSet<>(LoggerRegistry.getDefaultSubscriptions().keySet());
             String logName = getLogName();
             for (String str : loggingOptions) {
                 String[] vars = str.split(" ", 2);
@@ -207,7 +207,9 @@ public class Logger {
     }
 
     public String getAcceptedOption(String arg) {
-        if (Arrays.asList(this.getOptions()).contains(arg)) return arg;
+        if (Arrays.asList(this.getOptions()).contains(arg)) {
+            return arg;
+        }
         return null;
     }
 

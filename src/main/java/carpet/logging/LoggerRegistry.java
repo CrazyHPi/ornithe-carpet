@@ -2,9 +2,14 @@ package carpet.logging;
 
 import carpet.CarpetServer;
 import carpet.CarpetSettings;
+import com.google.common.base.Charsets;
+import com.google.gson.*;
 import net.minecraft.entity.living.player.PlayerEntity;
-import net.minecraft.server.entity.living.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,16 +21,31 @@ public class LoggerRegistry {
     private static final Map<String, Logger> loggerRegistry = new HashMap<>();
     // Map from player names to the set of names of the logs that player is subscribed to.
     private static final Map<String, Map<String, String>> playerSubscriptions = new HashMap<>();
+    // List of default loggers
+    private static final Map<String, LoggerOptions> defaultSubscriptions = new HashMap<>();
+
     //statics to quickly access if its worth even to call each one
     public static boolean __tnt;
     public static boolean __projectiles;
     public static boolean __fallingBlocks;
+    public static boolean __kills;
+    public static boolean __autosave;
     public static boolean __tps;
     public static boolean __counter;
     public static boolean __mobcaps;
+    public static boolean __damage;
     public static boolean __packets;
-    public static boolean __pathfinding;
+    public static boolean __weather;
+    public static boolean __tileTickLimit;
+    public static boolean __portalCaching;
+    public static boolean __instantComparators;
+    public static boolean __items;
+    public static boolean __rng;
     public static boolean __explosions;
+    public static boolean __recipes;
+    public static boolean __damageDebug;
+    public static boolean __invisDebug;
+    public static boolean __carefulBreak;
 
     public static void initLoggers() {
         stopLoggers();
@@ -35,6 +55,7 @@ public class LoggerRegistry {
 
     public static void registerLoggers() {
         registerLogger("tps", HUDLogger.standardHUDLogger("tps", null, null));
+//        registerLogger("packet", HUDLogger.standardHUDLogger("packet", null, null));
     }
 
     /**
@@ -51,15 +72,136 @@ public class LoggerRegistry {
         return loggerRegistry.keySet();
     }
 
+    private static File getSaveFile(MinecraftServer server) {
+        return server.getWorldStorageSource().getFile(server.getWorldSaveName(), "loggerData.json");
+    }
+
+    public static void readSaveFile(MinecraftServer server) {
+        File logData = getSaveFile(server);
+        if (!logData.isFile()) {
+            return;
+        }
+        try {
+            JsonElement root = (new JsonParser()).parse(FileUtils.readFileToString(logData, Charsets.UTF_8));
+            if (!root.isJsonObject()) {
+                return;
+            }
+            JsonObject rootObj = root.getAsJsonObject();
+            JsonArray defaultList = rootObj.getAsJsonArray("defaultList");
+            for (JsonElement entryElement : defaultList) {
+                LoggerOptions options = new LoggerOptions();
+                options.add(entryElement);
+
+                defaultSubscriptions.put(options.logger, options);
+            }
+
+            JsonObject playerList = rootObj.getAsJsonObject("players");
+            for (Map.Entry<String, JsonElement> playerEntry : playerList.entrySet()) {
+                String username = playerEntry.getKey();
+                Map<String, String> subs = new HashMap<>();
+
+                JsonArray loggerEntries = playerEntry.getValue().getAsJsonArray();
+                for (JsonElement entryElement : loggerEntries) {
+                    LoggerOptions options = new LoggerOptions();
+                    options.add(entryElement);
+
+                    subs.put(options.logger, options.option);
+                }
+
+                playerSubscriptions.put(username, subs);
+            }
+
+        } catch (IOException ioexception) {
+            CarpetSettings.LOG.error("Couldn't read default logger file {}", logData, ioexception);
+        } catch (JsonParseException jsonparseexception) {
+            CarpetSettings.LOG.error("Couldn't parse default logger file {}", logData, jsonparseexception);
+        }
+    }
+
+    public static void writeConf(MinecraftServer server) {
+        File logData = getSaveFile(server);
+        try {
+            JsonObject root = new JsonObject();
+
+            JsonArray defaultList = new JsonArray();
+            for (Map.Entry<String, LoggerOptions> logger : defaultSubscriptions.entrySet()) {
+                defaultList.add(logger.getValue().toJson());
+            }
+            root.add("defaultList", defaultList);
+
+            JsonObject playerList = new JsonObject();
+            for (Map.Entry<String, Map<String, String>> playerEntry : playerSubscriptions.entrySet()) {
+                JsonArray playerLoggers = new JsonArray();
+
+                for (Map.Entry<String, String> logger : playerEntry.getValue().entrySet()) {
+                    LoggerOptions loggerOptions = new LoggerOptions(logger.getKey(), logger.getValue());
+
+                    playerLoggers.add(loggerOptions.toJson());
+                }
+
+                playerList.add(playerEntry.getKey(), playerLoggers);
+            }
+            root.add("players", playerList);
+
+            FileUtils.writeStringToFile(logData, root.toString(), Charsets.UTF_8);
+        } catch (IOException ioexception) {
+            CarpetSettings.LOG.error("Couldn't save stats", (Throwable) ioexception);
+        }
+    }
+
+    /**
+     * Sets a log as a default log with the specified option and handler
+     */
+    public static void setDefault(MinecraftServer server, String logName, String option) {
+        defaultSubscriptions.put(logName, new LoggerOptions(logName, option));
+        writeConf(server);
+
+        // Subscribe all players who have no customized subscription list
+        for (PlayerEntity player : server.getPlayerManager().getAll()) {
+            if (!hasSubscriptions(player.getName())) {
+                unsubscribePlayer(player.getName(), logName);
+            }
+        }
+    }
+
+    /**
+     * Removes a log from the list of default logs
+     */
+    public static void removeDefault(MinecraftServer server, String logName) {
+        if (defaultSubscriptions.containsKey(logName)){
+            defaultSubscriptions.remove(logName);
+            writeConf(server);
+
+            // Unsubscribe all players who have no customized subscription list
+            for (PlayerEntity player : server.getPlayerManager().getAll()) {
+                if (!hasSubscriptions(player.getName())) {
+                    unsubscribePlayer(player.getName(), logName);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if a player is actively subscribed to anything
+     */
+    public static boolean hasSubscriptions(String playerName) {
+        return playerSubscriptions.containsKey(playerName);
+    }
+
     /**
      * Subscribes the player with name playerName to the log with name logName.
      */
     public static void subscribePlayer(String playerName, String logName, String option) {
-        if (!playerSubscriptions.containsKey(playerName)) playerSubscriptions.put(playerName, new HashMap<>());
+        if (!playerSubscriptions.containsKey(playerName)) {
+            playerSubscriptions.put(playerName, new HashMap<>());
+        }
         Logger log = loggerRegistry.get(logName);
-        if (option == null) option = log.getDefault();
+        if (option == null) {
+            option = log.getDefault();
+        }
         playerSubscriptions.get(playerName).put(logName, option);
         log.addPlayer(playerName, option);
+        writeConf(CarpetServer.minecraftServer);
     }
 
     /**
@@ -70,7 +212,10 @@ public class LoggerRegistry {
             Map<String, String> subscriptions = playerSubscriptions.get(playerName);
             subscriptions.remove(logName);
             loggerRegistry.get(logName).removePlayer(playerName);
-            if (subscriptions.size() == 0) playerSubscriptions.remove(playerName);
+            if (subscriptions.isEmpty()) {
+                playerSubscriptions.remove(playerName);
+            }
+            writeConf(CarpetServer.minecraftServer);
         }
     }
 
@@ -95,6 +240,10 @@ public class LoggerRegistry {
             return playerSubscriptions.get(playerName);
         }
         return null;
+    }
+
+    public static Map<String, LoggerOptions> getDefaultSubscriptions() {
+        return defaultSubscriptions;
     }
 
     protected static void setAccess(Logger logger) {

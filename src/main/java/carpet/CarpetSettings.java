@@ -9,6 +9,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.source.CommandSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.NoSuchElementException;
 
@@ -98,15 +99,6 @@ public class CarpetSettings {
     )
     public static boolean creativeNoClip = false;
 
-    @Rule(
-            desc = "sets these loggers in their default configurations for all new players",
-            extra = "use csv, like 'tps,mobcaps' for multiple loggers, none for nothing",
-            category = {CREATIVE, SURVIVAL},
-            options = {"none", "tps", "mobcaps,tps"},
-            strict = false
-    )
-    public static String defaultLoggers = "none";
-
     // ====================== //
     // ==== EXPERIMENTAL ==== //
     // ====================== //
@@ -146,6 +138,8 @@ public class CarpetSettings {
     // ==== COMMAND ==== //
     // ================= //
 
+    @Rule(desc = "Enables /log command to monitor events via chat and overlays", category = COMMAND)
+    public static String commandLog = "true";
 
     // ============= //
     // ==== TNT ==== //
