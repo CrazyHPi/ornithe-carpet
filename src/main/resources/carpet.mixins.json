@@ -10,7 +10,10 @@
     "carpetmod.logging.TabListS2CPacketAccessor",
     "carpetmod.network.PlayerManagerMixin",
     "carpetmod.network.ServerPlayNetworkHandlerMixin",
-    "rule.creativeNoClip.PlayerEntityMixin"
+    "rule.antiCheatSpeed.ServerPlayNetworkHandlerMixin",
+    "rule.creativeNoClip.PlayerEntityMixin",
+    "rule.elytraCheckFix.ServerPlayNetworkHandlerMixin",
+    "rule.explosionNoBlockDamage.ExplosionMixin"
   ],
   "client": [
     "carpetmod.core.IntegratedServerMixin",
