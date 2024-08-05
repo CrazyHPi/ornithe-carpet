@@ -6,7 +6,6 @@
   "mixins": [
     "carpetmod.core.CommandManagerMixin",
     "carpetmod.core.MinecraftServerMixin",
-    "carpetmod.logging.PlayerTabOverlayMixin",
     "carpetmod.logging.TabListS2CPacketAccessor",
     "carpetmod.network.PlayerManagerMixin",
     "carpetmod.network.ServerPlayNetworkHandlerMixin",
@@ -18,6 +17,7 @@
   "client": [
     "carpetmod.core.IntegratedServerMixin",
     "carpetmod.logging.GameGuiMixin",
+    "carpetmod.logging.PlayerTabOverlayMixin",
     "carpetmod.network.ClientPlayNetworkHandlerMixin",
     "carpetmod.network.LocalClientPlayerEntityMixin",
     "rule.creativeNoClip.GameRendererMixin"
