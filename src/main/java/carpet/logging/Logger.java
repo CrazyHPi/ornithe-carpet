@@ -183,12 +183,19 @@ public class Logger {
             subscribedOnlinePlayers.put(playerName, subscribedOfflinePlayers.get(playerName));
             subscribedOfflinePlayers.remove(playerName);
         } else if (firstTime) {
-            Set<String> loggingOptions = new HashSet<>(LoggerRegistry.getDefaultSubscriptions().keySet());
+            Set<Map.Entry<String, LoggerOptions>> defaultLoggers = new HashSet<>(LoggerRegistry.getDefaultSubscriptions().entrySet());
             String logName = getLogName();
-            for (String str : loggingOptions) {
-                String[] vars = str.split(" ", 2);
-                if (vars[0].equals(logName)) {
-                    LoggerRegistry.subscribePlayer(playerName, getLogName(), vars.length == 1 ? getDefault() : vars[1]);
+            for (Map.Entry<String, LoggerOptions> logger : defaultLoggers) {
+                if (logger.getKey().equals(logName)) {
+                    LoggerRegistry.subscribePlayer(playerName, getLogName(), logger.getValue().option == null ? getDefault() : logger.getValue().option);
+                    break;
+                }
+            }
+
+            Set<Map.Entry<String, String>> savedLoggers = new HashSet<>(LoggerRegistry.getPlayerSubscriptions(playerName).entrySet());
+            for (Map.Entry<String, String> logger : savedLoggers) {
+                if (logger.getKey().equals(logName)) {
+                    LoggerRegistry.subscribePlayer(playerName, getLogName(), logger.getValue() == null ? getDefault() : logger.getValue());
                     break;
                 }
             }
