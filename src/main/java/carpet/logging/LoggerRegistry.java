@@ -54,8 +54,22 @@ public class LoggerRegistry {
     }
 
     public static void registerLoggers() {
+        registerLogger("tnt", Logger.standardLogger("tnt", "brief", new String[]{"brief", "full"}, true));
+        registerLogger("projectiles", Logger.standardLogger("projectiles", "brief", new String[]{"brief", "full"}));
+        registerLogger("fallingBlocks", Logger.standardLogger("fallingBlocks", "brief", new String[]{"brief", "full"}));
+        registerLogger("kills", Logger.standardLogger("kills", null, null));
+        registerLogger("weather", Logger.standardLogger("weather", null, null));
+        registerLogger("tileTickLimit", Logger.standardLogger("tileTickLimit", null, null));
+        registerLogger("portalCaching", Logger.standardLogger("portalCaching", "brief", new String[]{"brief", "full"}));
+        registerLogger("instantComparators", Logger.standardLogger("instantComparators", "all", new String[]{"all", "tileTick", "buggy"}));
+        registerLogger("items", Logger.standardLogger("items", "brief", new String[]{"brief", "full"}));
+        registerLogger("rng", Logger.standardLogger("rng", null, null));
+        registerLogger("explosions", Logger.standardLogger("explosions", "compact", new String[]{"brief", "full", "compact"}));
+
+        registerLogger("autosave", HUDLogger.standardHUDLogger("autosave", null, null));
         registerLogger("tps", HUDLogger.standardHUDLogger("tps", null, null));
-//        registerLogger("packet", HUDLogger.standardHUDLogger("packet", null, null));
+        registerLogger("mobcaps", HUDLogger.standardHUDLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
+        registerLogger("packets", HUDLogger.standardHUDLogger("packets", null, null));
     }
 
     /**
@@ -168,7 +182,7 @@ public class LoggerRegistry {
      * Removes a log from the list of default logs
      */
     public static void removeDefault(MinecraftServer server, String logName) {
-        if (defaultSubscriptions.containsKey(logName)){
+        if (defaultSubscriptions.containsKey(logName)) {
             defaultSubscriptions.remove(logName);
             writeConf(server);
 

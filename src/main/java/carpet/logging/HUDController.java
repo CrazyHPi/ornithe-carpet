@@ -1,14 +1,18 @@
 package carpet.logging;
 
 import carpet.CarpetSettings;
+import carpet.logging.logHelpers.PacketCounter;
 import carpet.mixins.carpetmod.logging.TabListS2CPacketAccessor;
 import carpet.utils.Messenger;
+import carpet.utils.SpawnReporter;
+import net.minecraft.entity.living.mob.MobCategory;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.TabListS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -54,11 +58,20 @@ public class HUDController {
         }
         playerHUDs.clear();
 
+        if (LoggerRegistry.__autosave) {
+            LoggerRegistry.getLogger("autosave").log(() -> send_autosave(server));
+        }
+
         if (LoggerRegistry.__tps) {
             LoggerRegistry.getLogger("tps").log(() -> send_tps_display(server));
         }
-        if (LoggerRegistry.__packets) {
 
+        if (LoggerRegistry.__mobcaps) {
+            LoggerRegistry.getLogger("mobcaps").log(HUDController::send_mobcap_display);
+        }
+
+        if (LoggerRegistry.__packets) {
+            LoggerRegistry.getLogger("packets").log(HUDController::packetCounter);
         }
 
         HUDListeners.forEach(l -> l.accept(server));
@@ -71,6 +84,22 @@ public class HUDController {
         }
     }
 
+    private static Text[] send_autosave(MinecraftServer server) {
+        int gametick = server.getTicks();
+        int previous = gametick % 900;
+        if (gametick != 0 && previous == 0) {
+            previous = 900;
+        }
+        int next = 900 - previous;
+        String color = Messenger.heatmap_color(previous, 860);
+
+        return new Text[]{
+                Messenger.c(
+                        "g Prev: ", String.format(Locale.US, "%s %d", color, previous),
+                        "g  Next: ", String.format(Locale.US, "%s %d", color, next))
+        };
+    }
+
     private static Text[] send_tps_display(MinecraftServer server) {
         double MSPT = MathHelper.average(server.averageTickTimes) * 1.0E-6D;
         // todo tick rate
@@ -78,8 +107,47 @@ public class HUDController {
         double TPS = 50;
         String color = Messenger.heatmap_color(MSPT, 50);
 
-        return new Text[] {Messenger.c(
-                "g TPS: ", String.format(Locale.US, "%s %.1f",color, TPS),
-                "g  MSPT: ", String.format(Locale.US,"%s %.1f", color, MSPT))};
+        return new Text[]{Messenger.c(
+                "g TPS: ", String.format(Locale.US, "%s %.1f", color, TPS),
+                "g  MSPT: ", String.format(Locale.US, "%s %.1f", color, MSPT))};
+    }
+
+    private static Text[] send_mobcap_display(String option, PlayerEntity player) {
+        int dim;
+        switch (option) {
+            case "overworld":
+                dim = 0;
+                break;
+            case "nether":
+                dim = -1;
+                break;
+            case "end":
+                dim = 1;
+                break;
+            case "dynamic":
+            default:
+                dim = player.dimensionId;
+                break;
+        }
+        List<Text> text = new ArrayList<>();
+        for (MobCategory type : MobCategory.values()) {
+            Pair<Integer, Integer> counts = SpawnReporter.mobcaps.get(dim).getOrDefault(type, new Pair<>(0, 0));
+            int actual = counts.getLeft();
+            int limit = counts.getRight();
+            text.add(Messenger.c((actual + limit == 0) ? "g -" : Messenger.heatmap_color(actual, limit) + " " + actual,
+                    Messenger.creatureTypeColor(type) + " /" + ((actual + limit == 0) ? "-" : limit)
+            ));
+            text.add(Messenger.c("w  "));
+        }
+        text.remove(text.size() - 1);
+        return new Text[]{Messenger.c(text.toArray(new Object[0]))};
+    }
+
+    private static Text[] packetCounter() {
+        Text[] ret = new Text[]{
+                Messenger.c("w I/" + PacketCounter.totalIn + " O/" + PacketCounter.totalOut)
+        };
+        PacketCounter.reset();
+        return ret;
     }
 }
