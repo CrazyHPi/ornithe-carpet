@@ -250,10 +250,7 @@ public class LoggerRegistry {
      * Get the set of logs the current player is subscribed to.
      */
     public static Map<String, String> getPlayerSubscriptions(String playerName) {
-        if (playerSubscriptions.containsKey(playerName)) {
-            return playerSubscriptions.get(playerName);
-        }
-        return null;
+        return playerSubscriptions.getOrDefault(playerName, new HashMap<>());
     }
 
     public static Map<String, LoggerOptions> getDefaultSubscriptions() {
