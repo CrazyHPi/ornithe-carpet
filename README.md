@@ -20,6 +20,12 @@ TODO
 
 Check out [Ornithe](https://ornithemc.net/) for mod loader.
 
+### Using Java > 8
+
+For carpet logger: `rng`
+
+Add jvm flag `--add-opens java.base/java.util=ALL-UNNAMED` to allow reflection on `java.util.Random`.
+
 ### Build
 
 * Clone the repo.
