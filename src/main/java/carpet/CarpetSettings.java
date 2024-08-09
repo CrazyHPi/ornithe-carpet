@@ -99,6 +99,19 @@ public class CarpetSettings {
     )
     public static boolean creativeNoClip = false;
 
+    @Rule(
+            desc = "hoppers pointing to wool will count items passing through them",
+            extra = {
+                    "Enables /counter command, and actions while placing red and green carpets on wool blocks",
+                    "Use /counter <color?> reset to reset the counter, and /counter <color?> to query",
+                    "In survival, place green carpet on same color wool to query, red to reset the counters",
+                    "Counters are global and shared between players, 16 channels available",
+                    "Items counted are destroyed, count up to one stack per tick per hopper"
+            },
+            category = {COMMAND, CREATIVE, FEATURE}
+    )
+    public static boolean hopperCounters = false;
+
     // ====================== //
     // ==== EXPERIMENTAL ==== //
     // ====================== //
@@ -129,10 +142,6 @@ public class CarpetSettings {
             validators = HUDUpdateIntervalValidator.class
     )
     public static int HUDUpdateInterval = 20;
-    public static boolean validateHUDUpdateInterval(int value){
-        if (value >=1 && value <=2000){return true;}
-        return false;
-    }
 
     // ================= //
     // ==== COMMAND ==== //

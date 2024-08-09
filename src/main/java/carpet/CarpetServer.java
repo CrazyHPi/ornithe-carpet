@@ -1,6 +1,7 @@
 package carpet;
 
 import carpet.api.settings.SettingsManager;
+import carpet.commands.CounterCommand;
 import carpet.commands.LogCommand;
 import carpet.logging.HUDController;
 import carpet.logging.LoggerRegistry;
@@ -59,6 +60,7 @@ public class CarpetServer {
             return;
         }
         registry.register(new SettingsManager.CarpetCommand(settingsManager));
+        registry.register(new CounterCommand());
         registry.register(new LogCommand());
 
         extensions.forEach(e -> e.registerCommands(registry));

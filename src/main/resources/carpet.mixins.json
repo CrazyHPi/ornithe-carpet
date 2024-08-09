@@ -24,7 +24,8 @@
     "rule.antiCheatSpeed.ServerPlayNetworkHandlerMixin",
     "rule.creativeNoClip.PlayerEntityMixin",
     "rule.elytraCheckFix.ServerPlayNetworkHandlerMixin",
-    "rule.explosionNoBlockDamage.ExplosionMixin"
+    "rule.explosionNoBlockDamage.ExplosionMixin",
+    "rule.hopperCounter.HopperBlockEntityMixin"
   ],
   "client": [
     "carpetmod.core.IntegratedServerMixin",
