@@ -1,8 +1,4 @@
 {
-  // TODO Rules
-  
-  // Categories:
-
   "carpet.category.bugfix": "bugfix",
   "carpet.category.survival": "survival",
   "carpet.category.creative": "creative",
@@ -15,7 +11,7 @@
   "carpet.category.scarpet": "scarpet",
   "carpet.category.client": "client",
 
-  // Settings command UI elements
+
 
   "carpet.settings.command.browse_categories": "Browse categories",
   "carpet.settings.command.version": "version",
@@ -32,5 +28,4 @@
   "carpet.settings.command.default_set": "Rule %s will now default to %s",
   "carpet.settings.command.default_removed": "Rule %s will no longer be set on restart",
   "carpet.settings.command.current_value": "current value"
-
 }
