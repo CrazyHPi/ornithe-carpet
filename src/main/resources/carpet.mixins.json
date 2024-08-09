@@ -29,6 +29,7 @@
   ],
   "client": [
     "carpetmod.core.IntegratedServerMixin",
+    "carpetmod.core.MainMixin",
     "carpetmod.logging.GameGuiMixin",
     "carpetmod.logging.PlayerTabOverlayMixin",
     "carpetmod.network.ClientPlayNetworkHandlerMixin",

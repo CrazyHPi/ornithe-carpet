@@ -15,7 +15,7 @@
 	"icon": "assets/carpet/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"preLaunch": ["carpet.CarpetServer::onGameStarted"]
+		"preLaunch": ["carpet.CarpetServer::noop"]
 	},
 	"mixins": [
     "carpet.mixins.json"

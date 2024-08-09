@@ -4,12 +4,18 @@ import carpet.CarpetServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.gen.WorldGeneratorType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin {
+    @Inject(method = "main", at = @At("HEAD"), require = 0)
+    private static void initCarpetMod(String[] args, CallbackInfo ci) {
+        CarpetServer.onGameStarted();
+    }
+
     @Inject(method = "loadWorld", at = @At("HEAD"))
     private void onServerLoaded(String saveName, String name, long seed, WorldGeneratorType generatorType, String generatorOptions, CallbackInfo ci) {
         CarpetServer.onServerLoaded((MinecraftServer) (Object) this);

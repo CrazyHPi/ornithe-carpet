@@ -22,12 +22,21 @@ public class CarpetServer {
     /**
      * Registers a {@link CarpetExtension} to be managed by Carpet.<br>
      * Should be called before Carpet's startup, like in Fabric Loader's
-     * {@link net.fabricmc.api.ModInitializer} entrypoint
+     * {@link net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint} entrypoint.<br>
+     * 1.12 Ornithe Carpet use Mixin to init the mod right when Minecraft start.<br>
+     * Set extension's entry point to preLunch and call this method <br>
+     * in fabric.mod.json:
+     * "preLaunch": ["extension::init"] <br>
+     * if OSL is not used
      *
      * @param extension The instance of a {@link CarpetExtension} to be registered
      */
     public static void manageExtension(CarpetExtension extension) {
         extensions.add(extension);
+    }
+
+    public static void noop() {
+        //do nothing
     }
 
     public static void onGameStarted() {
