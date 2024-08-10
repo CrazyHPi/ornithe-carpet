@@ -6,6 +6,7 @@ import carpet.commands.LogCommand;
 import carpet.logging.HUDController;
 import carpet.logging.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
@@ -35,8 +36,9 @@ public class CarpetServer {
         extensions.add(extension);
     }
 
-    public static void noop() {
-        //do nothing
+    public static void init() {
+        // init mixin extras
+        MixinExtrasBootstrap.init();
     }
 
     public static void onGameStarted() {

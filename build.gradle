@@ -2,6 +2,7 @@ plugins {
 	id 'maven-publish'
 	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'ploceus' version '1.6-SNAPSHOT'
+	id "com.github.johnrengelman.shadow" version "8.1.0" // for mixin extra shadowJar
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -21,15 +22,24 @@ repositories {
 	// for more information about repositories.
 }
 
+configurations {
+	implementation.extendsFrom shadow
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings ploceus.featherMappings(project.feather_build)
-//	nests ploceus.nests(project.nests_build) // remove this line if not using nests
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-//	ploceus.addCommonLibraries()
-//	ploceus.dependOsl(project.osl_version)
+	// shadow jar to include mixin extra for older fabric loader version
+	include(shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${project.mixin_extra_version}")))
+}
+
+shadowJar {
+	configurations = [project.configurations.shadow]
+	relocate("com.llamalad7.mixinextras", "carpet.libs.mixinextras")
+	mergeServiceFiles() // Very important!
 }
 
 processResources {
