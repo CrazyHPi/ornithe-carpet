@@ -69,6 +69,7 @@ public class LoggerRegistry {
         registerLogger("autosave", HUDLogger.standardHUDLogger("autosave", null, null));
         registerLogger("tps", HUDLogger.standardHUDLogger("tps", null, null));
         registerLogger("mobcaps", HUDLogger.standardHUDLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
+        registerLogger("counter", HUDLogger.standardHUDLogger("counter", "all", new String[]{"all", "cactus", "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"}));
         registerLogger("packets", HUDLogger.standardHUDLogger("packets", null, null));
     }
 

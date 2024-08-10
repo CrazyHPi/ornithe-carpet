@@ -73,6 +73,23 @@ public class HopperCounter {
         return text;
     }
 
+    public static List<Text> formatAll(MinecraftServer server, boolean realtime, boolean brief) {
+        List<Text> text = new ArrayList<>();
+
+        List<HopperCounter> counters = new ArrayList<>(COUNTERS.values());
+        counters.sort(Comparator.comparingInt(counter -> counter.color.getMetadata()));
+
+        for (HopperCounter counter : counters) {
+            if (counter.getTotalItems() > 0) {
+                text.addAll(counter.format(server, realtime, brief));
+            }
+        }
+        if (text.isEmpty()) {
+            text.add(Messenger.s("No items have been counted yet."));
+        }
+        return text;
+    }
+
     public List<Text> format(MinecraftServer server, boolean realTime, boolean brief) {
         if (counter.isEmpty()) {
             if (brief) {
@@ -105,7 +122,9 @@ public class HopperCounter {
                     count,
                     count * (20.0 * 60.0 * 60.0) / ticks));
         }).collect(Collectors.toList());
-        list.add(0, Messenger.s(String.format("Counter: %s", name)));
+        list.add(0, Messenger.c(
+                String.format("w Counter: %s (%.1f min), total: %d (%.1f/h)", name, ticks / (20.0 * 60.0), total, total * (20.0 * 60.0 * 60.0) / ticks),
+                "nb  [X]", "^g reset", "!/counter " + name + " reset"));
         return list;
     }
 

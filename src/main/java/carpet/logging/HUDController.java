@@ -1,6 +1,7 @@
 package carpet.logging;
 
 import carpet.CarpetSettings;
+import carpet.helpers.HopperCounter;
 import carpet.logging.logHelpers.PacketCounter;
 import carpet.mixins.carpetmod.logging.TabListS2CPacketAccessor;
 import carpet.utils.Messenger;
@@ -68,6 +69,10 @@ public class HUDController {
 
         if (LoggerRegistry.__mobcaps) {
             LoggerRegistry.getLogger("mobcaps").log(HUDController::send_mobcap_display);
+        }
+
+        if (LoggerRegistry.__counter) {
+            LoggerRegistry.getLogger("counter").log((option) -> send_counter(option, server));
         }
 
         if (LoggerRegistry.__packets) {
@@ -141,6 +146,18 @@ public class HUDController {
         }
         text.remove(text.size() - 1);
         return new Text[]{Messenger.c(text.toArray(new Object[0]))};
+    }
+
+    private static Text[] send_counter(String option, MinecraftServer server) {
+        if (option.equals("all")) {
+            return HopperCounter.formatAll(server, false, true).toArray(new Text[0]);
+        } else {
+            HopperCounter counter = HopperCounter.getCounter(option);
+            if (counter != null) {
+                return counter.format(server, false, true).toArray(new Text[0]);
+            }
+        }
+        return null;
     }
 
     private static Text[] packetCounter() {

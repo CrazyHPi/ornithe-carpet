@@ -112,6 +112,9 @@ public class CarpetSettings {
     )
     public static boolean hopperCounters = false;
 
+    @Rule(desc = "Items thrown into a cactus will count items that are destroyed in them.", category = {CREATIVE})
+    public static boolean cactusCounter = false;
+
     // ====================== //
     // ==== EXPERIMENTAL ==== //
     // ====================== //
