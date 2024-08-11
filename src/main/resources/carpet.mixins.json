@@ -23,6 +23,7 @@
     "loggers.WorldMixin",
     "rule.antiCheatSpeed.ServerPlayNetworkHandlerMixin",
     "rule.creativeNoClip.PlayerEntityMixin",
+    "rule.creativeNoClip.ServerPlayNetworkHandlerMixin",
     "rule.elytraCheckFix.ServerPlayNetworkHandlerMixin",
     "rule.explosionNoBlockDamage.ExplosionMixin",
     "rule.hopperCounter.HopperBlockEntityMixin",

@@ -1,15 +1,16 @@
 package carpet.mixins.rule.creativeNoClip;
 
 import carpet.CarpetSettings;
+import net.minecraft.block.piston.PistonMoveBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.living.LivingEntity;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerEntity.class)
@@ -40,5 +41,11 @@ public abstract class PlayerEntityMixin extends Entity {
         if (moverType == MoverType.SELF || !(CarpetSettings.creativeNoClip && this.isCreative() && this.abilities.flying)) {
             super.move(moverType, x, y, z);
         }
+    }
+
+    // somehow piston+slime will bounce creativeNoClip players, what did you do carpet client
+    @Override
+    public PistonMoveBehavior getPistonMoveBehavior() {
+        return (CarpetSettings.creativeNoClip && this.isCreative() && this.abilities.flying) ? PistonMoveBehavior.IGNORE : super.getPistonMoveBehavior();
     }
 }
