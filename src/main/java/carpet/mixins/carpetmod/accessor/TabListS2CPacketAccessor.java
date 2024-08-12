@@ -1,4 +1,4 @@
-package carpet.mixins.carpetmod.logging;
+package carpet.mixins.carpetmod.accessor;
 
 import net.minecraft.network.packet.s2c.play.TabListS2CPacket;
 import net.minecraft.text.Text;

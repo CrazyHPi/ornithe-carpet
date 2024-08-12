@@ -3,7 +3,7 @@ package carpet.logging;
 import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
 import carpet.logging.logHelpers.PacketCounter;
-import carpet.mixins.carpetmod.logging.TabListS2CPacketAccessor;
+import carpet.mixins.carpetmod.accessor.TabListS2CPacketAccessor;
 import carpet.utils.Messenger;
 import carpet.utils.SpawnReporter;
 import net.minecraft.entity.living.mob.MobCategory;
