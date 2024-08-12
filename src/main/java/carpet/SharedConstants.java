@@ -11,8 +11,4 @@ public interface SharedConstants {
             .orElseThrow(() -> new NoSuchElementException("No value present")).getMetadata().getVersion().toString();
 
     Logger LOG = LogManager.getLogger("carpet");
-
-    static <T> T absurd() {
-        throw new AssertionError("absurd");
-    }
 }

@@ -28,4 +28,8 @@ public final class TranslationKeys {
 	public static final String DEFAULT_SET              = SETTINGS_BASE + "default_set";
 	public static final String DEFAULT_REMOVED          = SETTINGS_BASE + "default_removed";
 	public static final String CURRENT_VALUE            = SETTINGS_BASE + "current_value";
+
+    // Tick output
+    public static final String TICK_BASE = "carpet.tick.";
+    public static final String TICK_STAGE = TICK_BASE + "stage.";
 }
