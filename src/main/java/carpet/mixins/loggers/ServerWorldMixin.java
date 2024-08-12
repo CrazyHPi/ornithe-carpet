@@ -1,6 +1,6 @@
 package carpet.mixins.loggers;
 
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import carpet.logging.LoggerRegistry;
 import carpet.logging.logHelpers.ExplosionLogHelper;
 import carpet.utils.Messenger;
@@ -24,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -94,7 +93,7 @@ public abstract class ServerWorldMixin extends World {
     private long getRandSeed() {
         Optional<AtomicLong> seed = ReflectionUtil.getObjectField(this.random, "seed");
         if (!seed.isPresent()) {
-            CarpetSettings.LOG.warn("Can not get seed, is server running Java >8?");
+            SharedConstants.LOG.warn("Can not get seed, is server running Java >8?");
             return -1;
         }
         return seed.get().get();

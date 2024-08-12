@@ -11,12 +11,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
-    private int mob_smashed;
+    private int mobSmashed;
     private boolean isSweeping;
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void resetCount(Entity target, CallbackInfo ci) {
-        mob_smashed = 1;
+        mobSmashed = 1;
         isSweeping = false;
     }
 
@@ -28,7 +28,7 @@ public abstract class PlayerEntityMixin {
             )
     )
     private void countSweep(Entity target, CallbackInfo ci) {
-        mob_smashed++;
+        mobSmashed++;
     }
 
     @Inject(
@@ -41,7 +41,7 @@ public abstract class PlayerEntityMixin {
     private void onSweep(Entity target, CallbackInfo ci) {
         if (LoggerRegistry.__kills) {
             isSweeping = true;
-            KillLogHelper.onSweep(((PlayerEntity) (Object) this), mob_smashed);
+            KillLogHelper.onSweep(((PlayerEntity) (Object) this), mobSmashed);
         }
     }
 

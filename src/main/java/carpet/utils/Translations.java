@@ -2,6 +2,7 @@ package carpet.utils;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import carpet.SharedConstants;
 import carpet.CarpetSettings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -69,7 +70,7 @@ public class Translations {
 						key = String.format(TranslationKeys.CATEGORY_PATTERN, "carpet", key.substring(9));
 					}
 					if (!warned && key != entry.getKey()) {
-						CarpetSettings.LOG.warn(String.format(
+						SharedConstants.LOG.warn(String.format(
 							"Found outdated translation keys in extension '%s'!\n" +
 								"These won't be supported in a later Carpet version!\n" +
 								"Carpet will now try to map them to the correct keys in a best-effort basis", ext.getClass().getName()));
@@ -81,7 +82,7 @@ public class Translations {
 		}
 		translations.keySet().removeIf(e -> {
 			if (e.startsWith("//")) {
-				CarpetSettings.LOG.warn(String.format(
+				SharedConstants.LOG.warn(String.format(
 					"Found translation key starting with // while preparing translations!\n" +
 						"Doing this is deprecated and may cause issues in later versions! Consider settings GSON to \"lenient\" mode and\n" +
 						"using regular comments instead!\n" +

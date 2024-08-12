@@ -1,18 +1,16 @@
 package carpet.mixins.rule.explosionNoBlockDamage;
 
 import carpet.CarpetSettings;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.state.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin {
-    @Redirect(
+    @ModifyExpressionValue(
             method = "damageEntities",
             at = @At(
                     value = "INVOKE",
@@ -20,7 +18,7 @@ public abstract class ExplosionMixin {
                     remap = false
             )
     )
-    private BlockState explosionNoDamage(World instance, BlockPos pos) {
-        return CarpetSettings.explosionNoBlockDamage ? Blocks.BEDROCK.defaultState() : instance.getBlockState(pos);
+    private BlockState explosionNoDamage(BlockState original) {
+        return CarpetSettings.explosionNoBlockDamage ? Blocks.BEDROCK.defaultState() : original;
     }
 }

@@ -1,10 +1,9 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
+import carpet.CarpetSettings;
 import carpet.utils.WoolTool;
 import net.minecraft.block.HopperBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.block.entity.LootInventoryBlockEntity;
 import net.minecraft.item.DyeColor;

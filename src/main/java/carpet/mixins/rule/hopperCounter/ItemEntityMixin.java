@@ -1,7 +1,7 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
+import carpet.CarpetSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;

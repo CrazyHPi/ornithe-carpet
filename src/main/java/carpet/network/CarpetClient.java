@@ -1,7 +1,7 @@
 package carpet.network;
 
 import carpet.CarpetServer;
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -58,16 +58,16 @@ public class CarpetClient {
     }
 
     public static void onClientCommand(NbtElement t) {
-        CarpetSettings.LOG.info("Server Response:");
+        SharedConstants.LOG.info("Server Response:");
         NbtCompound tag = (NbtCompound) t;
-        CarpetSettings.LOG.info(" - id: " + tag.getString("id"));
+        SharedConstants.LOG.info(" - id: " + tag.getString("id"));
         if (tag.contains("error")) {
-            CarpetSettings.LOG.warn(" - error: " + tag.getString("error"));
+            SharedConstants.LOG.warn(" - error: " + tag.getString("error"));
         }
         if (tag.contains("output")) {
             NbtList outputTag = (NbtList) tag.get("output");
             for (int i = 0; i < outputTag.size(); i++) {
-                CarpetSettings.LOG.info(" - response: " + outputTag.getString(i));
+                SharedConstants.LOG.info(" - response: " + outputTag.getString(i));
             }
         }
     }

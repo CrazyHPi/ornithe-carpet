@@ -2,7 +2,7 @@ package carpet.network;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.InvalidRuleValueException;
 import carpet.api.settings.SettingsManager;
@@ -14,9 +14,16 @@ import net.minecraft.nbt.NbtString;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 
 public class ClientNetworkHandler {
+    // Khazerx carpet - wait for
+    public static final Lock helloLock = new ReentrantLock();
+    public static final Condition clientPlayerLoaded = helloLock.newCondition();
+
     private static final Map<String, BiConsumer<LocalClientPlayerEntity, NbtElement>> dataHandlers = new HashMap<>();
 
     static {
@@ -63,10 +70,10 @@ public class ClientNetworkHandler {
     private static void onHi(NbtString version) {
         CarpetClient.setCarpet();
         CarpetClient.serverCarpetVersion = version.asString();
-        if (CarpetSettings.carpetVersion.equals(CarpetClient.serverCarpetVersion)) {
-            CarpetSettings.LOG.info("Joined carpet server with matching carpet version");
+        if (SharedConstants.carpetVersion.equals(CarpetClient.serverCarpetVersion)) {
+            SharedConstants.LOG.info("Joined carpet server with matching carpet version");
         } else {
-            CarpetSettings.LOG.warn("Joined carpet server with another carpet version: " + CarpetClient.serverCarpetVersion);
+            SharedConstants.LOG.warn("Joined carpet server with another carpet version: " + CarpetClient.serverCarpetVersion);
         }
         // We can ensure that this packet is
         // processed AFTER the player has joined
@@ -75,7 +82,8 @@ public class ClientNetworkHandler {
 
     public static void respondHello() {
         NbtCompound data = new NbtCompound();
-        data.putString(CarpetClient.HELLO, CarpetSettings.carpetVersion);
+        data.putString(CarpetClient.HELLO, SharedConstants.carpetVersion);
+        /* This code is so scuffed ((
         // need to wait for carpet.network.CarpetClient.gameJoined called
         // clientPlayer not null
         while (CarpetClient.getPlayer() == null) {
@@ -83,7 +91,8 @@ public class ClientNetworkHandler {
                 Thread.sleep(100);
             } catch (Exception ignored) {
             }
-        }
+        } */
+        waitForCarpetPlayer();
         CarpetClient.getPlayer().networkHandler.sendPacket(PacketHelper.c2SPacket(data));
     }
 
@@ -93,10 +102,10 @@ public class ClientNetworkHandler {
                 try {
                     dataHandlers.get(key).accept(player, compound.get(key));
                 } catch (Exception e) {
-                    CarpetSettings.LOG.info("Corrupt carpet data for " + key);
+                    SharedConstants.LOG.info("Corrupt carpet data for " + key);
                 }
             } else {
-                CarpetSettings.LOG.error("Unknown carpet data: " + key);
+                SharedConstants.LOG.error("Unknown carpet data: " + key);
             }
         }
     }
@@ -109,5 +118,19 @@ public class ClientNetworkHandler {
         NbtCompound outer = new NbtCompound();
         outer.put("clientCommand", tag);
         CarpetClient.getPlayer().networkHandler.sendPacket(PacketHelper.c2SPacket(outer));
+    }
+
+    private static void waitForCarpetPlayer() {
+        if (CarpetClient.getPlayer() == null) {
+            helloLock.lock();
+        }
+        try {
+            while (CarpetClient.getPlayer() == null) {
+                clientPlayerLoaded.await();
+            }
+        } catch (InterruptedException ignored) {
+        } finally {
+            helloLock.unlock();
+        }
     }
 }
