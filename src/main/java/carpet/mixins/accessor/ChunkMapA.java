@@ -9,9 +9,9 @@ import java.util.Set;
 
 @Mixin(ChunkMap.class)
 public interface ChunkMapA {
-    @Accessor
+    @Accessor("dirty")
     Set<ChunkHolder> getDirty();
 
-    @Accessor
+    @Accessor("dirty")
     void setDirty(Set<ChunkHolder> dirty);
 }
