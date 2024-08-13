@@ -1,6 +1,6 @@
-package carpet.log.kills;
+package carpet.log.loggers.kills;
 
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.text.Text;

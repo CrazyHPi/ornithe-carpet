@@ -1,7 +1,7 @@
 package carpet.mixins.log.loggers.kills;
 
-import carpet.api.log.LoggerRegistry;
-import carpet.log.kills.KillLogHelper;
+import carpet.log.framework.LoggerRegistry;
+import carpet.log.loggers.kills.KillLogHelper;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

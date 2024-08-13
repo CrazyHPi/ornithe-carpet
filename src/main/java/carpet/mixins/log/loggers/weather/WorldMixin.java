@@ -1,6 +1,6 @@
 package carpet.mixins.log.loggers.weather;
 
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;

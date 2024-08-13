@@ -1,7 +1,7 @@
-package carpet.log.projectiles;
+package carpet.log.loggers.projectiles;
 
 import carpet.api.log.Logger;
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;

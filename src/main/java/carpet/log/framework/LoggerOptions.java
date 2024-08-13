@@ -1,4 +1,4 @@
-package carpet.api.log;
+package carpet.log.framework;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

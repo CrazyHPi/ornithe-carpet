@@ -1,6 +1,6 @@
-package carpet.log.explosions;
+package carpet.log.loggers.explosions;
 
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;

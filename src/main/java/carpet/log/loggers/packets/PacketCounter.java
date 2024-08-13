@@ -1,4 +1,4 @@
-package carpet.log.packets;
+package carpet.log.loggers.packets;
 
 public class PacketCounter {
     public static long totalOut = 0;

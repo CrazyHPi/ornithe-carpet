@@ -2,6 +2,8 @@ package carpet.api.log;
 
 import carpet.CarpetServer;
 import carpet.SharedConstants;
+import carpet.log.framework.LoggerOptions;
+import carpet.log.framework.LoggerRegistry;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -28,11 +30,11 @@ public class Logger {
 
     private boolean strictOptions;
 
-    static Logger standardLogger(String logName, String def, String[] options) {
+    public static Logger standardLogger(String logName, String def, String[] options) {
         return standardLogger(logName, def, options, false);
     }
 
-    static Logger standardLogger(String logName, String def, String[] options, boolean strictOptions) {
+    public static Logger standardLogger(String logName, String def, String[] options, boolean strictOptions) {
         try {
             return new Logger(LoggerRegistry.class.getField("__" + logName), logName, def, options, strictOptions);
         } catch (NoSuchFieldException e) {

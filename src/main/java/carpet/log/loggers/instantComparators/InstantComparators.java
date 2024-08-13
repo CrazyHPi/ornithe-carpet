@@ -1,6 +1,6 @@
-package carpet.log.instantComparators;
+package carpet.log.loggers.instantComparators;
 
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
