@@ -44,7 +44,7 @@ public abstract class PistonBaseBlockMixin {
 		target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/BlockState;",
 		ordinal = 2))
 	public BlockState recordBlockEntity(World world, BlockPos pos, Operation<BlockState> original,
-		@Share("ornitheCarpet$blockEntity") LocalRef<BlockEntity> blockEntityRef) {
+		@Share("blockEntity") LocalRef<BlockEntity> blockEntityRef) {
 		if (CarpetSettings.movableBlockEntities || CarpetSettings.flattenedNoteBlocks) {
 			blockEntityRef.set(world.getBlockEntity(pos));
 			world.removeBlockEntity(pos);
@@ -59,7 +59,7 @@ public abstract class PistonBaseBlockMixin {
 	public BlockEntity createMovingBlockEntity(
 		BlockState movedState, Direction facing, boolean extending, boolean source,
 		Operation<BlockEntity> original,
-		@Share("ornitheCarpet$blockEntity") LocalRef<BlockEntity> blockEntityRef) {
+		@Share("blockEntity") LocalRef<BlockEntity> blockEntityRef) {
 		BlockEntity movingBlockEntity = original.call(movedState, facing, extending, source);
 		BlockEntity carriedBlockEntity = blockEntityRef.get();
 		if (carriedBlockEntity != null && movingBlockEntity instanceof MovingBlockEntity)
