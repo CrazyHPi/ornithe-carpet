@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.portalForcer;
 
 import carpet.logging.LoggerRegistry;
 import carpet.logging.logHelpers.PortalCaching;

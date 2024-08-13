@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.instantComparators;
 
 import net.minecraft.block.ComparatorBlock;
 import org.spongepowered.asm.mixin.Mixin;

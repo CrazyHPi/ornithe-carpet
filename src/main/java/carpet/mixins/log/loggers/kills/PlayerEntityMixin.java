@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.kills;
 
 import carpet.logging.LoggerRegistry;
 import carpet.logging.logHelpers.KillLogHelper;
@@ -6,9 +6,6 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;

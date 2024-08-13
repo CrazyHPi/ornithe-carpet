@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.mobcaps;
 
 import carpet.utils.SpawnReporter;
 import net.minecraft.entity.living.mob.MobCategory;
