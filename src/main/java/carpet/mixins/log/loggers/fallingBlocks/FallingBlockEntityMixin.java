@@ -1,7 +1,7 @@
-package carpet.mixins.log.loggers.fallingBlock;
+package carpet.mixins.log.loggers.fallingBlocks;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.TrajectoryLogHelper;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.projectiles.TrajectoryLogHelper;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;

@@ -1,6 +1,6 @@
 package carpet.mixins.log.loggers.tileTickLimit;
 
-import carpet.logging.LoggerRegistry;
+import carpet.api.log.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.server.world.ScheduledTick;
 import net.minecraft.server.world.ServerWorld;

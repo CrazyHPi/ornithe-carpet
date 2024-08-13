@@ -1,7 +1,7 @@
 package carpet.mixins.log.loggers.tnt;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.TntLogHelper;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.tnt.TntLogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.PrimedTntEntity;
 import net.minecraft.util.math.Vec3d;

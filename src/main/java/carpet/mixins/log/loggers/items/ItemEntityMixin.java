@@ -1,7 +1,7 @@
 package carpet.mixins.log.loggers.items;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.ItemLogHelper;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.items.ItemLogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;

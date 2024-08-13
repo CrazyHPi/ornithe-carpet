@@ -1,6 +1,6 @@
 package carpet.mixins.log.loggers.explosions;
 
-import carpet.logging.logHelpers.ExplosionLogHelper;
+import carpet.log.explosions.ExplosionLogHelper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.World;

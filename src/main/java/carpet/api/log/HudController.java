@@ -1,7 +1,7 @@
-package carpet.logging;
+package carpet.api.log;
 
 import carpet.helpers.HopperCounter;
-import carpet.logging.logHelpers.PacketCounter;
+import carpet.log.packets.PacketCounter;
 import carpet.mixins.accessor.TabListS2CPacketA;
 import carpet.CarpetSettings;
 import carpet.utils.Messenger;

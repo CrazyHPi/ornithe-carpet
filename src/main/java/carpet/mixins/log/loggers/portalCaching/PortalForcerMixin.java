@@ -1,7 +1,7 @@
-package carpet.mixins.log.loggers.portalForcer;
+package carpet.mixins.log.loggers.portalCaching;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.PortalCaching;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.portalCaching.PortalCaching;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.server.world.PortalForcer;

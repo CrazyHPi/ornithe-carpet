@@ -1,7 +1,7 @@
 package carpet.mixins.log.loggers.explosions;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.ExplosionLogHelper;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.explosions.ExplosionLogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;

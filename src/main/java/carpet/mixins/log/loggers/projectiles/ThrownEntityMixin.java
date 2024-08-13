@@ -1,7 +1,7 @@
-package carpet.mixins.log.loggers.projectile;
+package carpet.mixins.log.loggers.projectiles;
 
-import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.TrajectoryLogHelper;
+import carpet.api.log.LoggerRegistry;
+import carpet.log.projectiles.TrajectoryLogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.thrown.ThrownEntity;
 import net.minecraft.world.World;

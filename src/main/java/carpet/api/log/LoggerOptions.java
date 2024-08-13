@@ -1,6 +1,5 @@
-package carpet.logging;
+package carpet.api.log;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.stat.StatProgress;
