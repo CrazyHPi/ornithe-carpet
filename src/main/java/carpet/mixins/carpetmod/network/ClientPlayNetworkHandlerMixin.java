@@ -1,4 +1,4 @@
-package carpet.mixins.carpetmod.network.client;
+package carpet.mixins.carpetmod.network;
 
 import carpet.network.CarpetClient;
 import carpet.network.ClientNetworkHandler;

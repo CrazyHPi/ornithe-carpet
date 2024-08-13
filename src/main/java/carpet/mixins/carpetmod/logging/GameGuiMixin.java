@@ -1,6 +1,6 @@
-package carpet.mixins.carpetmod.logging.client;
+package carpet.mixins.carpetmod.logging;
 
-import carpet.fakes.PlayerTabOverlayInterface;
+import carpet.fakes.carpetmod.PlayerTabOverlayInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GameGui;
 import net.minecraft.client.gui.overlay.PlayerTabOverlay;
@@ -24,6 +24,6 @@ public abstract class GameGuiMixin {
             )
     )
     private boolean isLogging(Minecraft instance) {
-        return instance.isIntegratedServerRunning() && !((PlayerTabOverlayInterface) playerTabOverlay).carpet$hasFooterOrHeader();
+        return instance.isIntegratedServerRunning() && !((PlayerTabOverlayInterface) playerTabOverlay).ornithe_carpet$hasFooterOrHeader();
     }
 }

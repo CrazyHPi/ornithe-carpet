@@ -1,4 +1,4 @@
-package carpet.mixins.rule.creativeNoClip.client;
+package carpet.mixins.rule.creativeNoClip;
 
 import carpet.CarpetSettings;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;

@@ -1,6 +1,6 @@
-package carpet.mixins.carpetmod.logging.client;
+package carpet.mixins.carpetmod.logging;
 
-import carpet.fakes.PlayerTabOverlayInterface;
+import carpet.fakes.carpetmod.PlayerTabOverlayInterface;
 import net.minecraft.client.gui.overlay.PlayerTabOverlay;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ public abstract class PlayerTabOverlayMixin implements PlayerTabOverlayInterface
     private Text header;
 
     @Override
-    public boolean carpet$hasFooterOrHeader() {
+    public boolean ornithe_carpet$hasFooterOrHeader() {
         return footer != null || header != null;
     }
 }

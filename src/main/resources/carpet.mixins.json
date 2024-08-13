@@ -6,7 +6,7 @@
   "mixins": [
     "carpetmod.core.CommandManagerMixin",
     "carpetmod.core.MinecraftServerMixin",
-    "carpetmod.accessor.TabListS2CPacketAccessor",
+    "carpetmod.logging.TabListS2CPacketAccessor",
     "carpetmod.network.PlayerManagerMixin",
     "carpetmod.network.ServerPlayNetworkHandlerMixin",
     "loggers.ComparatorBlockMixin",
@@ -30,13 +30,13 @@
     "rule.hopperCounter.ItemEntityMixin"
   ],
   "client": [
-    "carpetmod.core.client.IntegratedServerMixin",
-    "carpetmod.core.client.MainMixin",
-    "carpetmod.logging.client.GameGuiMixin",
-    "carpetmod.logging.client.PlayerTabOverlayMixin",
-    "carpetmod.network.client.ClientPlayNetworkHandlerMixin",
-    "carpetmod.network.client.LocalClientPlayerEntityMixin",
-    "rule.creativeNoClip.client.GameRendererMixin"
+    "carpetmod.core.IntegratedServerMixin",
+    "carpetmod.core.MainMixin",
+    "carpetmod.logging.GameGuiMixin",
+    "carpetmod.logging.PlayerTabOverlayMixin",
+    "carpetmod.network.ClientPlayNetworkHandlerMixin",
+    "carpetmod.network.LocalClientPlayerEntityMixin",
+    "rule.creativeNoClip.GameRendererMixin"
   ],
   "server": [
   ],

@@ -1,4 +1,4 @@
-package carpet.mixins.carpetmod.core.client;
+package carpet.mixins.carpetmod.core;
 
 import carpet.CarpetServer;
 import net.minecraft.server.MinecraftServer;
