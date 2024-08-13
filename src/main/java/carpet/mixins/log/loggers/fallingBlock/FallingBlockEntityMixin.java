@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.fallingBlock;
 
 import carpet.logging.LoggerRegistry;
 import carpet.logging.logHelpers.TrajectoryLogHelper;

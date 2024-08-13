@@ -1,4 +1,4 @@
-package carpet.mixins.logging.client;
+package carpet.mixins.log.framework.client;
 
 import carpet.fakes.PlayerTabOverlayF;
 import net.minecraft.client.gui.overlay.PlayerTabOverlay;

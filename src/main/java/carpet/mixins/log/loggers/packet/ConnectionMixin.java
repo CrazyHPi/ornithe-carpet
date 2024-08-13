@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.packet;
 
 import carpet.logging.logHelpers.PacketCounter;
 import io.netty.channel.ChannelHandlerContext;

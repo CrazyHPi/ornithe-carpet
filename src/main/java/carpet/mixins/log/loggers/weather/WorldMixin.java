@@ -1,4 +1,4 @@
-package carpet.mixins.loggers;
+package carpet.mixins.log.loggers.weather;
 
 import carpet.logging.LoggerRegistry;
 import carpet.utils.Messenger;
