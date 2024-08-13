@@ -14,15 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FurnaceBlock.class)
 public abstract class FurnaceBlockMixin {
-	@Inject(method = "onAdded", at = @At(value = "INVOKE",
-		target = "Lnet/minecraft/block/FurnaceBlock;updateFacing(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"),
-		cancellable = true)
-	public void skipUpdateFacing(World world, BlockPos pos, BlockState state, CallbackInfo ci) {
-		if (CarpetSettings.accurateBlockPlacement) ci.cancel();
-	}
+    @Inject(method = "onAdded", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/block/FurnaceBlock;updateFacing(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"),
+            cancellable = true)
+    public void skipUpdateFacing(World world, BlockPos pos, BlockState state, CallbackInfo ci) {
+        if (CarpetSettings.accurateBlockPlacement) ci.cancel();
+    }
 
-	@WrapWithCondition(method = "onPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"))
-	public boolean skipFixFacing(World world, BlockPos pos, BlockState state, int flags) {
+    @WrapWithCondition(method = "onPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"))
+    public boolean skipFixFacing(World world, BlockPos pos, BlockState state, int flags) {
         return !CarpetSettings.accurateBlockPlacement;
-	}
+    }
 }

@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(FillCommand.class)
 public abstract class FillCommandMixin {
-	@ModifyConstant(method = "run", constant = @Constant(intValue = 32768), expect = 2)
-	public int modifyFillLimit(int constant) {
-		return CarpetSettings.blockEventRange;
-	}
+    @ModifyConstant(method = "run", constant = @Constant(intValue = 32768), expect = 2)
+    public int modifyFillLimit(int constant) {
+        return CarpetSettings.blockEventRange;
+    }
 }

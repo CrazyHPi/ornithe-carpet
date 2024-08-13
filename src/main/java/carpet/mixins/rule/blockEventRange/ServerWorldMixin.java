@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
-	@ModifyConstant(method = "doBlockEvents", constant = @Constant(doubleValue = 64.0))
-	public double modifyBlockEventRange(double constant) {
-		return CarpetSettings.blockEventRange;
-	}
+    @ModifyConstant(method = "doBlockEvents", constant = @Constant(doubleValue = 64.0))
+    public double modifyBlockEventRange(double constant) {
+        return CarpetSettings.blockEventRange;
+    }
 }

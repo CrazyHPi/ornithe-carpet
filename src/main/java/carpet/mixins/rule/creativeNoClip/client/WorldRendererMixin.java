@@ -11,17 +11,17 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
-	//#if MC>10710
-	@Shadow
-	@Final
-	private Minecraft minecraft;
+    //#if MC>10710
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
-	@ModifyVariable(method = "setupRender", at = @At(value = "HEAD"), ordinal = 0, argsOnly = true)
-	private boolean onNoClip(boolean bl) {
-		if (CarpetSettings.creativeNoClip && minecraft.player.abilities.invulnerable && minecraft.player.abilities.flying) {
-			return true;
-		}
-		return bl;
-	}
-	//#endif
+    @ModifyVariable(method = "setupRender", at = @At(value = "HEAD"), ordinal = 0, argsOnly = true)
+    private boolean onNoClip(boolean bl) {
+        if (CarpetSettings.creativeNoClip && minecraft.player.abilities.invulnerable && minecraft.player.abilities.flying) {
+            return true;
+        }
+        return bl;
+    }
+    //#endif
 }

@@ -17,14 +17,14 @@ import java.util.Random;
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
-	@WrapOperation(method = "doScheduledTicks", at = @At(value = "INVOKE",
-		target = "Lnet/minecraft/block/Block;tick(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;Ljava/util/Random;)V"))
-	public void profileTileTicks(Block instance, World world, BlockPos pos, BlockState state, Random random, Operation<Void> original) {
-		if (TickContext.profilingTileTicks) {
-			TypedProfiler<Block> tileTickProfiler = TickContext.INSTANCE.tileTickProfiler;
-			tileTickProfiler.swap(instance);
-			original.call(instance, world, pos, state, random);
-			tileTickProfiler.swap(null);
-		} else original.call(instance, world, pos, state, random);
-	}
+    @WrapOperation(method = "doScheduledTicks", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/block/Block;tick(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;Ljava/util/Random;)V"))
+    public void profileTileTicks(Block instance, World world, BlockPos pos, BlockState state, Random random, Operation<Void> original) {
+        if (TickContext.profilingTileTicks) {
+            TypedProfiler<Block> tileTickProfiler = TickContext.INSTANCE.tileTickProfiler;
+            tileTickProfiler.swap(instance);
+            original.call(instance, world, pos, state, random);
+            tileTickProfiler.swap(null);
+        } else original.call(instance, world, pos, state, random);
+    }
 }

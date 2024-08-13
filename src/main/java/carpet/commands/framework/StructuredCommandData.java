@@ -11,14 +11,14 @@ import java.util.Collections;
 import java.util.List;
 
 public interface StructuredCommandData<T extends Command> {
-	void run(T command, MinecraftServer server, CommandSource source) throws CommandException;
+    void run(T command, MinecraftServer server, CommandSource source) throws CommandException;
 
-	default List<String> getSuggestions(T command, int slot, MinecraftServer server,
-								CommandSource source, @Nullable BlockPos pos) {
-		return Collections.emptyList();
-	}
+    default List<String> getSuggestions(T command, int slot, MinecraftServer server,
+                                        CommandSource source, @Nullable BlockPos pos) {
+        return Collections.emptyList();
+    }
 
-	default int getTargetSelector() {
-		return -1;
-	}
+    default int getTargetSelector() {
+        return -1;
+    }
 }

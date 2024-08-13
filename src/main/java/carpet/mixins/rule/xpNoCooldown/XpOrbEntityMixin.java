@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(XpOrbEntity.class)
 public abstract class XpOrbEntityMixin {
-	@Inject(method = "onPlayerCollision", at = @At(value = "HEAD"))
-	private void removeDelay(PlayerEntity playerEntity, CallbackInfo ci) {
-		if (CarpetSettings.xpNoCooldown) {
-			playerEntity.xpCooldown = 0;
-		}
-	}
+    @Inject(method = "onPlayerCollision", at = @At(value = "HEAD"))
+    private void removeDelay(PlayerEntity playerEntity, CallbackInfo ci) {
+        if (CarpetSettings.xpNoCooldown) {
+            playerEntity.xpCooldown = 0;
+        }
+    }
 }

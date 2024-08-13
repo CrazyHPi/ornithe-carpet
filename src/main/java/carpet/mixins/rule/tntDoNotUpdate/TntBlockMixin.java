@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(TntBlock.class)
 public abstract class TntBlockMixin {
-	@ModifyExpressionValue(
-		method = "onAdded",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/world/World;hasNeighborSignal(Lnet/minecraft/util/math/BlockPos;)Z"
-		)
-	)
-	private boolean onTNTPlaced(boolean original) {
-		return !CarpetSettings.tntDoNotUpdate && original;
-	}
+    @ModifyExpressionValue(
+            method = "onAdded",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;hasNeighborSignal(Lnet/minecraft/util/math/BlockPos;)Z"
+            )
+    )
+    private boolean onTNTPlaced(boolean original) {
+        return !CarpetSettings.tntDoNotUpdate && original;
+    }
 }

@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(CustomPayloadC2SPacket.class)
 public interface CustomPayloadC2SPacket_ {
-	@Accessor
-	String getChannel();
+    @Accessor
+    String getChannel();
 
-	@Accessor
-	PacketByteBuf getData();
+    @Accessor
+    PacketByteBuf getData();
 }

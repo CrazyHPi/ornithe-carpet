@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin extends World implements BlockableEventLoop {
-	protected ServerWorldMixin(WorldStorage storage, WorldData data, Dimension dimension, Profiler profiler, boolean isClient) {
-		super(storage, data, dimension, profiler, isClient);
-	}
+    protected ServerWorldMixin(WorldStorage storage, WorldData data, Dimension dimension, Profiler profiler, boolean isClient) {
+        super(storage, data, dimension, profiler, isClient);
+    }
 
     @Definition(id = "players", field = "Lnet/minecraft/server/world/ServerWorld;players:Ljava/util/List;")
     @Definition(id = "size", method = "Ljava/util/List;size()I")

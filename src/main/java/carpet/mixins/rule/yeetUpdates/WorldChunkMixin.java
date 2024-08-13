@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(WorldChunk.class)
 public abstract class WorldChunkMixin {
-	@WrapWithCondition(method = "setBlockState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onAdded(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"))
-	public boolean yeetInitialUpdates(Block block, World world, BlockPos pos, BlockState state) {
+    @WrapWithCondition(method = "setBlockState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onAdded(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"))
+    public boolean yeetInitialUpdates(Block block, World world, BlockPos pos, BlockState state) {
         return !CarpetSettings.yeetInitialUpdates;
     }
 
-	@WrapWithCondition(method = "setBlockState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onRemoved(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"))
-	public boolean yeetRemovalUpdates(Block block, World world, BlockPos pos, BlockState state) {
+    @WrapWithCondition(method = "setBlockState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onRemoved(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;)V"))
+    public boolean yeetRemovalUpdates(Block block, World world, BlockPos pos, BlockState state) {
         return !CarpetSettings.yeetRemovalUpdates;
     }
 }

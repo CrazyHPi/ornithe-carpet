@@ -21,30 +21,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NoteBlock.class)
 public abstract class NoteBlockMixin {
-	@Inject(method = "neighborChanged", at = @At(value = "FIELD",
-		target = "Lnet/minecraft/block/entity/NoteBlockBlockEntity;powered:Z", opcode = 181 /* Opcodes.PUTFIELD */, shift = At.Shift.AFTER))
-	public void poweredUpdateNeighborsAndObservers(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
-		if (CarpetSettings.flattenedNoteBlocks) {
-			world.updateNeighbors(pos, Blocks.NOTEBLOCK, true);
-		}
-	}
+    @Inject(method = "neighborChanged", at = @At(value = "FIELD",
+            target = "Lnet/minecraft/block/entity/NoteBlockBlockEntity;powered:Z", opcode = 181 /* Opcodes.PUTFIELD */, shift = At.Shift.AFTER))
+    public void poweredUpdateNeighborsAndObservers(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
+        if (CarpetSettings.flattenedNoteBlocks) {
+            world.updateNeighbors(pos, Blocks.NOTEBLOCK, true);
+        }
+    }
 
-	@Inject(method = "use", at = @At("TAIL"))
-	public void tuneUpdateNeighborsAndObservers(World world, BlockPos pos, BlockState state, PlayerEntity player, InteractionHand hand, Direction face, float dx, float dy, float dz, CallbackInfoReturnable<Boolean> cir) {
-		if (CarpetSettings.flattenedNoteBlocks) {
-			world.updateNeighbors(pos, Blocks.NOTEBLOCK, true);
-		}
-	}
+    @Inject(method = "use", at = @At("TAIL"))
+    public void tuneUpdateNeighborsAndObservers(World world, BlockPos pos, BlockState state, PlayerEntity player, InteractionHand hand, Direction face, float dx, float dy, float dz, CallbackInfoReturnable<Boolean> cir) {
+        if (CarpetSettings.flattenedNoteBlocks) {
+            world.updateNeighbors(pos, Blocks.NOTEBLOCK, true);
+        }
+    }
 
-	@Inject(method = "neighborChanged", at = @At("TAIL"))
-	public void instrumentUpdateObservers(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
-		if (CarpetSettings.flattenedNoteBlocks) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NoteBlockBlockEntity) {
-				int instrument = NoteBlockBlockEntity$.calculateInstrument(world.getBlockState(pos.down()));
-				// Changing instrument sends observer updates in setInstrument
-				((NoteBlockBlockEntity$) (NoteBlockBlockEntity) blockEntity).setInstrument(instrument);
-			}
-		}
-	}
+    @Inject(method = "neighborChanged", at = @At("TAIL"))
+    public void instrumentUpdateObservers(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
+        if (CarpetSettings.flattenedNoteBlocks) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof NoteBlockBlockEntity) {
+                int instrument = NoteBlockBlockEntity$.calculateInstrument(world.getBlockState(pos.down()));
+                // Changing instrument sends observer updates in setInstrument
+                ((NoteBlockBlockEntity$) (NoteBlockBlockEntity) blockEntity).setInstrument(instrument);
+            }
+        }
+    }
 }

@@ -9,13 +9,13 @@ public class KillLogHelper {
 
     public static void onSweep(PlayerEntity player, int count) {
         LoggerRegistry.getLogger("kills").log(() -> new Text[]{
-                        Messenger.c("g " + player.getGameProfile().getName() + " smacked ", "r " + count, "g  entities with sweeping")
+                Messenger.c("g " + player.getGameProfile().getName() + " smacked ", "r " + count, "g  entities with sweeping")
         });
     }
 
     public static void onNonSweepAttack(PlayerEntity player) {
         LoggerRegistry.getLogger("kills").log(() -> new Text[]{
-                        Messenger.c("g " + player.getGameProfile().getName() + " smacked ", "r 1", "g  (no sweeping)")
+                Messenger.c("g " + player.getGameProfile().getName() + " smacked ", "r 1", "g  (no sweeping)")
         });
     }
 

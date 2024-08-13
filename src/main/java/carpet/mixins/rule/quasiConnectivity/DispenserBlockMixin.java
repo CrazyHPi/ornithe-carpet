@@ -18,6 +18,6 @@ public abstract class DispenserBlockMixin {
     @Expression("world.hasNeighborSignal(?.up())")
     @ModifyExpressionValue(method = "neighborChanged", at = @At("MIXINEXTRAS:EXPRESSION"))
     public boolean modifyQuasiConnectivity(boolean original) {
-		return CarpetSettings.quasiConnectivity && original;
-	}
+        return CarpetSettings.quasiConnectivity && original;
+    }
 }

@@ -5,5 +5,5 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
 
 public interface WorldChunk$ {
-	BlockState setBlockStateAndEntity(BlockPos pos, BlockState state, BlockEntity prescribedBE);
+    BlockState setBlockStateAndEntity(BlockPos pos, BlockState state, BlockEntity prescribedBE);
 }

@@ -30,7 +30,7 @@ public abstract class PlayerEntityMixin {
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
     private void countSweep(Entity target, CallbackInfo ci) {
-        mobSmashed ++;
+        mobSmashed++;
     }
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;doSweepAttackEffect()V"))

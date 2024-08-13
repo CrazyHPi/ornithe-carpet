@@ -15,11 +15,11 @@ public class MixinGlobals {
 
     public static void pushYeetUpdateFlags() {
         fillUpdateStack.push(
-            (CarpetSettings.yeetRemovalUpdates ? 16 : 0) |
-               (CarpetSettings.yeetInitialUpdates ? 8 : 0) |
-               (CarpetSettings.yeetComparatorUpdates ? 4 : 0) |
-               (CarpetSettings.yeetNeighborUpdates ? 2 : 0) |
-               (CarpetSettings.yeetObserverUpdates ? 1 : 0)
+                (CarpetSettings.yeetRemovalUpdates ? 16 : 0) |
+                        (CarpetSettings.yeetInitialUpdates ? 8 : 0) |
+                        (CarpetSettings.yeetComparatorUpdates ? 4 : 0) |
+                        (CarpetSettings.yeetNeighborUpdates ? 2 : 0) |
+                        (CarpetSettings.yeetObserverUpdates ? 1 : 0)
         );
         CarpetSettings.yeetRemovalUpdates = true;
         CarpetSettings.yeetInitialUpdates = true;

@@ -59,7 +59,7 @@ public class ClientNetworkHandler {
                     String value = ruleNBT.getString("Value");
                     try {
                         rule.set(null, value);
-                    } catch (InvalidRuleValueException ignored){
+                    } catch (InvalidRuleValueException ignored) {
                     }
                 }
             }

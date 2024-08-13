@@ -11,15 +11,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
-	@Shadow
-	public PlayerAbilities abilities;
+    @Shadow
+    public PlayerAbilities abilities;
 
-	@Inject(method = "getMaxNetherPortalTime", at = @At(value = "HEAD"), cancellable = true)
-	private void onPortalDelay(CallbackInfoReturnable<Integer> cir) {
-		if (CarpetSettings.portalCreativeDelay != -1 && this.abilities.invulnerable) {
-			cir.setReturnValue(CarpetSettings.portalCreativeDelay);
-		} else if (CarpetSettings.portalSurvivalDelay != 80 && !this.abilities.invulnerable) {
-			cir.setReturnValue(CarpetSettings.portalSurvivalDelay);
-		}
-	}
+    @Inject(method = "getMaxNetherPortalTime", at = @At(value = "HEAD"), cancellable = true)
+    private void onPortalDelay(CallbackInfoReturnable<Integer> cir) {
+        if (CarpetSettings.portalCreativeDelay != -1 && this.abilities.invulnerable) {
+            cir.setReturnValue(CarpetSettings.portalCreativeDelay);
+        } else if (CarpetSettings.portalSurvivalDelay != 80 && !this.abilities.invulnerable) {
+            cir.setReturnValue(CarpetSettings.portalSurvivalDelay);
+        }
+    }
 }

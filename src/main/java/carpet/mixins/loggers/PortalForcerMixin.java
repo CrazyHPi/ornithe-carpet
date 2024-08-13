@@ -36,8 +36,8 @@ public abstract class PortalForcerMixin {
             ObjectIterator<PortalForcer.PortalPos> objectIterator = this.portalCache.values().iterator();
             ArrayList<Vec3d> uncachings = new ArrayList<>();
 
-            while(objectIterator.hasNext()) {
-                PortalForcer.PortalPos portalPos = (PortalForcer.PortalPos)objectIterator.next();
+            while (objectIterator.hasNext()) {
+                PortalForcer.PortalPos portalPos = (PortalForcer.PortalPos) objectIterator.next();
                 if (portalPos == null || portalPos.lastUseTime < l) {
                     uncachings.add(new Vec3d(portalPos.getX(), portalPos.getY(), portalPos.getZ()));
                     objectIterator.remove();

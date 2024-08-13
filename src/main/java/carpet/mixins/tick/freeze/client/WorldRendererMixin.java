@@ -11,16 +11,16 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
-	@ModifyArg(method = "renderEntities", at = @At(value = "INVOKE",
-		target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/entity/Entity;FZ)V"))
-	public float disableEntityInterpolation(Entity entity, float tickDelta, boolean hitbox) {
-		return !TickContext.INSTANCE.frozen || entity instanceof ClientPlayerEntity
-			? tickDelta : 0.0f;
-	}
+    @ModifyArg(method = "renderEntities", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/entity/Entity;FZ)V"))
+    public float disableEntityInterpolation(Entity entity, float tickDelta, boolean hitbox) {
+        return !TickContext.INSTANCE.frozen || entity instanceof ClientPlayerEntity
+                ? tickDelta : 0.0f;
+    }
 
-	@ModifyArg(method = "renderEntities", at = @At(value = "INVOKE",
-		target = "Lnet/minecraft/client/render/block/entity/BlockEntityRenderDispatcher;render(Lnet/minecraft/block/entity/BlockEntity;FI)V"))
-	public float disableBlockEntityInterpolation(BlockEntity blockEntity, float tickDelta, int overlay) {
-		return !TickContext.INSTANCE.frozen ? tickDelta : 0.0f;
-	}
+    @ModifyArg(method = "renderEntities", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/render/block/entity/BlockEntityRenderDispatcher;render(Lnet/minecraft/block/entity/BlockEntity;FI)V"))
+    public float disableBlockEntityInterpolation(BlockEntity blockEntity, float tickDelta, int overlay) {
+        return !TickContext.INSTANCE.frozen ? tickDelta : 0.0f;
+    }
 }

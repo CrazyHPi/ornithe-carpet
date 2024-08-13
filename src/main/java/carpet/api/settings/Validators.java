@@ -73,13 +73,10 @@ public final class Validators {
         }
     }
 
-    public static class StrictValidator<T> extends Validator<T>
-    {
+    public static class StrictValidator<T> extends Validator<T> {
         @Override
-        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string)
-        {
-            if (!currentRule.suggestions().contains(string))
-            {
+        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
+            if (!currentRule.suggestions().contains(string)) {
                 Messenger.m(source, "r Valid options: " + currentRule.suggestions().toString());
                 return null;
             }
@@ -93,12 +90,12 @@ public final class Validators {
 //$$ 		public String validate(CommandSourceStack source, CarpetRule<String> currentRule, String newValue, String string) {
         //#else
         public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
-        //#endif
+            //#endif
             //#if MC>=11300
 //$$ 			if (source == null || source.hasPermissions(4)) {
             //#else
             if (source == null || source.canUseCommand(4, source.getName())) {
-            //#endif
+                //#endif
                 return newValue;
             }
             return null;
@@ -116,7 +113,7 @@ public final class Validators {
 //$$ 		public Integer validate(CommandSourceStack source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
         //#else
         public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-        //#endif
+            //#endif
             return (newValue > 0 && newValue <= 72000) ? newValue : null;
         }
 
@@ -143,12 +140,14 @@ public final class Validators {
 //$$ 		public Integer validate(CommandSourceStack source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
         //#else
         public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-        //#endif
+            //#endif
             return (newValue > 0 && newValue <= 1024) ? newValue : null;
         }
 
         @Override
-        public String description() { return "You must choose a value from 1 to 1024";}
+        public String description() {
+            return "You must choose a value from 1 to 1024";
+        }
     }
 
     public static class LanguageValidator extends Validator<String> {
@@ -157,7 +156,7 @@ public final class Validators {
 //$$ 		public String validate(CommandSourceStack source, CarpetRule<String> currentRule, String newValue, String string) {
         //#else
         public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
-        //#endif
+            //#endif
             CarpetSettings.language = newValue;
             Translations.updateLanguage();
             return newValue;
@@ -167,7 +166,7 @@ public final class Validators {
     public static class Probability<T extends Number> extends Validator<T> {
         @Override
         //#if MC>=11300
-    //$$ 		public T validate(CommandSourceStack source, CarpetRule<T> currentRule, T newValue, String string) {
+        //$$ 		public T validate(CommandSourceStack source, CarpetRule<T> currentRule, T newValue, String string) {
         //#else
         public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
             //#endif

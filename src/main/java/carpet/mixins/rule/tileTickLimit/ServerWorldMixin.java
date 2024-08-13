@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(ServerWorld.class)
 public class ServerWorldMixin {
-	@ModifyConstant(method = "doScheduledTicks", constant = @Constant(intValue = 65536), expect = 2)
-	public int modifyTileTickLimit(int constant) {
-		return CarpetSettings.tileTickLimit;
-	}
+    @ModifyConstant(method = "doScheduledTicks", constant = @Constant(intValue = 65536), expect = 2)
+    public int modifyTileTickLimit(int constant) {
+        return CarpetSettings.tileTickLimit;
+    }
 }

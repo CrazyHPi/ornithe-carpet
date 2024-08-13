@@ -20,14 +20,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(world);
     }
 
-	@WrapWithCondition(method = "tickAi", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;dropShoulderEntities()V"))
-	private boolean onTickMovement(PlayerEntity instance) {
+    @WrapWithCondition(method = "tickAi", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;dropShoulderEntities()V"))
+    private boolean onTickMovement(PlayerEntity instance) {
         return !CarpetSettings.persistentParrots;
     }
 
-	@WrapWithCondition(method = "damage", at = @At(value = "INVOKE",
+    @WrapWithCondition(method = "damage", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/living/player/PlayerEntity;dropShoulderEntities()V"))
-	private boolean onDamage(PlayerEntity instance, @Local(argsOnly = true) float amount) {
+    private boolean onDamage(PlayerEntity instance, @Local(argsOnly = true) float amount) {
         return !CarpetSettings.persistentParrots && random.nextFloat() < (amount / 15.0);
     }
 }

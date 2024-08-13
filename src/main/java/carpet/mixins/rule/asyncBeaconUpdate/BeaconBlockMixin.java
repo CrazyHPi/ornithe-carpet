@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BeaconBlock.class)
 public abstract class BeaconBlockMixin {
-	@Inject(method = "neighborChanged", at = @At("HEAD"))
-	public void injectAsyncUpdate(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
-		if (CarpetSettings.asyncBeaconUpdate && world.hasNeighborSignal(pos)) {
-			HttpUtil.DOWNLOAD_THREAD_FACTORY.submit(() -> {
-				world.updateNeighbors(pos, Blocks.BEACON, true);
-			});
-		}
-	}
+    @Inject(method = "neighborChanged", at = @At("HEAD"))
+    public void injectAsyncUpdate(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, CallbackInfo ci) {
+        if (CarpetSettings.asyncBeaconUpdate && world.hasNeighborSignal(pos)) {
+            HttpUtil.DOWNLOAD_THREAD_FACTORY.submit(() -> {
+                world.updateNeighbors(pos, Blocks.BEACON, true);
+            });
+        }
+    }
 }

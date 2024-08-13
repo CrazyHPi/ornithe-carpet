@@ -47,7 +47,6 @@ public interface CarpetExtension {
      * If that matters for you
      *
      * @param registry The CommandRegistry you use to register your commands
-     *
      */
     default void registerCommands(CommandRegistry registry) {
     }

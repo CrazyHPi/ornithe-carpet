@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Algebraic {
-	/**
-	 * @return array of constructor classes for this algebraic data type
-	 */
-	Class<?>[] value();
+    /**
+     * @return array of constructor classes for this algebraic data type
+     */
+    Class<?>[] value();
 }

@@ -12,20 +12,20 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = PistonMoveStructureResolver.class, priority = 420)
 //#endif
 public class PistonMoveStructureResolverMixin {
-	//#if MC<=10710
-	//$$ @ModifyConstant(method = {"canExtend", "push"}, constant = @Constant(intValue = 12))
-	//$$ private static int pushLimit(int constant) {
-	//#else
-	@ModifyConstant(method = "addColumn", constant = @Constant(intValue = 12), expect = 3)
-	private int pushLimit(int constant) {
-	//#endif
-		return CarpetSettings.pushLimit;
-	}
+    //#if MC<=10710
+    //$$ @ModifyConstant(method = {"canExtend", "push"}, constant = @Constant(intValue = 12))
+    //$$ private static int pushLimit(int constant) {
+    //#else
+    @ModifyConstant(method = "addColumn", constant = @Constant(intValue = 12), expect = 3)
+    private int pushLimit(int constant) {
+        //#endif
+        return CarpetSettings.pushLimit;
+    }
 
-	//#if MC<=10710
-	//$$ @ModifyConstant(method = {"canExtend", "push"}, constant = @Constant(intValue = 13))
-	//$$ private static int pushLimitIterators(int constant) {
-	//$$ 	return CarpetSettings.pushLimit + 1;
-	//$$ }
-	//#endif
+    //#if MC<=10710
+    //$$ @ModifyConstant(method = {"canExtend", "push"}, constant = @Constant(intValue = 13))
+    //$$ private static int pushLimitIterators(int constant) {
+    //$$ 	return CarpetSettings.pushLimit + 1;
+    //$$ }
+    //#endif
 }

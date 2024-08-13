@@ -17,8 +17,9 @@ import java.util.Random;
 
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin {
-	@Final @Shadow
-	private Entity source;
+    @Final
+    @Shadow
+    private Entity source;
 
     @Definition(id = "world", field = "Lnet/minecraft/world/explosion/Explosion;world:Lnet/minecraft/world/World;")
     @Definition(id = "random", field = "Lnet/minecraft/world/World;random:Ljava/util/Random;")
@@ -26,9 +27,9 @@ public abstract class ExplosionMixin {
     @Expression("0.7 + @(this.world.random.nextFloat()) * 0.6")
     @ModifyExpressionValue(method = "damageEntities", at = @At(value = "MIXINEXTRAS:EXPRESSION"))
     public float fixRandomRange(float original) {
-		float v;
-		if (source instanceof PrimedTntEntity
-			&& (v = CarpetSettings.tntFixedRandomRange) >= 0) return v;
-		return original;
-	}
+        float v;
+        if (source instanceof PrimedTntEntity
+                && (v = CarpetSettings.tntFixedRandomRange) >= 0) return v;
+        return original;
+    }
 }

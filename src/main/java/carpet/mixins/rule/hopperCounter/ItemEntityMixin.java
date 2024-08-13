@@ -30,7 +30,7 @@ public abstract class ItemEntityMixin extends Entity {
             )
     )
     private void logCactusCounter(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (CarpetSettings.cactusCounter && source == DamageSource.CACTUS){
+        if (CarpetSettings.cactusCounter && source == DamageSource.CACTUS) {
             HopperCounter.cactus.add(this.world.getServer(), getItemStack());
         }
     }

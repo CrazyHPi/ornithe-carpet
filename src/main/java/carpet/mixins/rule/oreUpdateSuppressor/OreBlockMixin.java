@@ -20,8 +20,8 @@ public abstract class OreBlockMixin extends Block {
     @Intrinsic
     @SuppressWarnings("deprecation")
     @Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
-		if (CarpetSettings.oreUpdateSuppressor && world.hasNeighborSignal(pos))
-			throw new ClassCastException("Carpet-simulated update suppression");
-	}
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
+        if (CarpetSettings.oreUpdateSuppressor && world.hasNeighborSignal(pos))
+            throw new ClassCastException("Carpet-simulated update suppression");
+    }
 }

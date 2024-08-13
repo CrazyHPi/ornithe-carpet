@@ -39,7 +39,7 @@ public abstract class HopperBlockEntityMixin extends LootInventoryBlockEntity {
             DyeColor woolColor = this.get_wool_pointing();
             counter = woolColor != null ? woolColor.getName() : null;
             if (counter != null) {
-                for(int i = 0; i < this.getSize(); ++i) {
+                for (int i = 0; i < this.getSize(); ++i) {
                     if (!this.getStack(i).isEmpty()) {
                         ItemStack itemStack = this.getStack(i);
                         HopperCounter.COUNTERS.get(counter).add(this.getWorld().getServer(), itemStack);

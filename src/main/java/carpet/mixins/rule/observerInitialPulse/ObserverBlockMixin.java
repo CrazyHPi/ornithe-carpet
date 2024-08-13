@@ -18,16 +18,16 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ObserverBlock.class)
 public abstract class ObserverBlockMixin extends FacingBlock {
-	@Shadow
-	@Final
-	public static BooleanProperty POWERED;
+    @Shadow
+    @Final
+    public static BooleanProperty POWERED;
 
-	protected ObserverBlockMixin(Material material) {
-		super(material);
-	}
+    protected ObserverBlockMixin(Material material) {
+        super(material);
+    }
 
-	@ModifyReturnValue(method = "getPlacementState", at = @At("RETURN"))
-	public BlockState controlInitialPulse(BlockState original,
+    @ModifyReturnValue(method = "getPlacementState", at = @At("RETURN"))
+    public BlockState controlInitialPulse(BlockState original,
                                           World world, BlockPos pos, Direction dir, float dx, float dy, float dz, int metadata, LivingEntity entity) {
         return original.set(POWERED, !world.isClient && !CarpetSettings.observerInitialPulse);
     }

@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public abstract class ServerPlayNetworkHandlerMixin {
-    @Shadow public ServerPlayerEntity player;
+    @Shadow
+    public ServerPlayerEntity player;
 
     @ModifyExpressionValue(
             method = "handlePlayerMove",

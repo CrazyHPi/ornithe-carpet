@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(CakeBlock.class)
 public abstract class CakeBlockMixin {
-	@ModifyExpressionValue(method = "tryEatCake", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;canEat(Z)Z"))
-	public boolean useAlwaysEat(boolean original) {
-		return CarpetSettings.cakeAlwaysEat || original;
-	}
+    @ModifyExpressionValue(method = "tryEatCake", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;canEat(Z)Z"))
+    public boolean useAlwaysEat(boolean original) {
+        return CarpetSettings.cakeAlwaysEat || original;
+    }
 }

@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ChunkHolder.class)
 public interface ChunkHolder_ {
-	@Accessor
-	int getBlocksChanged();
+    @Accessor
+    int getBlocksChanged();
 }

@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PistonBaseBlock.class)
 public abstract class PistonBaseBlockMixin {
-	@WrapWithCondition(method = "onPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"))
-	public boolean skipFixFacing(World world, BlockPos pos, BlockState state, int flags) {
-       return !CarpetSettings.accurateBlockPlacement;
-	}
+    @WrapWithCondition(method = "onPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"))
+    public boolean skipFixFacing(World world, BlockPos pos, BlockState state, int flags) {
+        return !CarpetSettings.accurateBlockPlacement;
+    }
 }

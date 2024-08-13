@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(PlayerManager.class)
 public interface PlayerManager_ {
-	@Accessor
-	boolean getAllowCommands();
+    @Accessor
+    boolean getAllowCommands();
 }

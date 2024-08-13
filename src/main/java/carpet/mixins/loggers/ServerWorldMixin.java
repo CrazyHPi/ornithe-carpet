@@ -78,7 +78,7 @@ public abstract class ServerWorldMixin extends World {
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/world/ServerWorld;doBlockEvents()V",
-            shift = At.Shift.AFTER
+                    shift = At.Shift.AFTER
             )
     )
     private void logRngBE(CallbackInfo ci) {

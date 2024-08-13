@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ServerWorld.class)
 public interface ServerWorld_ {
-	@Accessor
-	ChunkMap getChunkMap();
+    @Accessor
+    ChunkMap getChunkMap();
 }
