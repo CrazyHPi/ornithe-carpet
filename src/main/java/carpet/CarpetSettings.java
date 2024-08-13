@@ -1,7 +1,7 @@
 package carpet;
 
 import carpet.api.settings.*;
-import carpet.settings.validation.*;
+import carpet.validators.*;
 import carpet.utils.Messenger;
 import carpet.utils.Translations;
 import net.minecraft.server.command.source.CommandSource;

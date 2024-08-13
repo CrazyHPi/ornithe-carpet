@@ -1,4 +1,4 @@
-package carpet.settings.validation;
+package carpet.validators;
 
 import carpet.api.settings.Validators;
 import carpet.mixins.accessor.RedstoneWireBlock_;
