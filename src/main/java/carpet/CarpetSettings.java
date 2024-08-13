@@ -282,11 +282,9 @@ public class CarpetSettings {
             categories = {RuleCategory.SURVIVAL, RuleCategory.TWEAK})
     public static boolean observerInitialPulse = true;
 
-    //#if MC>=11200
     @Rule(desc = "Parrots don't get of your shoulders until you receive proper damage",
             categories = {RuleCategory.SURVIVAL, RuleCategory.TWEAK})
     public static boolean persistentParrots = false;
-    //#endif
 
     @Rule(desc = "Allow placing of pumpkins and fence gates mid-air",
             categories = {RuleCategory.SURVIVAL, RuleCategory.TWEAK})

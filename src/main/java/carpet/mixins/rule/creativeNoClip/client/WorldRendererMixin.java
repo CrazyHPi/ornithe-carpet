@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
-    //#if MC>10710
     @Shadow
     @Final
     private Minecraft minecraft;
@@ -23,5 +22,4 @@ public abstract class WorldRendererMixin {
         }
         return bl;
     }
-    //#endif
 }

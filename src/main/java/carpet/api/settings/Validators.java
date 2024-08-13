@@ -23,7 +23,7 @@ public final class Validators {
      * so either a number from 0 to 4, or one of the keywords {@code true}, {@code false} or {@code ops} </p>
      *
      * <p>While there is no public API method for checking whether a source can execute a command,
-     * {@link CommandHelper#canUseCommand(CommandSourceStack, Object)} is not expected to change anytime soon.</p>
+     * {@link carpet.commands.CarpetAbstractCommand#canUseCommand(CommandSource, Object)} is not expected to change anytime soon.</p>
      */
     public static class CommandLevel extends Validator<String> {
 
@@ -86,16 +86,9 @@ public final class Validators {
 
     public static class CarpetPermissionLevel extends Validator<String> {
         @Override
-        //#if MC>=11300
-//$$ 		public String validate(CommandSourceStack source, CarpetRule<String> currentRule, String newValue, String string) {
-        //#else
+
         public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
-            //#endif
-            //#if MC>=11300
-//$$ 			if (source == null || source.hasPermissions(4)) {
-            //#else
             if (source == null || source.canUseCommand(4, source.getName())) {
-                //#endif
                 return newValue;
             }
             return null;
@@ -109,11 +102,7 @@ public final class Validators {
 
     public static class OneHourMaxDelayLimit extends Validator<Integer> {
         @Override
-        //#if MC>=11300
-//$$ 		public Integer validate(CommandSourceStack source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-        //#else
         public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-            //#endif
             return (newValue > 0 && newValue <= 72000) ? newValue : null;
         }
 
@@ -136,11 +125,7 @@ public final class Validators {
 
     public static class PositiveIn10Bits extends Validator<Integer> {
         @Override
-        //#if MC>=11300
-//$$ 		public Integer validate(CommandSourceStack source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-        //#else
         public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
-            //#endif
             return (newValue > 0 && newValue <= 1024) ? newValue : null;
         }
 
@@ -152,11 +137,7 @@ public final class Validators {
 
     public static class LanguageValidator extends Validator<String> {
         @Override
-        //#if MC>=11300
-//$$ 		public String validate(CommandSourceStack source, CarpetRule<String> currentRule, String newValue, String string) {
-        //#else
         public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
-            //#endif
             CarpetSettings.language = newValue;
             Translations.updateLanguage();
             return newValue;
@@ -165,11 +146,7 @@ public final class Validators {
 
     public static class Probability<T extends Number> extends Validator<T> {
         @Override
-        //#if MC>=11300
-        //$$ 		public T validate(CommandSourceStack source, CarpetRule<T> currentRule, T newValue, String string) {
-        //#else
         public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
-            //#endif
             return (newValue.doubleValue() >= 0 && newValue.doubleValue() <= 1) ? newValue : null;
         }
 
@@ -181,12 +158,7 @@ public final class Validators {
 
     public static class OptionalProbability<T extends Number> extends Validator<T> {
         @Override
-        //#if MC>=11300
-        //$$ 		public T validate(CommandSourceStack source, CarpetRule<T> currentRule, T newValue, String string) {
-        //#else
         public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
-            //#endif
-            // <0 = default
             return newValue.doubleValue() <= 1 ? newValue : null;
         }
 
