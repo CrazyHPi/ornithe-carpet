@@ -62,7 +62,7 @@ public class CarpetServer {
     public static void tick(MinecraftServer server) {
         // todo tickrate
 
-        HudController.updateHUD(server);
+        HudController.updateHud(server);
         extensions.forEach(e -> e.onTick(server));
     }
 
