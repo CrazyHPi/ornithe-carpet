@@ -1,10 +1,9 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
+import carpet.CarpetSettings;
 import carpet.utils.WoolTool;
 import net.minecraft.block.HopperBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.block.entity.LootInventoryBlockEntity;
 import net.minecraft.item.DyeColor;
@@ -40,7 +39,7 @@ public abstract class HopperBlockEntityMixin extends LootInventoryBlockEntity {
             DyeColor woolColor = this.get_wool_pointing();
             counter = woolColor != null ? woolColor.getName() : null;
             if (counter != null) {
-                for(int i = 0; i < this.getSize(); ++i) {
+                for (int i = 0; i < this.getSize(); ++i) {
                     if (!this.getStack(i).isEmpty()) {
                         ItemStack itemStack = this.getStack(i);
                         HopperCounter.COUNTERS.get(counter).add(this.getWorld().getServer(), itemStack);

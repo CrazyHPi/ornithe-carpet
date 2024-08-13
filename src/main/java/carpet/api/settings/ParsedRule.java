@@ -76,22 +76,23 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
         this.settingsManager = settingsManager;
         String extraPrefix = String.format(TranslationKeys.RULE_EXTRA_PREFIX_PATTERN, settingsManager().identifier(), name());
         this.extraInfo = getTranslationArray(extraPrefix);
-        this.categories = Arrays.asList(rule.category());
+        this.categories = Arrays.asList(rule.categories());
         this.isStrict = rule.strict();
         @SuppressWarnings("unchecked")
         Class<T> type = (Class<T>) ClassUtils.primitiveToWrapper(field.getType());
         this.type = type;
         this.defaultValue = value();
         this.validators = Stream.of(rule.validators()).map(this::instantiateValidator).collect(Collectors.toList());
-
         FromStringConverter<T> converter0 = null;
         if (rule.options().length > 0) {
             this.options = Arrays.asList(rule.options());
         } else if (this.type == Boolean.class) {
+            this.isStrict = true;
             this.options = Arrays.asList("true", "false");
         } else if (this.type == String.class && categories.contains(RuleCategory.COMMAND)) {
             this.options = Validators.CommandLevel.OPTIONS;
         } else if (this.type.isEnum()) {
+            this.isStrict = true;
             this.options = Arrays.stream(this.type.getEnumConstants()).map(e -> ((Enum<?>) e).name().toLowerCase(Locale.ROOT)).collect(Collectors.toList());
             converter0 = str -> {
                 try {
@@ -105,6 +106,8 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
         } else {
             this.options = Collections.emptyList();
         }
+        if (this.isStrict)
+            this.validators.add(0, new Validators.StrictValidator<>());
         if (converter0 == null) {
             @SuppressWarnings("unchecked")
             FromStringConverter<T> converterFromMap = (FromStringConverter<T>) CONVERTER_MAP.get(type);
@@ -200,7 +203,7 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
 
     @Override
     public boolean strict() {
-        return !validators.isEmpty() && validators.get(0) instanceof Validators.StrictValidator;
+        return isStrict;
     }
 
     @Override
@@ -214,7 +217,7 @@ public class ParsedRule<T> implements CarpetRule<T>, Comparable<ParsedRule<?>> {
     }
 
     private void set(CommandSource source, T value, String userInput) throws InvalidRuleValueException {
-        for (carpet.api.settings.Validator<T> validator : this.validators) {
+        for (Validator<T> validator : this.validators) {
             value = validator.validate(source, this, value, userInput); // should this recalculate the string? Another validator may have changed value
             if (value == null) {
                 if (source != null) validator.notifyFailure(source, this, userInput);

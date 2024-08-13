@@ -1,7 +1,7 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
+import carpet.CarpetSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -30,7 +30,7 @@ public abstract class ItemEntityMixin extends Entity {
             )
     )
     private void logCactusCounter(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (CarpetSettings.cactusCounter && source == DamageSource.CACTUS){
+        if (CarpetSettings.cactusCounter && source == DamageSource.CACTUS) {
             HopperCounter.cactus.add(this.world.getServer(), getItemStack());
         }
     }

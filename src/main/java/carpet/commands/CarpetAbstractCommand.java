@@ -56,10 +56,14 @@ public abstract class CarpetAbstractCommand extends AbstractCommand {
         }
         String commandLevelString = commandLevel.toString();
         switch (commandLevelString) {
-            case "true": return true;
-            case "false": return false;
-            case "ops": return source.canUseCommand(2, source.getName()); // typical for other cheaty commands
-            case "0": return true;
+            case "true":
+                return true;
+            case "false":
+                return false;
+            case "ops":
+                return source.canUseCommand(2, source.getName()); // typical for other cheaty commands
+            case "0":
+                return true;
             case "1":
             case "2":
             case "3":
@@ -89,8 +93,8 @@ public abstract class CarpetAbstractCommand extends AbstractCommand {
         return regularSuggestionList;
     }
 
-    public static  boolean matchesSubStr(String string, String string2) {
-        for(int i = 0; !string2.startsWith(string, i); ++i) {
+    public static boolean matchesSubStr(String string, String string2) {
+        for (int i = 0; !string2.startsWith(string, i); ++i) {
             i = string2.indexOf(95, i);
             if (i < 0) {
                 return false;

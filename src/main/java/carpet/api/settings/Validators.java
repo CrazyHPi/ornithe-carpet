@@ -1,6 +1,8 @@
 package carpet.api.settings;
 
+import carpet.CarpetSettings;
 import carpet.utils.Messenger;
+import carpet.utils.Translations;
 import net.minecraft.server.command.source.CommandSource;
 
 import java.util.Arrays;
@@ -21,7 +23,7 @@ public final class Validators {
      * so either a number from 0 to 4, or one of the keywords {@code true}, {@code false} or {@code ops} </p>
      *
      * <p>While there is no public API method for checking whether a source can execute a command,
-     * {@link CommandHelper#canUseCommand(CommandSourceStack, Object)} is not expected to change anytime soon.</p>
+     * {@link carpet.commands.CarpetAbstractCommand#canUseCommand(CommandSource, Object)} is not expected to change anytime soon.</p>
      */
     public static class CommandLevel extends Validator<String> {
 
@@ -71,17 +73,110 @@ public final class Validators {
         }
     }
 
-    public static class StrictValidator<T> extends Validator<T>
-    {
+    public static class StrictValidator<T> extends Validator<T> {
         @Override
-        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string)
-        {
-            if (!currentRule.suggestions().contains(string))
-            {
+        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
+            if (!currentRule.suggestions().contains(string)) {
                 Messenger.m(source, "r Valid options: " + currentRule.suggestions().toString());
                 return null;
             }
             return newValue;
+        }
+    }
+
+    public static class CarpetPermissionLevel extends Validator<String> {
+        @Override
+
+        public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
+            if (source == null || source.canUseCommand(4, source.getName())) {
+                return newValue;
+            }
+            return null;
+        }
+
+        @Override
+        public String description() {
+            return "This setting can only be set by admins with op level 4";
+        }
+    }
+
+    public static class OneHourMaxDelayLimit extends Validator<Integer> {
+        @Override
+        public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
+            return (newValue > 0 && newValue <= 72000) ? newValue : null;
+        }
+
+        @Override
+        public String description() {
+            return "You must choose a value from 1 to 72000";
+        }
+    }
+
+    public static class Percentage extends Validator<Integer> {
+        @Override
+        public Integer validate(CommandSource source, CarpetRule<Integer> changingRule, Integer newValue, String userInput) {
+            return (newValue >= 0 && newValue <= 100) ? newValue : null;
+        }
+
+        public String description() {
+            return "You must choose a value from 0 to 100";
+        }
+    }
+
+    public static class PositiveIn10Bits extends Validator<Integer> {
+        @Override
+        public Integer validate(CommandSource source, CarpetRule<Integer> currentRule, Integer newValue, String string) {
+            return (newValue > 0 && newValue <= 1024) ? newValue : null;
+        }
+
+        @Override
+        public String description() {
+            return "You must choose a value from 1 to 1024";
+        }
+    }
+
+    public static class LanguageValidator extends Validator<String> {
+        @Override
+        public String validate(CommandSource source, CarpetRule<String> currentRule, String newValue, String string) {
+            CarpetSettings.language = newValue;
+            Translations.updateLanguage();
+            return newValue;
+        }
+    }
+
+    public static class Probability<T extends Number> extends Validator<T> {
+        @Override
+        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
+            return (newValue.doubleValue() >= 0 && newValue.doubleValue() <= 1) ? newValue : null;
+        }
+
+        @Override
+        public String description() {
+            return "Must be between 0 and 1";
+        }
+    }
+
+    public static class OptionalProbability<T extends Number> extends Validator<T> {
+        @Override
+        public T validate(CommandSource source, CarpetRule<T> currentRule, T newValue, String string) {
+            return newValue.doubleValue() <= 1 ? newValue : null;
+        }
+
+        @Override
+        public String description() {
+            return "Must be between 0 and 1";
+        }
+    }
+
+    public static abstract class SideEffectValidator<T> extends Validator<T> {
+        public abstract T parseValue(T newValue);
+
+        public abstract void performEffect(T newValue);
+
+        @Override
+        public T validate(CommandSource source, CarpetRule<T> changingRule, T newValue, String userInput) {
+            performEffect(newValue);
+            return parseValue(newValue);
         }
     }
 }

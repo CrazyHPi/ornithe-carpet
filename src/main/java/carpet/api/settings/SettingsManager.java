@@ -1,8 +1,9 @@
 package carpet.api.settings;
 
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import carpet.commands.CarpetAbstractCommand;
 import carpet.network.ServerNetworkHandler;
+import carpet.CarpetSettings;
 import carpet.utils.Messenger;
 import carpet.utils.TranslationKeys;
 import carpet.utils.Translations;
@@ -259,7 +260,7 @@ public class SettingsManager {
                 if (rule.suggestions().contains("false"))
                     rule.set(server, "false");
                 else
-                    CarpetSettings.LOG.warn("Couldn't disable command rule " + rule.name() + ": it doesn't suggest false as a valid option");
+                    SharedConstants.LOG.warn("Couldn't disable command rule " + rule.name() + ": it doesn't suggest false as a valid option");
             } catch (InvalidRuleValueException e) {
                 throw new IllegalStateException(e); // contract of CarpetRule.suggestions()
             }
@@ -275,7 +276,7 @@ public class SettingsManager {
                 fw.newLine();
             }
         } catch (IOException e) {
-            CarpetSettings.LOG.error("[CM]: failed write " + identifier + ".conf config file", e);
+            SharedConstants.LOG.error("[CM]: failed write " + identifier + ".conf config file", e);
         }
     }
 
@@ -301,7 +302,7 @@ public class SettingsManager {
         ConfigReadResult conf = readSettingsFromConf(getFile());
         locked = false;
         if (conf.isLocked()) {
-            CarpetSettings.LOG.info("[CM]: " + fancyName + " features are locked by the administrator");
+            SharedConstants.LOG.info("[CM]: " + fancyName + " features are locked by the administrator");
             disableBooleanCommands();
         }
         int loadedCount = 0;
@@ -310,11 +311,11 @@ public class SettingsManager {
                 rules.get(key).set(server, conf.ruleMap().get(key));
                 loadedCount++;
             } catch (InvalidRuleValueException exc) {
-                CarpetSettings.LOG.error("[CM Error]: Failed to load setting: " + key, exc);
+                SharedConstants.LOG.error("[CM Error]: Failed to load setting: " + key, exc);
             }
         }
         if (loadedCount > 0)
-            CarpetSettings.LOG.info("[CM] Loaded " + loadedCount + " settings from " + identifier + ".conf");
+            SharedConstants.LOG.info("[CM] Loaded " + loadedCount + " settings from " + identifier + ".conf");
         locked = conf.isLocked();
     }
 
@@ -334,7 +335,7 @@ public class SettingsManager {
                         continue;
                     }
                     if (!rules.containsKey(fields[0])) {
-                        CarpetSettings.LOG.error("[CM]: " + fancyName + " Setting " + fields[0] + " is not a valid rule - ignoring...");
+                        SharedConstants.LOG.error("[CM]: " + fancyName + " Setting " + fields[0] + " is not a valid rule - ignoring...");
                         continue;
                     }
                     result.put(fields[0], fields[1]);
@@ -357,12 +358,12 @@ public class SettingsManager {
                     }
                     return readSettingsFromConf(defaultsPath);
                 } catch (IOException e2) {
-                    CarpetSettings.LOG.error("Exception when loading fallback default config: ", e2);
+                    SharedConstants.LOG.error("Exception when loading fallback default config: ", e2);
                 }
             }
             return new ConfigReadResult(new HashMap<>(), false);
         } catch (IOException e) {
-            CarpetSettings.LOG.error("Exception while loading Carpet rules from config", e);
+            SharedConstants.LOG.error("Exception while loading Carpet rules from config", e);
             return new ConfigReadResult(new HashMap<>(), false);
         }
     }

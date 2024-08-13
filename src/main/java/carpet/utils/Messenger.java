@@ -1,6 +1,6 @@
 package carpet.utils;
 
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import net.minecraft.entity.living.mob.MobCategory;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -25,30 +25,30 @@ public class Messenger {
     public static final Pattern colorExtract = Pattern.compile("#([0-9a-fA-F]{6})");
 
     public enum CarpetFormatting {
-        ITALIC      ('i', (s, f) -> s.setItalic(true)),
-        STRIKE      ('s', (s, f) -> s.setStrikethrough(true)),
-        UNDERLINE   ('u', (s, f) -> s.setUnderlined(true)),
-        BOLD        ('b', (s, f) -> s.setBold(true)),
-        OBFUSCATE   ('o', (s, f) -> s.setObfuscated(true)),
+        ITALIC('i', (s, f) -> s.setItalic(true)),
+        STRIKE('s', (s, f) -> s.setStrikethrough(true)),
+        UNDERLINE('u', (s, f) -> s.setUnderlined(true)),
+        BOLD('b', (s, f) -> s.setBold(true)),
+        OBFUSCATE('o', (s, f) -> s.setObfuscated(true)),
 
-        WHITE       ('w', (s, f) -> s.setColor(Formatting.WHITE)),
-        YELLOW      ('y', (s, f) -> s.setColor(Formatting.YELLOW)),
+        WHITE('w', (s, f) -> s.setColor(Formatting.WHITE)),
+        YELLOW('y', (s, f) -> s.setColor(Formatting.YELLOW)),
         LIGHT_PURPLE('m', (s, f) -> s.setColor(Formatting.LIGHT_PURPLE)), // magenta
-        RED         ('r', (s, f) -> s.setColor(Formatting.RED)),
-        AQUA        ('c', (s, f) -> s.setColor(Formatting.AQUA)), // cyan
-        GREEN       ('l', (s, f) -> s.setColor(Formatting.GREEN)), // lime
-        BLUE        ('t', (s, f) -> s.setColor(Formatting.BLUE)), // light blue, teal
-        DARK_GRAY   ('f', (s, f) -> s.setColor(Formatting.DARK_GRAY)),
-        GRAY        ('g', (s, f) -> s.setColor(Formatting.GRAY)),
-        GOLD        ('d', (s, f) -> s.setColor(Formatting.GOLD)),
-        DARK_PURPLE ('p', (s, f) -> s.setColor(Formatting.DARK_PURPLE)), // purple
-        DARK_RED    ('n', (s, f) -> s.setColor(Formatting.DARK_RED)),  // brown
-        DARK_AQUA   ('q', (s, f) -> s.setColor(Formatting.DARK_AQUA)),
-        DARK_GREEN  ('e', (s, f) -> s.setColor(Formatting.DARK_GREEN)),
-        DARK_BLUE   ('v', (s, f) -> s.setColor(Formatting.DARK_BLUE)), // navy
-        BLACK       ('k', (s, f) -> s.setColor(Formatting.BLACK)),
+        RED('r', (s, f) -> s.setColor(Formatting.RED)),
+        AQUA('c', (s, f) -> s.setColor(Formatting.AQUA)), // cyan
+        GREEN('l', (s, f) -> s.setColor(Formatting.GREEN)), // lime
+        BLUE('t', (s, f) -> s.setColor(Formatting.BLUE)), // light blue, teal
+        DARK_GRAY('f', (s, f) -> s.setColor(Formatting.DARK_GRAY)),
+        GRAY('g', (s, f) -> s.setColor(Formatting.GRAY)),
+        GOLD('d', (s, f) -> s.setColor(Formatting.GOLD)),
+        DARK_PURPLE('p', (s, f) -> s.setColor(Formatting.DARK_PURPLE)), // purple
+        DARK_RED('n', (s, f) -> s.setColor(Formatting.DARK_RED)),  // brown
+        DARK_AQUA('q', (s, f) -> s.setColor(Formatting.DARK_AQUA)),
+        DARK_GREEN('e', (s, f) -> s.setColor(Formatting.DARK_GREEN)),
+        DARK_BLUE('v', (s, f) -> s.setColor(Formatting.DARK_BLUE)), // navy
+        BLACK('k', (s, f) -> s.setColor(Formatting.BLACK)),
 
-        COLOR       ('#', (s, f) -> {
+        COLOR('#', (s, f) -> {
             return s;
         }, s -> {
             Matcher m = colorExtract.matcher(s);
@@ -270,16 +270,17 @@ public class Messenger {
         return message;
     }
 
-    public static void send(CommandSource source, Text ... messages){
+    public static void send(CommandSource source, Text... messages) {
         send(source, Arrays.asList(messages));
     }
+
     public static void send(CommandSource source, List<Text> list) {
         list.forEach(source::sendMessage);
     }
 
     public static void print_server_message(MinecraftServer server, String message) {
         if (server == null)
-            CarpetSettings.LOG.error("Message not delivered: " + message);
+            SharedConstants.LOG.error("Message not delivered: " + message);
         server.sendMessage(new LiteralText(message));
         Text txt = c("gi " + message);
         for (PlayerEntity player : server.getPlayerManager().getAll()) {
@@ -289,7 +290,7 @@ public class Messenger {
 
     public static void print_server_message(MinecraftServer server, Text message) {
         if (server == null)
-            CarpetSettings.LOG.error("Message not delivered: " + message.getString());
+            SharedConstants.LOG.error("Message not delivered: " + message.getString());
         server.sendMessage(message);
         for (PlayerEntity player : server.getPlayerManager().getAll()) {
             player.sendMessage(message);

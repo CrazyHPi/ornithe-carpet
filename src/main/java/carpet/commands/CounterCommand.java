@@ -1,7 +1,7 @@
 package carpet.commands;
 
-import carpet.CarpetSettings;
 import carpet.helpers.HopperCounter;
+import carpet.CarpetSettings;
 import net.minecraft.item.DyeColor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.exception.CommandException;
