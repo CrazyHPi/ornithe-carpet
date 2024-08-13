@@ -16,6 +16,12 @@ Use this [template](https://github.com/CrazyHPi/ornithe-carpet-extension-templat
 
 TODO
 
+## Contribution
+
+Contributions are welcome.
+
+See [Coontributing](./docs/Contributing.md)
+
 ## Build and Use
 
 Check out [Ornithe](https://ornithemc.net/) for mod loader.
