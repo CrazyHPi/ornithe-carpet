@@ -1,6 +1,6 @@
 package carpet.utils;
 
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import net.minecraft.entity.living.mob.MobCategory;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -279,7 +279,7 @@ public class Messenger {
 
     public static void print_server_message(MinecraftServer server, String message) {
         if (server == null)
-            CarpetSettings.LOG.error("Message not delivered: " + message);
+            SharedConstants.LOG.error("Message not delivered: " + message);
         server.sendMessage(new LiteralText(message));
         Text txt = c("gi " + message);
         for (PlayerEntity player : server.getPlayerManager().getAll()) {
@@ -289,7 +289,7 @@ public class Messenger {
 
     public static void print_server_message(MinecraftServer server, Text message) {
         if (server == null)
-            CarpetSettings.LOG.error("Message not delivered: " + message.getString());
+            SharedConstants.LOG.error("Message not delivered: " + message.getString());
         server.sendMessage(message);
         for (PlayerEntity player : server.getPlayerManager().getAll()) {
             player.sendMessage(message);

@@ -1,7 +1,7 @@
 package carpet.logging;
 
 import carpet.CarpetServer;
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -53,7 +53,7 @@ public class Logger {
         this.options = options == null ? new String[0] : options;
         this.strictOptions = strictOptions;
         if (acceleratorField == null) {
-            CarpetSettings.LOG.error("[CM] Logger " + getLogName() + " is missing a specified accelerator");
+            SharedConstants.LOG.error("[CM] Logger " + getLogName() + " is missing a specified accelerator");
         }
     }
 

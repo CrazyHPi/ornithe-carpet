@@ -1,7 +1,7 @@
 package carpet.mixins.loggers;
 
 import carpet.logging.LoggerRegistry;
-import carpet.logging.logHelpers.TNTLogHelper;
+import carpet.logging.logHelpers.TntLogHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.PrimedTntEntity;
 import net.minecraft.util.math.Vec3d;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PrimedTntEntity.class)
 public abstract class PrimedTntEntityMixin extends Entity {
-    private TNTLogHelper logHelper;
+    private TntLogHelper logHelper;
 
     public PrimedTntEntityMixin(World world) {
         super(world);
@@ -22,7 +22,7 @@ public abstract class PrimedTntEntityMixin extends Entity {
     @Inject(method = "<init>(Lnet/minecraft/world/World;)V", at = @At("RETURN"))
     private void initTNTLogger(World world, CallbackInfo ci) {
         if (LoggerRegistry.__tnt && logHelper == null) {
-            logHelper = new TNTLogHelper();
+            logHelper = new TntLogHelper();
         }
     }
 

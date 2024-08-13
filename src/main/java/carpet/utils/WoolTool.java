@@ -1,13 +1,9 @@
 package carpet.utils;
 
-import carpet.CarpetSettings;
-import carpet.helpers.HopperCounter;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ColoredBlock;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.property.EnumProperty;
-import net.minecraft.client.world.color.BlockColor;
-import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

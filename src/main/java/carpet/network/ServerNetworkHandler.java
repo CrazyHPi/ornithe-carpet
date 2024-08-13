@@ -1,21 +1,21 @@
 package carpet.network;
 
 import carpet.CarpetServer;
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.RuleHelper;
+import carpet.CarpetSettings;
 import carpet.utils.PacketHelper;
-import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -39,7 +39,7 @@ public class ServerNetworkHandler {
     public static void onPlayerJoin(ServerPlayerEntity player) {
         if (!player.networkHandler.connection.isLocal()) {
             NbtCompound data = new NbtCompound();
-            data.putString(CarpetClient.HI, CarpetSettings.carpetVersion);
+            data.putString(CarpetClient.HI, SharedConstants.carpetVersion);
             player.networkHandler.sendPacket(PacketHelper.s2CPacket(data));
         } else {
             validCarpetPlayers.add(player);
@@ -49,10 +49,10 @@ public class ServerNetworkHandler {
     public static void onHello(ServerPlayerEntity player, NbtString version) {
         validCarpetPlayers.add(player);
         remoteCarpetPlayers.put(player, version.asString());
-        if (CarpetSettings.carpetVersion.equals(version.asString())) {
-            CarpetSettings.LOG.info("Player " + player.getName() + " joined with a matching carpet client");
+        if (SharedConstants.carpetVersion.equals(version.asString())) {
+            SharedConstants.LOG.info("Player " + player.getName() + " joined with a matching carpet client");
         } else {
-            CarpetSettings.LOG.warn("Player " + player.getName() + " joined with another carpet version: " + version);
+            SharedConstants.LOG.warn("Player " + player.getName() + " joined with another carpet version: " + version);
         }
         DataBuilder data = DataBuilder.create(player.server);
         CarpetServer.forEachManager(sm -> sm.getCarpetRules().forEach(data::withRule));
@@ -90,7 +90,7 @@ public class ServerNetworkHandler {
             if (dataHandlers.containsKey(key)) {
                 dataHandlers.get(key).accept(player, compound.get(key));
             } else {
-                CarpetSettings.LOG.warn("Unknown carpet client data: " + key);
+                SharedConstants.LOG.warn("Unknown carpet client data: " + key);
             }
         }
     }
@@ -109,10 +109,27 @@ public class ServerNetworkHandler {
 
     }
 
+    public static void sendPlayerWorldData(ServerPlayerEntity player, World world) {
+        // idk why this is here
+        // Kahzerx put it here
+    }
+
     public static void onPlayerLoggedOut(ServerPlayerEntity player) {
         validCarpetPlayers.remove(player);
         if (!player.networkHandler.getConnection().isLocal()) {
             remoteCarpetPlayers.remove(player);
+        }
+    }
+
+    public static void updateTickRate(float tps) {
+        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickRate(tps).build());
+        }
+    }
+
+    public static void updateFrozenState(boolean frozen) {
+        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withFrozenState(frozen).build());
         }
     }
 
@@ -135,7 +152,7 @@ public class ServerNetworkHandler {
             return "carpet " + remoteCarpetPlayers.get(player);
         }
         if (validCarpetPlayers.contains(player)) {
-            return "carpet " + CarpetSettings.carpetVersion;
+            return "carpet " + SharedConstants.carpetVersion;
         }
         return "vanilla";
     }
@@ -171,6 +188,19 @@ public class ServerNetworkHandler {
             ruleNBT.putString("Rule", rule.name());
             rules.put(key, ruleNBT);
 
+            return this;
+        }
+
+        public DataBuilder withTickRate(float tps) {
+            tag.putFloat("TickRate", tps);
+            return this;
+        }
+
+        public DataBuilder withFrozenState(boolean frozen) {
+            NbtCompound freezeCompound = new NbtCompound();
+            freezeCompound.putBoolean("is_frozen", frozen);
+            freezeCompound.putBoolean("deepFreeze", false);
+            tag.put("TickingState", freezeCompound);
             return this;
         }
 

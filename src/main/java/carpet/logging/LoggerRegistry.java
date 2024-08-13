@@ -1,7 +1,7 @@
 package carpet.logging;
 
 import carpet.CarpetServer;
-import carpet.CarpetSettings;
+import carpet.SharedConstants;
 import com.google.common.base.Charsets;
 import com.google.gson.*;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -66,11 +66,11 @@ public class LoggerRegistry {
         registerLogger("rng", Logger.standardLogger("rng", null, null));
         registerLogger("explosions", Logger.standardLogger("explosions", "compact", new String[]{"brief", "full", "compact"}));
 
-        registerLogger("autosave", HUDLogger.standardHUDLogger("autosave", null, null));
-        registerLogger("tps", HUDLogger.standardHUDLogger("tps", null, null));
-        registerLogger("mobcaps", HUDLogger.standardHUDLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
-        registerLogger("counter", HUDLogger.standardHUDLogger("counter", "all", new String[]{"all", "cactus", "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"}));
-        registerLogger("packets", HUDLogger.standardHUDLogger("packets", null, null));
+        registerLogger("autosave", HudLogger.standardHUDLogger("autosave", null, null));
+        registerLogger("tps", HudLogger.standardHUDLogger("tps", null, null));
+        registerLogger("mobcaps", HudLogger.standardHUDLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
+        registerLogger("counter", HudLogger.standardHUDLogger("counter", "all", new String[]{"all", "cactus", "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"}));
+        registerLogger("packets", HudLogger.standardHUDLogger("packets", null, null));
     }
 
     /**
@@ -127,9 +127,9 @@ public class LoggerRegistry {
             }
 
         } catch (IOException ioexception) {
-            CarpetSettings.LOG.error("Couldn't read default logger file {}", logData, ioexception);
+            SharedConstants.LOG.error("Couldn't read default logger file {}", logData, ioexception);
         } catch (JsonParseException jsonparseexception) {
-            CarpetSettings.LOG.error("Couldn't parse default logger file {}", logData, jsonparseexception);
+            SharedConstants.LOG.error("Couldn't parse default logger file {}", logData, jsonparseexception);
         }
     }
 
@@ -160,7 +160,7 @@ public class LoggerRegistry {
 
             FileUtils.writeStringToFile(logData, root.toString(), Charsets.UTF_8);
         } catch (IOException ioexception) {
-            CarpetSettings.LOG.error("Couldn't save stats", (Throwable) ioexception);
+            SharedConstants.LOG.error("Couldn't save stats", (Throwable) ioexception);
         }
     }
 
@@ -264,7 +264,7 @@ public class LoggerRegistry {
             Field f = logger.getField();
             f.setBoolean(null, value);
         } catch (IllegalAccessException e) {
-            CarpetSettings.LOG.error("Cannot change logger quick access field");
+            SharedConstants.LOG.error("Cannot change logger quick access field");
         }
     }
 

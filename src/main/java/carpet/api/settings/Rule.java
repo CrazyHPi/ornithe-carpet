@@ -1,9 +1,6 @@
 package carpet.api.settings;
 
-import net.minecraft.text.Text;
-
 import java.lang.annotation.*;
-import java.util.List;
 
 /**
  * Any field in this class annotated with this class is interpreted as a carpet rule.
@@ -39,7 +36,7 @@ public @interface Rule {
     /**
      * A list of categories the rule is in
      */
-    String[] category();
+    String[] categories();
 
     /**
      * Options to select in menu.
@@ -63,7 +60,6 @@ public @interface Rule {
     /**
      * The class of the validator checked when the rule is changed.
      */
-    @SuppressWarnings("rawtypes")
     Class<? extends Validator>[] validators() default {};
 
     /**

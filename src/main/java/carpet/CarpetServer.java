@@ -3,7 +3,7 @@ package carpet;
 import carpet.api.settings.SettingsManager;
 import carpet.commands.CounterCommand;
 import carpet.commands.LogCommand;
-import carpet.logging.HUDController;
+import carpet.logging.HudController;
 import carpet.logging.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
@@ -42,7 +42,7 @@ public class CarpetServer {
     }
 
     public static void onGameStarted() {
-        settingsManager = new SettingsManager(CarpetSettings.carpetVersion, "carpet", "Carpet Mod");
+        settingsManager = new SettingsManager(SharedConstants.carpetVersion, "carpet", "Carpet Mod");
         settingsManager.parseSettingsClass(CarpetSettings.class);
         extensions.forEach(CarpetExtension::onGameStarted);
     }
@@ -62,7 +62,7 @@ public class CarpetServer {
     public static void tick(MinecraftServer server) {
         // todo tickrate
 
-        HUDController.updateHUD(server);
+        HudController.updateHUD(server);
         extensions.forEach(e -> e.onTick(server));
     }
 
