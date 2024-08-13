@@ -1,4 +1,4 @@
-package carpet.logging;
+package carpet.api.log;
 
 import carpet.CarpetServer;
 import carpet.SharedConstants;

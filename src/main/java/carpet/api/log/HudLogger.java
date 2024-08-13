@@ -1,4 +1,4 @@
-package carpet.logging;
+package carpet.api.log;
 
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.Text;

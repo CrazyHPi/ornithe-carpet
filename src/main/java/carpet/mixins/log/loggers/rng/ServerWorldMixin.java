@@ -1,7 +1,7 @@
 package carpet.mixins.log.loggers.rng;
 
 import carpet.SharedConstants;
-import carpet.logging.LoggerRegistry;
+import carpet.api.log.LoggerRegistry;
 import carpet.utils.Messenger;
 import carpet.utils.ReflectionUtil;
 import net.minecraft.server.MinecraftServer;
