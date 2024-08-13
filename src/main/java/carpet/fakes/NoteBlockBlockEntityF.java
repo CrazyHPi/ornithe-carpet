@@ -1,11 +1,11 @@
-package carpet.duck;
+package carpet.fakes;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 
-public interface NoteBlockBlockEntity$ {
+public interface NoteBlockBlockEntityF {
     void setInstrument(int instrument);
 
     int getInstrument();

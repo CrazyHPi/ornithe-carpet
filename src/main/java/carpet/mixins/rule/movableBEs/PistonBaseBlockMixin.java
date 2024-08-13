@@ -1,6 +1,6 @@
 package carpet.mixins.rule.movableBEs;
 
-import carpet.duck.MovingBlockEntity$;
+import carpet.fakes.MovingBlockEntityF;
 import carpet.CarpetSettings;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -64,7 +64,7 @@ public abstract class PistonBaseBlockMixin {
         if (carriedBlockEntity != null && movingBlockEntity instanceof MovingBlockEntity)
             // No need to check the carpet rules here
             // If the rules are off, blockEntityToMove would be null here
-            ((MovingBlockEntity$) movingBlockEntity).setCarriedBlockEntity(carriedBlockEntity);
+            ((MovingBlockEntityF) movingBlockEntity).setCarriedBlockEntity(carriedBlockEntity);
         return movingBlockEntity;
     }
 }

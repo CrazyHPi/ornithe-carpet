@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ChunkHolder.class)
-public interface ChunkHolder_ {
+public interface ChunkHolderA {
     @Accessor
     int getBlocksChanged();
 }

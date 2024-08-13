@@ -1,6 +1,6 @@
 package carpet.mixins.rule.movableBEs;
 
-import carpet.duck.WorldChunk$;
+import carpet.fakes.WorldChunkF;
 import carpet.CarpetSettings;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.state.BlockState;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(WorldChunk.class)
-public abstract class WorldChunkMixin implements WorldChunk$ {
+public abstract class WorldChunkMixin implements WorldChunkF {
     @Shadow
     @Final
     private World world;

@@ -1,6 +1,6 @@
 package carpet.mixins.rule.flattenedNoteBlocks;
 
-import carpet.duck.NoteBlockBlockEntity$;
+import carpet.fakes.NoteBlockBlockEntityF;
 import carpet.CarpetSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -41,9 +41,9 @@ public abstract class NoteBlockMixin {
         if (CarpetSettings.flattenedNoteBlocks) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof NoteBlockBlockEntity) {
-                int instrument = NoteBlockBlockEntity$.calculateInstrument(world.getBlockState(pos.down()));
+                int instrument = NoteBlockBlockEntityF.calculateInstrument(world.getBlockState(pos.down()));
                 // Changing instrument sends observer updates in setInstrument
-                ((NoteBlockBlockEntity$) (NoteBlockBlockEntity) blockEntity).setInstrument(instrument);
+                ((NoteBlockBlockEntityF) (NoteBlockBlockEntity) blockEntity).setInstrument(instrument);
             }
         }
     }

@@ -1,13 +1,13 @@
 package carpet.mixins.logging.client;
 
-import carpet.duck.PlayerTabOverlay$;
+import carpet.fakes.PlayerTabOverlayF;
 import net.minecraft.client.gui.overlay.PlayerTabOverlay;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PlayerTabOverlay.class)
-public abstract class PlayerTabOverlayMixin implements PlayerTabOverlay$ {
+public abstract class PlayerTabOverlayMixin implements PlayerTabOverlayF {
     @Shadow
     private Text footer;
 

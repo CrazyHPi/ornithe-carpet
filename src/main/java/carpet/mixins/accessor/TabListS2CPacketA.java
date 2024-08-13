@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(TabListS2CPacket.class)
-public interface TabListS2CPacket_ {
+public interface TabListS2CPacketA {
     @Accessor("header")
     void setHeader(Text text);
 

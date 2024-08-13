@@ -1,7 +1,7 @@
 package carpet.validators;
 
 import carpet.api.settings.Validators;
-import carpet.mixins.accessor.RedstoneWireBlock_;
+import carpet.mixins.accessor.RedstoneWireBlockA;
 import net.minecraft.block.Blocks;
 
 public class RPModifier extends Validators.SideEffectValidator<Boolean> {
@@ -12,6 +12,6 @@ public class RPModifier extends Validators.SideEffectValidator<Boolean> {
 
     @Override
     public void performEffect(Boolean newValue) {
-        ((RedstoneWireBlock_) Blocks.REDSTONE_WIRE).setShouldSignal(newValue);
+        ((RedstoneWireBlockA) Blocks.REDSTONE_WIRE).setShouldSignal(newValue);
     }
 }

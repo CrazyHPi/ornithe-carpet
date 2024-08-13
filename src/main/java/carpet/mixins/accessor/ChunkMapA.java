@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Set;
 
 @Mixin(ChunkMap.class)
-public interface ChunkMap_ {
+public interface ChunkMapA {
     @Accessor
     Set<ChunkHolder> getDirty();
 

@@ -1,7 +1,7 @@
 package carpet.validators;
 
 import carpet.api.settings.Validators;
-import carpet.mixins.accessor.World_;
+import carpet.mixins.accessor.WorldA;
 import carpet.CarpetServer;
 
 public class ITTModifier extends Validators.SideEffectValidator<String> {
@@ -20,6 +20,6 @@ public class ITTModifier extends Validators.SideEffectValidator<String> {
         boolean value = false;
         if (newValue.endsWith("false")) value = false;
         else if (newValue.endsWith("true")) value = true;
-        ((World_) CarpetServer.minecraftServer.worlds[worldIndex]).setDoTicksImmediately(value);
+        ((WorldA) CarpetServer.minecraftServer.worlds[worldIndex]).setDoTicksImmediately(value);
     }
 }

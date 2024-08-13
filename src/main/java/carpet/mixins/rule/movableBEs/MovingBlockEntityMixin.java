@@ -1,6 +1,6 @@
 package carpet.mixins.rule.movableBEs;
 
-import carpet.duck.MovingBlockEntity$;
+import carpet.fakes.MovingBlockEntityF;
 import carpet.CarpetSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MovingBlockEntity.class)
-public abstract class MovingBlockEntityMixin extends BlockEntity implements Tickable, MovingBlockEntity$ {
+public abstract class MovingBlockEntityMixin extends BlockEntity implements Tickable, MovingBlockEntityF {
     @Unique
     private static final String CARRIED_BE_ID = "carriedTileEntity";
 

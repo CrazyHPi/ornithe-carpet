@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(CustomPayloadC2SPacket.class)
-public interface CustomPayloadC2SPacket_ {
+public interface CustomPayloadC2SPacketA {
     @Accessor
     String getChannel();
 

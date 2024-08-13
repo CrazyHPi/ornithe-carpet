@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(World.class)
-public interface World_ {
+public interface WorldA {
     @Accessor
     void setDoTicksImmediately(boolean doTicksImmediately);
 

@@ -2,7 +2,7 @@ package carpet.logging;
 
 import carpet.helpers.HopperCounter;
 import carpet.logging.logHelpers.PacketCounter;
-import carpet.mixins.accessor.TabListS2CPacket_;
+import carpet.mixins.accessor.TabListS2CPacketA;
 import carpet.CarpetSettings;
 import carpet.utils.Messenger;
 import carpet.utils.SpawnReporter;
@@ -48,8 +48,8 @@ public class HudController {
 
     public static void clearPlayer(ServerPlayerEntity player) {
         TabListS2CPacket packet = new TabListS2CPacket();
-        ((TabListS2CPacket_) packet).setHeader(new LiteralText(""));
-        ((TabListS2CPacket_) packet).setFooter(new LiteralText(""));
+        ((TabListS2CPacketA) packet).setHeader(new LiteralText(""));
+        ((TabListS2CPacketA) packet).setFooter(new LiteralText(""));
         player.networkHandler.sendPacket(packet);
     }
 
@@ -83,8 +83,8 @@ public class HudController {
 
         for (PlayerEntity player : playerHUDs.keySet()) {
             TabListS2CPacket packet = new TabListS2CPacket();
-            ((TabListS2CPacket_) packet).setHeader(new LiteralText(""));
-            ((TabListS2CPacket_) packet).setFooter(Messenger.c(playerHUDs.get(player).toArray(new Object[0])));
+            ((TabListS2CPacketA) packet).setHeader(new LiteralText(""));
+            ((TabListS2CPacketA) packet).setFooter(Messenger.c(playerHUDs.get(player).toArray(new Object[0])));
             ((ServerPlayerEntity) player).networkHandler.sendPacket(packet);
         }
     }
