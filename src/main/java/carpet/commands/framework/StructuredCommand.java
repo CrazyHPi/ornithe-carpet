@@ -1,6 +1,6 @@
 package carpet.commands.framework;
 
-import carpet.utils.algebraic.StructuredAdtMatcher;
+import carpet.api.algebraic.StructuredAdtMatcher;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.AbstractCommand;
 import net.minecraft.server.command.exception.CommandException;

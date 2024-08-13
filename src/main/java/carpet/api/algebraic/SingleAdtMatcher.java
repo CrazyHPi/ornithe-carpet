@@ -1,4 +1,4 @@
-package carpet.utils.algebraic;
+package carpet.api.algebraic;
 
 public abstract class SingleAdtMatcher<T> extends AbstractAdtMatcher<T> {
     protected T parsedValue;

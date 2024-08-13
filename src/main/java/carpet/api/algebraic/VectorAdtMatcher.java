@@ -1,4 +1,4 @@
-package carpet.utils.algebraic;
+package carpet.api.algebraic;
 
 import net.minecraft.util.math.*;
 

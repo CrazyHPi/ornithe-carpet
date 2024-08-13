@@ -1,4 +1,4 @@
-package carpet.utils.algebraic;
+package carpet.api.algebraic;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

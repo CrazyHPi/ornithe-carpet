@@ -2,8 +2,8 @@ package carpet.tick;
 
 import carpet.commands.framework.StructuredCommandData;
 import carpet.utils.Messenger;
-import carpet.utils.algebraic.Algebraic;
-import carpet.utils.algebraic.MatchWith;
+import carpet.api.algebraic.Algebraic;
+import carpet.api.algebraic.MatchWith;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.AbstractCommand;
 import net.minecraft.server.command.exception.CommandException;
