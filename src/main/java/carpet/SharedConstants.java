@@ -6,7 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.NoSuchElementException;
 
-public class SharedConstants {
+public final class SharedConstants {
+    private SharedConstants() { throw new AssertionError(); }
+
     public static final String carpetVersion = FabricLoader.getInstance().getModContainer("carpet")
             .orElseThrow(() -> new NoSuchElementException("No value present")).getMetadata().getVersion().toString();
 
