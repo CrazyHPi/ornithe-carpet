@@ -20,9 +20,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class HudController {
-    public static final Map<ServerPlayerEntity, List<Text>> playerHUDs = new HashMap<>();
+    public static final Map<ServerPlayerEntity, List<Text>> playerHuds = new HashMap<>();
 
-    private static final List<Consumer<MinecraftServer>> HUDListeners = new ArrayList<>();
+    private static final List<Consumer<MinecraftServer>> hudListeners = new ArrayList<>();
 
     /**
      * for extension
@@ -31,19 +31,19 @@ public class HudController {
      * @param listener - a method to be called when new HUD inforation are collected
      */
     public static void register(Consumer<MinecraftServer> listener) {
-        HUDListeners.add(listener);
+        hudListeners.add(listener);
     }
 
     public static void addMessage(ServerPlayerEntity player, Text hudMessage) {
         if (player == null) {
             return;
         }
-        if (!playerHUDs.containsKey(player)) {
-            playerHUDs.put(player, new ArrayList<>());
+        if (!playerHuds.containsKey(player)) {
+            playerHuds.put(player, new ArrayList<>());
         } else {
-            playerHUDs.get(player).add(new LiteralText("\n"));
+            playerHuds.get(player).add(new LiteralText("\n"));
         }
-        playerHUDs.get(player).add(hudMessage);
+        playerHuds.get(player).add(hudMessage);
     }
 
     public static void clearPlayer(ServerPlayerEntity player) {
@@ -53,11 +53,11 @@ public class HudController {
         player.networkHandler.sendPacket(packet);
     }
 
-    public static void updateHUD(MinecraftServer server) {
+    public static void updateHud(MinecraftServer server) {
         if (server.getTicks() % CarpetSettings.hudUpdateInterval != 0) {
             return;
         }
-        playerHUDs.clear();
+        playerHuds.clear();
 
         if (LoggerRegistry.__autosave) {
             LoggerRegistry.getLogger("autosave").log(() -> send_autosave(server));
@@ -79,12 +79,12 @@ public class HudController {
             LoggerRegistry.getLogger("packets").log(HudController::packetCounter);
         }
 
-        HUDListeners.forEach(l -> l.accept(server));
+        hudListeners.forEach(l -> l.accept(server));
 
-        for (PlayerEntity player : playerHUDs.keySet()) {
+        for (PlayerEntity player : playerHuds.keySet()) {
             TabListS2CPacket packet = new TabListS2CPacket();
             ((TabListS2CPacketA) packet).setHeader(new LiteralText(""));
-            ((TabListS2CPacketA) packet).setFooter(Messenger.c(playerHUDs.get(player).toArray(new Object[0])));
+            ((TabListS2CPacketA) packet).setFooter(Messenger.c(playerHuds.get(player).toArray(new Object[0])));
             ((ServerPlayerEntity) player).networkHandler.sendPacket(packet);
         }
     }

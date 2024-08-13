@@ -66,11 +66,11 @@ public class LoggerRegistry {
         registerLogger("rng", Logger.standardLogger("rng", null, null));
         registerLogger("explosions", Logger.standardLogger("explosions", "compact", new String[]{"brief", "full", "compact"}));
 
-        registerLogger("autosave", HudLogger.standardHUDLogger("autosave", null, null));
-        registerLogger("tps", HudLogger.standardHUDLogger("tps", null, null));
-        registerLogger("mobcaps", HudLogger.standardHUDLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
-        registerLogger("counter", HudLogger.standardHUDLogger("counter", "all", new String[]{"all", "cactus", "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"}));
-        registerLogger("packets", HudLogger.standardHUDLogger("packets", null, null));
+        registerLogger("autosave", HudLogger.standardHudLogger("autosave", null, null));
+        registerLogger("tps", HudLogger.standardHudLogger("tps", null, null));
+        registerLogger("mobcaps", HudLogger.standardHudLogger("mobcaps", "dynamic", new String[]{"dynamic", "overworld", "nether", "end"}));
+        registerLogger("counter", HudLogger.standardHudLogger("counter", "all", new String[]{"all", "cactus", "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"}));
+        registerLogger("packets", HudLogger.standardHudLogger("packets", null, null));
     }
 
     /**

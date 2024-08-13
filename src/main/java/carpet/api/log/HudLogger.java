@@ -6,11 +6,11 @@ import net.minecraft.text.Text;
 import java.lang.reflect.Field;
 
 public class HudLogger extends Logger {
-    static Logger standardHUDLogger(String logName, String def, String[] options) {
-        return standardHUDLogger(logName, def, options, false);
+    static Logger standardHudLogger(String logName, String def, String[] options) {
+        return standardHudLogger(logName, def, options, false);
     }
 
-    static Logger standardHUDLogger(String logName, String def, String[] options, boolean strictOptions) {
+    static Logger standardHudLogger(String logName, String def, String[] options, boolean strictOptions) {
         // should convert to factory method if more than 2 classes are here
         try {
             return new HudLogger(LoggerRegistry.class.getField("__" + logName), logName, def, options, strictOptions);
