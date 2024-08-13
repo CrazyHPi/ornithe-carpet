@@ -1,6 +1,6 @@
 package carpet.mixins.log.loggers.packets;
 
-import carpet.log.packets.PacketCounter;
+import carpet.log.loggers.packets.PacketCounter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;

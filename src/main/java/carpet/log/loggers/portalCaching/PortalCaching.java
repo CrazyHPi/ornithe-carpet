@@ -1,6 +1,6 @@
-package carpet.log.portalCaching;
+package carpet.log.loggers.portalCaching;
 
-import carpet.api.log.LoggerRegistry;
+import carpet.log.framework.LoggerRegistry;
 import carpet.utils.Messenger;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;

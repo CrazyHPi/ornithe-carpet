@@ -1,7 +1,9 @@
-package carpet.api.log;
+package carpet.log.framework;
 
 import carpet.CarpetServer;
 import carpet.SharedConstants;
+import carpet.api.log.HudLogger;
+import carpet.api.log.Logger;
 import com.google.common.base.Charsets;
 import com.google.gson.*;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -258,7 +260,7 @@ public class LoggerRegistry {
         return defaultSubscriptions;
     }
 
-    protected static void setAccess(Logger logger) {
+    public static void setAccess(Logger logger) {
         boolean value = logger.hasOnlineSubscribers();
         try {
             Field f = logger.getField();
