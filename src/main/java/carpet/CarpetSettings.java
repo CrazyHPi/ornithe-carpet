@@ -250,8 +250,7 @@ public class CarpetSettings {
 	public static String dropperNoItemCost = "off";
 
 	@Rule(desc = "/fill and /clone has setBlockState flags 18 and onAdded/onRemoved suppressed",
-		categories = RuleCategory.CREATIVE,
-		options = {"off", "wool", "all"})
+		categories = RuleCategory.CREATIVE)
 	public static boolean fillUpdates = true;
 
 	@Rule(desc = "Controls the circumstances in which hoppers don't consume items when transferring out",

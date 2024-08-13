@@ -29,7 +29,7 @@ public class TickContext {
 	// -1 = regularly running
 	// 0  = frozen
 	// >0 = freeze after that many ticks
-	public int remainingTicks = 0;
+	public int remainingTicks = -1;
 	public boolean frozen;
 	public boolean superHot;
 

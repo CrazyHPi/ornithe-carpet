@@ -19,8 +19,10 @@ public class ChunkMapCrashFixModifier extends Validators.SideEffectValidator<Boo
 
 	@Override
 	public void performEffect(Boolean newValue) {
+        if (CarpetServer.minecraftServer == null || CarpetServer.minecraftServer.worlds == null) return;
 		ServerWorld[] worlds = CarpetServer.minecraftServer.worlds;
 		for (ServerWorld world : worlds) {
+            if (world == null) continue;
 			fixChunkMap(((ServerWorld_) world).getChunkMap(), newValue);
 		}
 	}

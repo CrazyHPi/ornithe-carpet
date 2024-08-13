@@ -1,5 +1,6 @@
 package carpet.mixins.rule.fillUpdates;
 
+import carpet.CarpetSettings;
 import carpet.utils.MixinGlobals;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -11,6 +12,10 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class StructureBlockMixin {
     @WrapMethod(method = "activate")
     public void pushPopYeetUpdateFlags(StructureBlockEntity structureBlockEntity, Operation<Void> original) {
+        if (CarpetSettings.fillUpdates) {
+            original.call(structureBlockEntity);
+            return;
+        }
         MixinGlobals.pushYeetUpdateFlags();
         try {
             original.call(structureBlockEntity);
