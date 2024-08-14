@@ -6,6 +6,8 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
@@ -16,24 +18,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
-    private int mobSmashed;
-    private boolean isSweeping;
 
     @Inject(method = "attack", at = @At("HEAD"))
-    private void resetCount(Entity target, CallbackInfo ci) {
-        mobSmashed = 1;
-        isSweeping = false;
+    private void resetCount(Entity target, CallbackInfo ci,
+                            @Share("sweep") LocalIntRef sweepFlagAndCount) {
+        sweepFlagAndCount.set(1);
     }
 
-    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
-    private void countSweep(Entity target, CallbackInfo ci) {
-        mobSmashed++;
+    @Definition(id = "applyKnockback", method = "Lnet/minecraft/entity/living/LivingEntity;applyKnockback(Lnet/minecraft/entity/Entity;FDD)V")
+    @Definition(id = "sin", method = "Lnet/minecraft/util/math/MathHelper;sin(F)F")
+    @Definition(id = "cos", method = "Lnet/minecraft/util/math/MathHelper;cos(F)F")
+    @Expression("?.applyKnockback(this, 0.4, (double) sin(?), (double) (-cos(?)))")
+    @Inject(method = "attack", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private void countSweep(Entity target, CallbackInfo ci,
+                            @Share("sweep") LocalIntRef sweepFlagAndCount) {
+        sweepFlagAndCount.set(sweepFlagAndCount.get() + 1);
     }
 
-    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/living/player/PlayerEntity;doSweepAttackEffect()V"))
-    private void onSweep(Entity target, CallbackInfo ci) {
+    @Definition(id = "doSweepAttackEffect", method = "Lnet/minecraft/entity/living/player/PlayerEntity;doSweepAttackEffect()V")
+    @Expression("this.doSweepAttackEffect()")
+    @Inject(method = "attack", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private void onSweep(Entity target, CallbackInfo ci,
+                         @Share("sweep") LocalIntRef sweepFlagAndCount) {
         if (LoggerRegistry.__kills) {
-            isSweeping = true;
+            int mobSmashed = sweepFlagAndCount.get();
+            sweepFlagAndCount.set(-mobSmashed);
             KillLogHelper.onSweep((PlayerEntity) (Object) this, mobSmashed);
         }
     }
@@ -42,8 +51,8 @@ public abstract class PlayerEntityMixin {
     @Definition(id = "ServerPlayerEntity", type = ServerPlayerEntity.class)
     @Expression("target instanceof ServerPlayerEntity")
     @ModifyExpressionValue(method = "attack", at = @At("MIXINEXTRAS:EXPRESSION"))
-    private boolean onNonSweep(boolean original) {
-        if (LoggerRegistry.__kills && !isSweeping) {
+    private boolean onNonSweep(boolean original, @Share("sweep") LocalIntRef sweepFlagAndCount) {
+        if (LoggerRegistry.__kills && sweepFlagAndCount.get() > 0) {
             KillLogHelper.onNonSweepAttack(((PlayerEntity) (Object) this));
         }
         return original;
