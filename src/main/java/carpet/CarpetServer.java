@@ -36,9 +36,9 @@ public class CarpetServer {
         extensions.add(extension);
     }
 
-    public static void init() {
+    public static void preLaunch() {
         // init mixin extras
-        MixinExtrasBootstrap.init();
+//        MixinExtrasBootstrap.init();
     }
 
     public static void onGameStarted() {

@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"preLaunch": [
-      "carpet.CarpetServer::init"
+      "carpet.CarpetServer::preLaunch"
     ]
 	},
 	"mixins": [
