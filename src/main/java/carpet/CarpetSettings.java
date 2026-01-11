@@ -424,7 +424,7 @@ public class CarpetSettings {
             validators = CarpetPermissionLevel.class,
             options = {"true", "false", "ops", "0", "2", "4"}
     )
-    public static String chunkCommand = "false";
+    public static String commandChunk = "false";
 
 
     @Rule(desc = "Enables /log command to monitor events via chat and overlays", categories = COMMAND)

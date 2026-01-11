@@ -47,7 +47,7 @@ public class ChunkCommand extends CarpetAbstractCommand {
 
     @Override
     public boolean canUse(MinecraftServer server, CommandSource source) {
-        return canUseCommand(source, CarpetSettings.chunkCommand);
+        return canUseCommand(source, CarpetSettings.commandChunk);
     }
 
     protected World world;

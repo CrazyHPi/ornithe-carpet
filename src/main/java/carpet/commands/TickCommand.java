@@ -31,7 +31,7 @@ public class TickCommand extends CarpetAbstractCommand {
 
     @Override
     public boolean canUse(MinecraftServer server, CommandSource source) {
-        return canUseCommand(source, CarpetSettings.commandLog);
+        return canUseCommand(source, CarpetSettings.commandTick);
     }
 
     @Override

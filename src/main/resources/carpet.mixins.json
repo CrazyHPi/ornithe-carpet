@@ -5,9 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "minMixinExtrasVersion": "0.5.0-beta.2",
   "mixins": [
+    "accessor.BitStorageA",
     "accessor.ChunkHolderA",
     "accessor.ChunkMapA",
     "accessor.CustomPayloadC2SPacketA",
+    "accessor.HashMapPaletteA",
+    "accessor.LinearPaletteA",
+    "accessor.PalettedContainerA",
     "accessor.PlayerManagerA",
     "accessor.RedstoneWireBlockA",
     "accessor.ServerChunkCacheA",
