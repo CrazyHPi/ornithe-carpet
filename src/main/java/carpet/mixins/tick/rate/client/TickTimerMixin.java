@@ -1,5 +1,6 @@
 package carpet.mixins.tick.rate.client;
 
+import carpet.CarpetSettings;
 import carpet.fakes.MinecraftF;
 import carpet.helpers.TickRateManager;
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,7 @@ public abstract class TickTimerMixin {
 		)
 	)
 	public void advance(CallbackInfo ci) {
-		if (false) {
+		if (CarpetSettings.smoothClientAnimations) {
 			Optional<TickRateManager> trm = ((MinecraftF) Minecraft.getInstance()).getTickRateManager();
 			if (trm.isPresent() && trm.get().runsNormally()) {
 				this.mspt = Math.max(50.0f, trm.get().mspt());

@@ -172,8 +172,9 @@ public class CarpetSettings {
     public static boolean creativeNoClip = false;
 
     @Rule(
-            desc = "Make client animations smooth for /tick rate and /tick freeze",
-            categories = CLIENT
+            desc = "smooth client animations with low tps settings",
+            extra = "works only in SP, and will slow down players",
+            categories = {CREATIVE, SURVIVAL, CLIENT}
     )
     public static boolean smoothClientAnimations = false;
 
