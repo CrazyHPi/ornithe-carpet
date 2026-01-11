@@ -4,7 +4,6 @@
   "package": "carpet.mixins",
   "compatibilityLevel": "JAVA_8",
   "minMixinExtrasVersion": "0.5.0-beta.2",
-  "plugin": "carpet.bootstrap.mixinextras.MixinExtrasInitPlugin",
   "mixins": [
     "accessor.ChunkHolderA",
     "accessor.ChunkMapA",
@@ -87,15 +86,13 @@
     "rule.yeetTntInitialMotion.PrimedTntEntityMixin",
     "rule.yeetUpdates.WorldChunkMixin",
     "rule.yeetUpdates.WorldMixin",
+    "tick.freeze.LivingEntityMixin",
     "tick.freeze.MinecraftServerMixin",
+    "tick.freeze.ServerChunkCacheMixin",
     "tick.freeze.ServerWorldMixin",
-    "tick.freeze.client.WorldMixin",
-    "tick.phase.MinecraftServerMixin",
-    "tick.phase.ServerWorldMixin",
-    "tick.phase.WorldMixin",
-    "tick.profile.ServerWorldMixin",
-    "tick.profile.WorldMixin",
-    "tick.rate.MinecraftServerMixin"
+    "tick.freeze.WorldMixin",
+    "tick.rate.MinecraftServerMixin",
+    "tick.superhot.ServerPlayNetworkHandlerMixin"
   ],
   "client": [
     "lifecycle.client.IntegratedServerMixin",
@@ -107,8 +104,9 @@
     "protocol.client.MinecraftMixin",
     "rule.creativeNoClip.client.GameRendererMixin",
     "rule.creativeNoClip.client.WorldRendererMixin",
+    "tick.freeze.client.ClientWorldMixin",
+    "tick.freeze.client.MinecraftMixin",
     "tick.freeze.client.WorldRendererMixin",
-    "tick.phase.client.IntegratedServerMixin",
     "tick.rate.client.TickTimerMixin"
   ],
   "server": [

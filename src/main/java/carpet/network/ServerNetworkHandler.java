@@ -1,10 +1,12 @@
 package carpet.network;
 
 import carpet.CarpetServer;
+import carpet.CarpetSettings;
 import carpet.SharedConstants;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.RuleHelper;
-import carpet.CarpetSettings;
+import carpet.fakes.MinecraftServerF;
+import carpet.helpers.ServerTickRateManager;
 import carpet.utils.PacketHelper;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -121,15 +123,51 @@ public class ServerNetworkHandler {
         }
     }
 
-    public static void updateTickRate(float tps) {
-        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
-            player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickRate(tps).build());
+//    public static void updateTickRate(float tps) {
+//        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
+//            player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickRate(tps).build());
+//        }
+//    }
+//
+//    public static void updateFrozenState(boolean frozen) {
+//        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
+//            player.networkHandler.sendPacket(DataBuilder.create(player.server).withFrozenState(frozen).build());
+//        }
+//    }
+
+    public static void updateTickSpeedToConnectedPlayers(MinecraftServer server) {
+        if (CarpetSettings.superSecretSetting) {
+            return;
+        }
+        for (ServerPlayerEntity player : validCarpetPlayers) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickRate().build());
         }
     }
 
-    public static void updateFrozenState(boolean frozen) {
-        for (ServerPlayerEntity player : remoteCarpetPlayers.keySet()) {
-            player.networkHandler.sendPacket(DataBuilder.create(player.server).withFrozenState(frozen).build());
+    public static void updateFrozenStateToConnectedPlayers(MinecraftServer server) {
+        if (CarpetSettings.superSecretSetting) {
+            return;
+        }
+        for (ServerPlayerEntity player : validCarpetPlayers) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withFrozenState().build());
+        }
+    }
+
+    public static void updateSuperHotStateToConnectedPlayers(MinecraftServer server) {
+        if (CarpetSettings.superSecretSetting) {
+            return;
+        }
+        for (ServerPlayerEntity player : validCarpetPlayers) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withSuperHotState().build());
+        }
+    }
+
+    public static void updateTickPlayerActiveTimeoutToConnectedPlayers(MinecraftServer server) {
+        if (CarpetSettings.superSecretSetting) {
+            return;
+        }
+        for (ServerPlayerEntity player : validCarpetPlayers) {
+            player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickPlayerActiveTimeout().build());
         }
     }
 
@@ -191,16 +229,30 @@ public class ServerNetworkHandler {
             return this;
         }
 
-        public DataBuilder withTickRate(float tps) {
-            tag.putFloat("TickRate", tps);
+        private DataBuilder withTickRate() {
+            ServerTickRateManager trm = ((MinecraftServerF) server).getTickRateManager();
+            tag.putFloat("TickRate", trm.tickrate());
             return this;
         }
 
-        public DataBuilder withFrozenState(boolean frozen) {
-            NbtCompound freezeCompound = new NbtCompound();
-            freezeCompound.putBoolean("is_frozen", frozen);
-            freezeCompound.putBoolean("deepFreeze", false);
-            tag.put("TickingState", freezeCompound);
+        private DataBuilder withFrozenState() {
+            ServerTickRateManager trm = ((MinecraftServerF) server).getTickRateManager();
+            NbtCompound tickingState = new NbtCompound();
+            tickingState.putBoolean("is_paused", trm.gameIsPaused());
+            tickingState.putBoolean("deepFreeze", trm.deeplyFrozen());
+            tag.put("TickingState", tickingState);
+            return this;
+        }
+
+        private DataBuilder withSuperHotState() {
+            ServerTickRateManager trm = ((MinecraftServerF) server).getTickRateManager();
+            tag.putBoolean("SuperHotState", trm.isSuperHot());
+            return this;
+        }
+
+        private DataBuilder withTickPlayerActiveTimeout() {
+            ServerTickRateManager trm = ((MinecraftServerF) server).getTickRateManager();
+            tag.putInt("TickPlayerActiveTimeout", trm.getPlayerActiveTimeout());
             return this;
         }
 

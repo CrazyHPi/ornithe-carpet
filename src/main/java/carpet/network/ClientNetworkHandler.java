@@ -6,11 +6,11 @@ import carpet.SharedConstants;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.InvalidRuleValueException;
 import carpet.api.settings.SettingsManager;
+import carpet.fakes.WorldF;
+import carpet.helpers.TickRateManager;
 import carpet.utils.PacketHelper;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
+import net.minecraft.nbt.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +63,23 @@ public class ClientNetworkHandler {
                     }
                 }
             }
+        });
+        dataHandlers.put("TickRate", (p, t) -> {
+            TickRateManager tickRateManager = ((WorldF) p.world).tickRateManager();
+            tickRateManager.setTickRate(((NbtFloat) t).getFloat());
+        });
+        dataHandlers.put("TickingState", (p, t) -> {
+            NbtCompound tickingState = (NbtCompound) t;
+            TickRateManager tickRateManager = ((WorldF) p.world).tickRateManager();
+            tickRateManager.setFrozenState(tickingState.getBoolean("is_paused"), tickingState.getBoolean("deepFreeze"));
+        });
+        dataHandlers.put("SuperHotState", (p, t) -> {
+            TickRateManager tickRateManager = ((WorldF) p.world).tickRateManager();
+            tickRateManager.setSuperHot(((NbtByte) t).getByte() == 1);
+        });
+        dataHandlers.put("TickPlayerActiveTimeout", (p, t) -> {
+            TickRateManager tickRateManager = ((WorldF) p.world).tickRateManager();
+            tickRateManager.setPlayerActiveTimeout(((NbtInt) t).getInt());
         });
         dataHandlers.put("clientCommand", (p, t) -> CarpetClient.onClientCommand(t));
     }

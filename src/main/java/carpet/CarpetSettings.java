@@ -288,6 +288,14 @@ public class CarpetSettings {
             categories = CREATIVE)
     public static boolean oreUpdateSuppressor = false;
 
+    @Rule(
+            desc = "Enables /tick command to control game clocks",
+            categories = {CREATIVE, COMMAND},
+            validators = CarpetPermissionLevel.class,
+            options = {"ops", "0", "2", "4"}
+    )
+    public static String commandTick = "ops";
+
     /*
          _____                         _
         |_   _|__      __  ___   __ _ | | __

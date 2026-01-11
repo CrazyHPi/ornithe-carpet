@@ -1,7 +1,9 @@
 package carpet.log.framework;
 
 import carpet.CarpetSettings;
+import carpet.fakes.MinecraftServerF;
 import carpet.helpers.HopperCounter;
+import carpet.helpers.ServerTickRateManager;
 import carpet.log.loggers.packets.PacketCounter;
 import carpet.mixins.accessor.TabListS2CPacketA;
 import carpet.utils.Messenger;
@@ -105,15 +107,16 @@ public class HudController {
     }
 
     private static Text[] send_tps_display(MinecraftServer server) {
+        ServerTickRateManager trm = ((MinecraftServerF)server).getTickRateManager();
         double MSPT = MathHelper.average(server.averageTickTimes) * 1.0E-6D;
-        // todo tick rate
-//        double TPS = 1000.0D / Math.max((TickSpeed.time_warp_start_time != 0)?0.0:TickSpeed.mspt, MSPT);
-        double TPS = 50;
-        String color = Messenger.heatmap_color(MSPT, 50);
-
+        double TPS = 1000.0D / Math.max(trm.isInWarpSpeed()?0.0:trm.mspt(), MSPT);
+        if (trm.gameIsPaused()) {
+            TPS = 0;
+        }
+        String color = Messenger.heatmap_color(MSPT,trm.mspt());
         return new Text[]{Messenger.c(
-                "g TPS: ", String.format(Locale.US, "%s %.1f", color, TPS),
-                "g  MSPT: ", String.format(Locale.US, "%s %.1f", color, MSPT))};
+                "g TPS: ", String.format(Locale.US, "%s %.1f",color, TPS),
+                "g  MSPT: ", String.format(Locale.US,"%s %.1f", color, MSPT))};
     }
 
     private static Text[] send_mobcap_display(String option, MinecraftServer server, PlayerEntity player) {

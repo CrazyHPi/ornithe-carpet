@@ -38,13 +38,13 @@ public class TickContext {
         nanosPerTick = (long) (1e9 / tps);
         accumulatedNanos = 0L;
         tickTimer();
-        ServerNetworkHandler.updateTickRate((float) tps);
+//        ServerNetworkHandler.updateTickRate((float) tps);
     }
 
     public void setFrozen(boolean frozen) {
         boolean flag = this.frozen != frozen;
         this.frozen = frozen;
-        if (flag) ServerNetworkHandler.updateFrozenState(frozen);
+//        if (flag) ServerNetworkHandler.updateFrozenState(frozen);
     }
 
     public void flipFreezeState() {

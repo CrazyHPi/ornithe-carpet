@@ -4,6 +4,7 @@ import carpet.api.settings.SettingsManager;
 import carpet.commands.ChunkCommand;
 import carpet.commands.CounterCommand;
 import carpet.commands.LogCommand;
+import carpet.commands.TickCommand;
 import carpet.log.framework.HudController;
 import carpet.log.framework.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
@@ -61,8 +62,6 @@ public class CarpetServer {
     }
 
     public static void tick(MinecraftServer server) {
-        // todo tickrate
-
         HudController.updateHud(server);
         extensions.forEach(e -> e.onTick(server));
     }
@@ -75,6 +74,7 @@ public class CarpetServer {
         registry.register(new CounterCommand());
         registry.register(new LogCommand());
         registry.register(new ChunkCommand());
+        registry.register(new TickCommand());
 
         extensions.forEach(e -> e.registerCommands(registry));
     }

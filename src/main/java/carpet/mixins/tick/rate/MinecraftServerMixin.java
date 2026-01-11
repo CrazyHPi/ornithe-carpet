@@ -1,47 +1,101 @@
 package carpet.mixins.tick.rate;
 
-import carpet.tick.TickContext;
+import carpet.fakes.MinecraftServerF;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static net.minecraft.server.MinecraftServer.getTimeMillis;
+
 @Mixin(MinecraftServer.class)
-public abstract class MinecraftServerMixin {
-    @Unique
-    private static TickContext CONTEXT = TickContext.INSTANCE;
+public abstract class MinecraftServerMixin implements MinecraftServerF {
+	@Shadow
+	@Final
+	private static Logger LOGGER;
+	@Shadow
+	public ServerWorld[] worlds;
+	@Shadow
+	private boolean running;
+	@Shadow
+	private long nextTickTime;
+	@Shadow
+	private long lastWarnTime;
+	@Shadow
+	private boolean loading;
 
-    @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;tick()V"))
-    public void stepTick(CallbackInfo ci) {
-        CONTEXT.tickTimer();
-    }
+	@Shadow
+	public abstract void tick();
 
-    @ModifyConstant(method = "run", constant = @Constant(longValue = 2000L))
-    public long modifyWarningThreshold(long constant) {
-        return Math.max(2000L, CONTEXT.nanosPerTick / 25000L);
-    }
+	/**
+	 * To ensure compatibility with other mods we should allow milliseconds
+	 */
 
-    @ModifyArg(method = "run", at = @At(value = "INVOKE",
-            target = "Lorg/apache/logging/log4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V",
-            remap = false), index = 2)
-    public Object modifyWarningMessage(String message, Object millis0, Object ticks0) {
-        long millis = ((Number) millis0).longValue();
-        return millis * 1000000L / CONTEXT.nanosPerTick;
-    }
+	// Cancel a while statement
+	@Redirect(
+		method = "run",
+		at = @At(
+			value = "FIELD",
+			target = "Lnet/minecraft/server/MinecraftServer;running:Z"
+		)
+	)
+	private boolean cancelRunLoop(MinecraftServer server) {
+		return false;
+	} // target run()
 
-    @ModifyConstant(method = "run", constant = @Constant(longValue = 50L, ordinal = 1))
-    public long computeMillisThisTick(long constant) {
-        return CONTEXT.getMillisThisTick();
-    }
+	// Replaced the above cancelled while statement with this one
+	// could possibly just inject that mspt selection at the beginning of the loop, but then adding all mspt's to
+	// replace 50L will be a hassle
+	@Inject(method = "run",
+		at = @At(value = "INVOKE",
+			shift = At.Shift.AFTER,
+			target = "Lnet/minecraft/server/MinecraftServer;setStatus(Lnet/minecraft/server/ServerStatus;)V"
+		)
+	)
+	private void modifiedRunLoop(CallbackInfo ci, @Local long l) throws InterruptedException {
+		while (this.running) {
+			if (this.getTickRateManager().isInWarpSpeed() && this.getTickRateManager().continueWarp()) {
+				this.tick();
+				this.nextTickTime = getTimeMillis();
+				this.running = true;
+				continue;
+			}
 
-    @ModifyConstant(method = "run", constant = @Constant(longValue = 50L, ordinal = 2))
-    public long modifyMillisDecrement(long constant) {
-        return CONTEXT.getMillisThisTick();
-    }
+			long m = getTimeMillis();
+			long n = m - this.nextTickTime;
+			long mspt = this.getTickRateManager().mspt();
+			if (n > /*2000L*/1000L + 20 * mspt && this.nextTickTime - this.lastWarnTime >= /*15000L*/10000L + 100 * mspt) {
+				LOGGER.warn("Can't keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)", n, n / mspt);
+				n = 2000L;
+				this.lastWarnTime = this.nextTickTime;
+			}
 
-    @ModifyConstant(method = "run", constant = @Constant(longValue = 50L, ordinal = 3))
-    public long modifySleepBase(long constant) {
-        return CONTEXT.getMillisThisTick();
-    }
+			if (n < 0L) {
+				LOGGER.warn("Time ran backwards! Did the system time change?");
+				n = 0L;
+			}
+
+			l += n;
+			this.nextTickTime = m;
+			if (this.worlds[0].canSkipNight()) {
+				this.tick();
+				l = 0L;
+			} else {
+				while (l > mspt) {
+					l -= mspt;
+					this.tick();
+				}
+			}
+
+			Thread.sleep(Math.max(1L, mspt - l));
+			this.loading = true;
+		}
+	}
 }
