@@ -476,4 +476,21 @@ public class CarpetSettings {
 
     @Rule(desc = "Enables /log command to monitor events via chat and overlays", categories = COMMAND)
     public static String commandLog = "true";
+
+    @Rule(
+            desc = "Enables /player command to control/spawn players",
+            categories = {COMMAND, CREATIVE, FEATURE},
+            validators = CarpetPermissionLevel.class,
+            options = {"ops", "0", "2", "4"}
+    )
+    public static String commandPlayer = "ops";
+
+    @Rule(desc = "Removes skins from fake players", categories = {CREATIVE, SURVIVAL})
+    public static boolean removeFakePlayerSkins = false;
+
+    @Rule(desc = "Reloads fake players on server startup that were loaded before server shutdown.", categories = FEATURE)
+    public static boolean reloadFakePlayers = false;
+
+    @Rule(desc = "Allows fake players to gain stats.", categories = FEATURE)
+    public static boolean fakePlayerStats = false;
 }
