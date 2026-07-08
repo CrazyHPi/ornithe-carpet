@@ -47,6 +47,7 @@
     "rule.cakeAlwaysEat.CakeBlockMixin",
     "rule.carefulBreak.BlockMixin",
     "rule.carefulBreak.ServerPlayerInteractionManagerMixin",
+    "rule.creativeNoClip.EndGatewayBlockEntityMixin",
     "rule.creativeNoClip.PlayerEntityMixin",
     "rule.creativeNoClip.ServerPlayNetworkHandlerMixin",
     "rule.elytraCheckFix.ServerPlayNetworkHandlerMixin",
