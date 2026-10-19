@@ -32,6 +32,10 @@ public abstract class BlockMixin {
             if (player != null && player.isSneaking() && LoggerRegistry.getPlayerSubscriptions(player.getName()).containsKey("carefulBreak")) {
                 item.setNoPickUpDelay();
                 item.onPlayerCollision(player);
+                if (!item.removed) {
+                    // restore pickup delay if the inventory was full
+                    item.setDefaultPickUpDelay();
+                }
             }
         }
     }
