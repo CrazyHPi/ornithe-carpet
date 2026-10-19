@@ -135,19 +135,23 @@ public class CarpetServer {
     }
 
     public static void loadBots(MinecraftServer server) {
-        try {
-            File settings_file = server.getWorldStorageSource().getFile(server.getWorldSaveName(), "bot.conf");
-            BufferedReader b = new BufferedReader(new FileReader(settings_file));
-            String line = "";
-            boolean temp = CarpetSettings.removeFakePlayerSkins;
-            CarpetSettings.removeFakePlayerSkins = true;
+        File settings_file = server.getWorldStorageSource().getFile(server.getWorldSaveName(), "bot.conf");
+        if (!settings_file.isFile()) {
+            return;
+        }
+        boolean temp = CarpetSettings.removeFakePlayerSkins;
+        CarpetSettings.removeFakePlayerSkins = true;
+        try (BufferedReader b = new BufferedReader(new FileReader(settings_file))) {
+            String line;
             while ((line = b.readLine()) != null) {
-                ServerPlayerEntityFake.create(line, server);
+                if (!line.isEmpty()) {
+                    ServerPlayerEntityFake.create(line, server);
+                }
             }
-            b.close();
-            CarpetSettings.removeFakePlayerSkins = temp;
         } catch (IOException e) {
-            SharedConstants.LOG.error(e.getStackTrace());
+            SharedConstants.LOG.error("Failed to load fake players from bot.conf", e);
+        } finally {
+            CarpetSettings.removeFakePlayerSkins = temp;
         }
     }
 
@@ -164,7 +168,7 @@ public class CarpetServer {
                 settings_file.delete();
             }
         } catch (IOException e) {
-            SharedConstants.LOG.error(e.getStackTrace());
+            SharedConstants.LOG.error("Failed to save fake players to bot.conf", e);
         }
     }
 }
