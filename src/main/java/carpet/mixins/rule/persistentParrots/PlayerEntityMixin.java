@@ -28,6 +28,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @WrapWithCondition(method = "damage", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/living/player/PlayerEntity;dropShoulderEntities()V"))
     private boolean onDamage(PlayerEntity instance, @Local(argsOnly = true) float amount) {
-        return !CarpetSettings.persistentParrots && random.nextFloat() < (amount / 15.0);
+        return !CarpetSettings.persistentParrots || random.nextFloat() < (amount / 15.0);
     }
 }
