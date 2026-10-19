@@ -1,8 +1,8 @@
 package carpet.mixins.rule.oreUpdateSuppressor;
 
-import carpet.SharedConstants;
 import carpet.CarpetSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
@@ -21,7 +21,7 @@ public abstract class OreBlockMixin extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
-        if (CarpetSettings.oreUpdateSuppressor && world.hasNeighborSignal(pos))
+        if (CarpetSettings.oreUpdateSuppressor && this == Blocks.EMERALD_ORE && world.hasNeighborSignal(pos))
             throw new ClassCastException("Carpet-simulated update suppression");
     }
 }
