@@ -383,28 +383,25 @@ public class PlayerEntityActionPack {
                         break;
                     case BLOCK:
                         BlockPos blockpos = raytraceresult.getPos();
+                        float x = (float) raytraceresult.offset.x;
+                        float y = (float) raytraceresult.offset.y;
+                        float z = (float) raytraceresult.offset.z;
 
-                        if (player.getSourceWorld().getBlockState(blockpos).getMaterial() != Material.AIR) {
-                            if (itemstack.isEmpty())
-                                continue;
-                            float x = (float) raytraceresult.offset.x;
-                            float y = (float) raytraceresult.offset.y;
-                            float z = (float) raytraceresult.offset.z;
-
-                            InteractionResult res = player.interactionManager.useBlock(
-                                    player, player.getSourceWorld(),
-                                    itemstack, hand, blockpos, raytraceresult.face,
-                                    x, y, z);
-                            if (res == InteractionResult.SUCCESS) {
-                                player.swingHand(hand);
-                                return true;
-                            }
+                        InteractionResult res = player.interactionManager.useBlock(
+                                player, player.getSourceWorld(),
+                                itemstack, hand, blockpos, raytraceresult.face,
+                                x, y, z);
+                        if (res == InteractionResult.SUCCESS) {
+                            player.swingHand(hand);
+                            return true;
                         }
                 }
             }
-            InteractionResult res = player.interactionManager.useItem(player, player.getSourceWorld(), itemstack, hand);
-            if (res == InteractionResult.SUCCESS) {
-                return true;
+            if (!itemstack.isEmpty()) {
+                InteractionResult res = player.interactionManager.useItem(player, player.getSourceWorld(), itemstack, hand);
+                if (res == InteractionResult.SUCCESS) {
+                    return true;
+                }
             }
         }
         return false;
