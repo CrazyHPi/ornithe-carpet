@@ -25,4 +25,15 @@ public abstract class MinecraftServerMixin {
         ((PlayerManagerF) playerManager).removeBotTeam();
         ((PlayerManagerF) playerManager).storeFakePlayerData();
     }
+
+    @Inject(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/PlayerManager;saveAll()V"
+            )
+    )
+    private void autoSaveFakePlayers(CallbackInfo ci) {
+        ((PlayerManagerF) playerManager).storeFakePlayerData();
+    }
 }
