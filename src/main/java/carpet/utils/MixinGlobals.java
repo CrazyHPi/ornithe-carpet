@@ -29,7 +29,7 @@ public class MixinGlobals {
     }
 
     public static void restoreYeetUpdateFlags() {
-        int flags = fillUpdateStack.pop();
+        int flags = fillUpdateStack.popInt();
         CarpetSettings.yeetRemovalUpdates = (flags & 16) != 0;
         CarpetSettings.yeetInitialUpdates = (flags & 8) != 0;
         CarpetSettings.yeetComparatorUpdates = (flags & 4) != 0;
