@@ -1,11 +1,15 @@
 package carpet.utils;
 
+import carpet.mixins.accessor.PlayerHandActionC2SPacketA;
 import carpet.network.CarpetClient;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerHandActionC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 public class PacketHelper {
     public static CustomPayloadS2CPacket s2CPacket(NbtCompound data) {
@@ -26,5 +30,14 @@ public class PacketHelper {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeNbtCompound(data);
         return new CustomPayloadC2SPacket(channel, buf);
+    }
+
+    // allow creating these in server environment
+    public static PlayerHandActionC2SPacket playerHandActionC2SPacket(PlayerHandActionC2SPacket.Action action, BlockPos pos, Direction face) {
+        PlayerHandActionC2SPacket packet = new PlayerHandActionC2SPacket();
+        ((PlayerHandActionC2SPacketA) packet).setAction(action);
+        ((PlayerHandActionC2SPacketA) packet).setPos(pos);
+        ((PlayerHandActionC2SPacketA) packet).setFace(face);
+        return packet;
     }
 }

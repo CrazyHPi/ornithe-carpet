@@ -5,12 +5,13 @@ import carpet.commands.*;
 import carpet.log.framework.HudController;
 import carpet.log.framework.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import carpet.patches.ServerPlayerEntityFake;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -56,6 +57,8 @@ public class CarpetServer {
     }
 
     public static void onServerLoadedWorlds(MinecraftServer minecraftServer) {
+        loadBots(minecraftServer);
+
         extensions.forEach(e -> e.onServerLoadedWorlds(minecraftServer));
     }
 
@@ -73,6 +76,7 @@ public class CarpetServer {
         registry.register(new LogCommand());
         registry.register(new ChunkCommand());
         registry.register(new TickCommand());
+        registry.register(new PlayerCommand());
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             registry.register(new TestCommand());
@@ -128,5 +132,39 @@ public class CarpetServer {
     // not used in 1.12
     public static void onReload(MinecraftServer server) {
         extensions.forEach(e -> e.onReload(server));
+    }
+
+    public static void loadBots(MinecraftServer server) {
+        try {
+            File settings_file = server.getWorldStorageSource().getFile(server.getWorldSaveName(), "bot.conf");
+            BufferedReader b = new BufferedReader(new FileReader(settings_file));
+            String line = "";
+            boolean temp = CarpetSettings.removeFakePlayerSkins;
+            CarpetSettings.removeFakePlayerSkins = true;
+            while ((line = b.readLine()) != null) {
+                ServerPlayerEntityFake.create(line, server);
+            }
+            b.close();
+            CarpetSettings.removeFakePlayerSkins = temp;
+        } catch (IOException e) {
+            SharedConstants.LOG.error(e.getStackTrace());
+        }
+    }
+
+    public static void saveBots(MinecraftServer server, ArrayList<String> names) {
+        try {
+            File settings_file = server.getWorldStorageSource().getFile(server.getWorldSaveName(), "bot.conf");
+            if (names != null) {
+                FileWriter fw = new FileWriter(settings_file);
+                for (String name : names) {
+                    fw.write(name + "\n");
+                }
+                fw.close();
+            } else {
+                settings_file.delete();
+            }
+        } catch (IOException e) {
+            SharedConstants.LOG.error(e.getStackTrace());
+        }
     }
 }
