@@ -22,7 +22,7 @@ public class ViewDistanceModifier extends Validator<Integer> {
 
         MinecraftServer server = source.getServer();
         if (server != null && server.isDedicated()) {
-            int vd = (newValue >= 2) ? newValue: ((DedicatedServer) server).getPropertyOrDefault("view-distance", 10);
+            int vd = (newValue >= 2) ? newValue: ((DedicatedServer) server).getIntProperty("view-distance", 10);
             if (vd != server.getPlayerManager().getViewDistance()) {
                 server.getPlayerManager().updateViewDistance(vd);
             }

@@ -17,7 +17,7 @@ public abstract class WorldMixin implements WorldF {
             method = "tickEntities",
             at = @At(
                     value = "FIELD",
-                    target = "Lnet/minecraft/entity/Entity;time:I",
+                    target = "Lnet/minecraft/entity/Entity;ticks:I",
                     opcode = 181 /* PUTFIELD */
             )
     )
@@ -43,7 +43,7 @@ public abstract class WorldMixin implements WorldF {
             method = "tickEntities",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/World;updateEntity(Lnet/minecraft/entity/Entity;)V"
+                    target = "Lnet/minecraft/world/World;tickEntity(Lnet/minecraft/entity/Entity;)V"
             )
     )
     public boolean freezeEntityUpdate(World instance, Entity entity) {

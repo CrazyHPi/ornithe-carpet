@@ -8,7 +8,13 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PumpkinBlock.class)
 public abstract class PumpkinBlockMixin {
-    @ModifyExpressionValue(method = "canSurvive", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/state/BlockState;isFullBlock()Z"))
+    @ModifyExpressionValue(
+            method = "canBePlaced",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/block/state/BlockState;isFullBlock()Z"
+            )
+    )
     public boolean relaxBlockSurvival(boolean original) {
         return CarpetSettings.relaxedBlockPlacement || original;
     }

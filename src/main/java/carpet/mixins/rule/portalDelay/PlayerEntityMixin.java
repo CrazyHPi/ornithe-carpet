@@ -1,8 +1,8 @@
 package carpet.mixins.rule.portalDelay;
 
 import carpet.CarpetSettings;
+import net.minecraft.entity.living.player.PlayerAbilities;
 import net.minecraft.entity.living.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerAbilities;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

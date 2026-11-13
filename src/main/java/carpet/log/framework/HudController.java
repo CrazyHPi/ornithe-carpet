@@ -133,7 +133,7 @@ public class HudController {
                 break;
             case "dynamic":
             default:
-                dim = player.dimensionId;
+                dim = player.dimension;
                 break;
         }
         List<Text> text = new ArrayList<>();

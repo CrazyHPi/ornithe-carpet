@@ -19,7 +19,7 @@ public class LoggerOptions implements StatProgress {
     }
 
     @Override
-    public void add(JsonElement json) {
+    public void update(JsonElement json) {
         JsonObject obj = (JsonObject) json;
 
         logger = obj.get("logger").getAsString();

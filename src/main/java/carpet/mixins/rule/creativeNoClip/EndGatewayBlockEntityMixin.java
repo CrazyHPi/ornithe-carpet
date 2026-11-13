@@ -20,7 +20,7 @@ public abstract class EndGatewayBlockEntityMixin {
         method = "tick",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/World;getEntities(Ljava/lang/Class;Lnet/minecraft/util/math/Box;)Ljava/util/List;"
+            target = "Lnet/minecraft/world/World;getEntitiesOfType(Ljava/lang/Class;Lnet/minecraft/util/math/Box;)Ljava/util/List;"
         )
     )
     public List<Entity> creativeNoClipTeleport(World instance, Class<? extends Entity> type, Box bounds, Operation<List<Entity>> original) {

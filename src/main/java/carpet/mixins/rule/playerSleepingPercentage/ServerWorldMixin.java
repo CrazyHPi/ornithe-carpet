@@ -23,7 +23,7 @@ public abstract class ServerWorldMixin extends World implements BlockableEventLo
     @Definition(id = "players", field = "Lnet/minecraft/server/world/ServerWorld;players:Ljava/util/List;")
     @Definition(id = "size", method = "Ljava/util/List;size()I")
     @Expression("this.players.size() - ?")
-    @ModifyExpressionValue(method = "updateSleepingPlayers", at = @At("MIXINEXTRAS:EXPRESSION"))
+    @ModifyExpressionValue(method = "updatePlayersSleepingStatus", at = @At("MIXINEXTRAS:EXPRESSION"))
     public int customPlayerSleepingPercentage(int original) {
         // ceil(original * percentage * 0.01)
         return (original * CarpetSettings.playersSleepingPercentage + 99) / 100;

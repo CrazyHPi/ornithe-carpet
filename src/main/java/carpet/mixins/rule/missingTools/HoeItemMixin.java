@@ -21,8 +21,7 @@ import java.util.Set;
 public abstract class HoeItemMixin extends Item {
 
     @Shadow
-    protected ToolMaterial material;
-
+    protected Tier tier;
     @Unique
     private static final Set<Block> EFFECTIVE_BLOCKS = ImmutableSet.of(
             Blocks.NETHER_WART_BLOCK,
@@ -38,7 +37,7 @@ public abstract class HoeItemMixin extends Item {
     @Override
     public float getMiningSpeed(ItemStack stack, BlockState state) {
         if (CarpetSettings.missingTools && EFFECTIVE_BLOCKS.contains(state.getBlock())) {
-            return this.material.getMiningSpeed();
+            return this.tier.getMiningSpeed();
         }
         return 1.0F;
     }
@@ -47,7 +46,7 @@ public abstract class HoeItemMixin extends Item {
     public boolean mineBlock(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entity) {
         // damage hoe when used on effective block
         if (CarpetSettings.missingTools && !world.isClient && state.getMiningSpeed(world, pos) != 0.0F) {
-            stack.damageAndBreak(1, entity);
+            stack.takeDamageAndBreak(1, entity);
             return true;
         }
         return false;

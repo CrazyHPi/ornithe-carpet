@@ -4,7 +4,6 @@ import carpet.CarpetServer;
 import carpet.SharedConstants;
 import carpet.api.log.HudLogger;
 import carpet.api.log.Logger;
-import carpet.helpers.CarefulBreakHelper;
 import com.google.common.base.Charsets;
 import com.google.gson.*;
 import net.minecraft.entity.living.player.PlayerEntity;
@@ -109,7 +108,7 @@ public class LoggerRegistry {
             JsonArray defaultList = rootObj.getAsJsonArray("defaultList");
             for (JsonElement entryElement : defaultList) {
                 LoggerOptions options = new LoggerOptions();
-                options.add(entryElement);
+                options.update(entryElement);
 
                 defaultSubscriptions.put(options.logger, options);
             }
@@ -122,7 +121,7 @@ public class LoggerRegistry {
                 JsonArray loggerEntries = playerEntry.getValue().getAsJsonArray();
                 for (JsonElement entryElement : loggerEntries) {
                     LoggerOptions options = new LoggerOptions();
-                    options.add(entryElement);
+                    options.update(entryElement);
 
                     subs.put(options.logger, options.option);
                 }
