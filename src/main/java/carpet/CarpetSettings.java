@@ -6,11 +6,7 @@ import carpet.api.settings.Validator;
 import carpet.api.settings.Validators;
 import carpet.utils.Messenger;
 import carpet.utils.Translations;
-import carpet.validators.ChunkMapCrashFixModifier;
-import carpet.validators.IFModifier;
-import carpet.validators.ITTModifier;
-import carpet.validators.RPModifier;
-import carpet.validators.ViewDistanceModifier;
+import carpet.validators.*;
 import net.minecraft.server.command.source.CommandSource;
 import org.jetbrains.annotations.Nullable;
 
@@ -479,6 +475,13 @@ public class CarpetSettings {
 
     @Rule(desc = "Enables /log command to monitor events via chat and overlays", categories = COMMAND)
     public static String commandLog = "true";
+
+    @Rule(
+            desc = "Enables /lifetime for tracking entities lifetime etc.",
+            categories = COMMAND,
+            extra = "rule optimizedDespawnRange is suggested to be enabled to avoid 0gt immediately despawn spamming"
+    )
+    public static boolean commandLifeTime = true;
 
     @Rule(
             desc = "Enables /player command to control/spawn players",

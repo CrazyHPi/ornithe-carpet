@@ -35,3 +35,6 @@ workspace/
 
 libs/
 publish/
+
+.claude
+CLAUDE.md

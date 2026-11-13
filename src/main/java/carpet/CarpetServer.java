@@ -2,6 +2,7 @@ package carpet;
 
 import carpet.api.settings.SettingsManager;
 import carpet.commands.*;
+import carpet.helpers.lifetime.LifeTimeTracker;
 import carpet.log.framework.HudController;
 import carpet.log.framework.LoggerRegistry;
 import carpet.network.ServerNetworkHandler;
@@ -58,6 +59,7 @@ public class CarpetServer {
 
     public static void onServerLoadedWorlds(MinecraftServer minecraftServer) {
         loadBots(minecraftServer);
+        LifeTimeTracker.attachServer(minecraftServer);
 
         extensions.forEach(e -> e.onServerLoadedWorlds(minecraftServer));
     }
@@ -74,6 +76,7 @@ public class CarpetServer {
         registry.register(new SettingsManager.CarpetCommand(settingsManager));
         registry.register(new CounterCommand());
         registry.register(new LogCommand());
+        registry.register(new LifeTimeCommand());
         registry.register(new ChunkCommand());
         registry.register(new TickCommand());
         registry.register(new PlayerCommand());
