@@ -292,6 +292,9 @@ public class CarpetSettings {
             options = {"off", "wool", "all"})
     public static String hopperNoItemCost = "off";
 
+    @Rule(desc = "/tp will teleport the players across dimensions", categories = CREATIVE)
+    public static boolean tpAcrossDimensions = false;
+
     @Rule(desc = "Emerald ore receiving power throws an exception on update",
             categories = CREATIVE)
     public static boolean oreUpdateSuppressor = false;

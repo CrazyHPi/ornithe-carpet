@@ -100,6 +100,7 @@
     "rule.tntFixedRandomAngle.PrimedTntEntityMixin",
     "rule.tntFixedRandomRange.ExplosionMixin",
     "rule.tntFuseLength.PrimedTntEntityMixin",
+    "rule.tpAcrossDimensions.TpCommandMixin",
     "rule.xpNoCooldown.XpOrbEntityMixin",
     "rule.yeetTntInitialMotion.PrimedTntEntityMixin",
     "rule.yeetUpdates.WorldChunkMixin",
