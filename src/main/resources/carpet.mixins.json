@@ -64,7 +64,7 @@
     "rule.fillUpdates.CloneCommandMixin",
     "rule.fillUpdates.FillCommandMixin",
     "rule.fillUpdates.SetBlockCommandMixin",
-    "rule.fillUpdates.StructureBlockMixin",
+    "rule.fillUpdates.StructureTemplateMixin",
     "rule.fillUpdates.WorldChunkMixin",
     "rule.fillUpdates.WorldMixin",
     "rule.flattenedNoteBlocks.BlockEntityMixin",

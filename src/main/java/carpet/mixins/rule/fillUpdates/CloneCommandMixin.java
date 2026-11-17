@@ -1,27 +1,56 @@
 package carpet.mixins.rule.fillUpdates;
 
 import carpet.CarpetSettings;
-import carpet.utils.MixinGlobals;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import net.minecraft.server.MinecraftServer;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.server.command.CloneCommand;
-import net.minecraft.server.command.source.CommandSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(CloneCommand.class)
 public abstract class CloneCommandMixin {
-    @WrapMethod(method = "run")
-    public void pushPopYeetUpdateFlags(MinecraftServer server, CommandSource source, String[] args, Operation<Void> original) {
-        if (CarpetSettings.fillUpdates) {
-            original.call(server, source, args);
-            return;
+    @WrapOperation(
+            method = "run",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"
+            )
+    )
+    private boolean noCloneUpdates(World instance, BlockPos pos, BlockState state, int flags, Operation<Boolean> original) {
+        return original.call(instance, pos, state, flags | (CarpetSettings.fillUpdates? 0 : 128));
+    }
+
+    @ModifyExpressionValue(
+            method = "run",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/util/Iterator;hasNext()Z",
+                    ordinal = 5
+            )
+    )
+    private boolean noCloneNCUpdates(boolean original) {
+        if (!CarpetSettings.fillUpdates) {
+            return false;
         }
-        MixinGlobals.pushYeetUpdateFlags();
-        try {
-            original.call(server, source, args);
-        } finally {
-            MixinGlobals.restoreYeetUpdateFlags();
+        return original;
+    }
+
+    @ModifyExpressionValue(
+            method = "run",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/util/Iterator;hasNext()Z",
+                    ordinal = 6
+            )
+    )
+    private boolean noCloneScheduledTick(boolean original) {
+        if (!CarpetSettings.fillUpdates) {
+            return false;
         }
+        return original;
     }
 }
