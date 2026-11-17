@@ -125,6 +125,7 @@
     "protocol.client.MinecraftMixin",
     "rule.creativeNoClip.client.GameRendererMixin",
     "rule.creativeNoClip.client.WorldRendererMixin",
+    "rule.elytraCheckFix.client.LocalClientPlayerEntityMixin",
     "tick.freeze.client.ClientWorldMixin",
     "tick.freeze.client.MinecraftMixin",
     "tick.freeze.client.WorldRendererMixin",
