@@ -283,8 +283,13 @@ public class CarpetSettings {
             options = {"off", "wool", "all"})
     public static String dropperNoItemCost = "off";
 
-    @Rule(desc = "/fill and /clone has setBlockState flags 18 and onAdded/onRemoved suppressed",
-            categories = CREATIVE)
+    @Rule(desc = "fill/clone/setblock and structure blocks cause block updates",
+            categories = CREATIVE,
+            extra = {
+                    "When false, placed blocks skip onAdded/onRemoved and neighbor/observer updates",
+                    "/clone doesn't copy scheduled ticks",
+                    "/fill destroy and /clone move still send neighbor updates",
+            })
     public static boolean fillUpdates = true;
 
     @Rule(desc = "Controls the circumstances in which hoppers don't consume items when transferring out",
@@ -360,10 +365,15 @@ public class CarpetSettings {
     @Rule(desc = "Rule controlling quasi-connectivity", categories = YEET)
     public static boolean quasiConnectivity = true;
 
-    @Rule(desc = "Prevents all onRemoved() calls", categories = YEET)
+    @Rule(desc = "Prevents all onRemoved() calls", categories = YEET, extra = {
+            "Containers don't drop items, redstone doesn't depower neighbors, piston heads don't break their base",
+            "Block entities are left behind and can crash the server (CCE)",
+    })
     public static boolean yeetRemovalUpdates = false;
 
-    @Rule(desc = "Prevents all onAdded() calls", categories = YEET)
+    @Rule(desc = "Prevents all onAdded() calls", categories = YEET, extra = {
+            "Redstone wire doesn't update neighbors, pistons don't check for power, sand doesn't fall",
+    })
     public static boolean yeetInitialUpdates = false;
 
     @Rule(desc = "Prevents all comparator updates", categories = YEET)
@@ -396,7 +406,9 @@ public class CarpetSettings {
     @Rule(desc = "Gbhs sgnf sadsgras fhskdpri!!!", categories = EXPERIMENTAL)
     public static boolean superSecretSetting = false;
 
-    @Rule(desc = "Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.", categories = BUGFIX)
+    @Rule(desc = "Fixes the elytra check like in 1.15, players don't have to fall to deploy elytra", categories = BUGFIX, extra = {
+            "Requires matching client fix, vanilla client still only deploys elytra while falling",
+    })
     public static boolean elytraCheckFix = false;
 
     @Rule(desc = "Fix client-side ghost blocks when instant mining, like in 1.13", categories = BUGFIX)
