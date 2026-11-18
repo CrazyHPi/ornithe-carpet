@@ -83,6 +83,15 @@ Enables /log command to monitor events via chat and overlays
 * Suggested options: `true`, `false`, `ops`, `0`, `1`, `2`, `3`, `4`  
 * Categories: `COMMAND`  
   
+## commandPlayer
+Enables /player command to control/spawn players  
+* Type: `String`  
+* Default value: `ops`  
+* Suggested options: `ops`, `0`, `2`, `4`  
+* Categories: `COMMAND`, `CREATIVE`, `FEATURE`  
+* Additional notes:  
+  * This setting can only be set by admins with op level 4  
+  
 ## commandTick
 Enables /tick command to control game clocks  
 * Type: `String`  
@@ -121,7 +130,8 @@ Controls the circumstances in which droppers don't consume items when firing
 * Categories: `CREATIVE`  
   
 ## elytraCheckFix
-Fixes the elytra check similar to 1.15 where the player do not have to fall to deploy elytra anymore.  
+Fixes the elytra check like in 1.15, players don't have to fall to deploy elytra  
+Requires matching client fix, vanilla client still only deploys elytra while falling  
 * Type: `Boolean`  
 * Default value: `false`  
 * Allowed options: `true`, `false`  
@@ -134,6 +144,13 @@ Explosions won't destroy blocks
 * Allowed options: `true`, `false`  
 * Categories: `CREATIVE`, `TNT`  
   
+## fakePlayerStats
+Allows fake players to gain stats.  
+* Type: `Boolean`  
+* Default value: `false`  
+* Allowed options: `true`, `false`  
+* Categories: `FEATURE`  
+  
 ## fillLimit
 Custom limit of changed blocks for /fill and /clone  
 * Type: `Integer`  
@@ -144,7 +161,10 @@ Custom limit of changed blocks for /fill and /clone
   * Must be a positive number or 0  
   
 ## fillUpdates
-/fill and /clone has setBlockState flags 18 and onAdded/onRemoved suppressed  
+fill/clone/setblock and structure blocks cause block updates  
+When false, placed blocks skip onAdded/onRemoved and neighbor/observer updates  
+/clone doesn't copy scheduled ticks  
+/fill destroy and /clone move still send neighbor updates  
 * Type: `Boolean`  
 * Default value: `true`  
 * Allowed options: `true`, `false`  
@@ -341,6 +361,20 @@ Allow placing of pumpkins and fence gates mid-air
 * Allowed options: `true`, `false`  
 * Categories: `SURVIVAL`, `TWEAK`  
   
+## reloadFakePlayers
+Reloads fake players on server startup that were loaded before server shutdown.  
+* Type: `Boolean`  
+* Default value: `false`  
+* Allowed options: `true`, `false`  
+* Categories: `FEATURE`  
+  
+## removeFakePlayerSkins
+Removes skins from fake players  
+* Type: `Boolean`  
+* Default value: `false`  
+* Allowed options: `true`, `false`  
+* Categories: `CREATIVE`, `SURVIVAL`  
+  
 ## smoothClientAnimations
 smooth client animations with low tps settings  
 works only in SP, and will slow down players  
@@ -397,6 +431,13 @@ Changes default tnt fuse.
 * Additional notes:  
   * Must be a positive number or 0  
   
+## tpAcrossDimensions
+/tp will teleport the players across dimensions  
+* Type: `Boolean`  
+* Default value: `false`  
+* Allowed options: `true`, `false`  
+* Categories: `CREATIVE`  
+  
 ## viewDistance
 Changes the view distance of the server.  
 Set to 0 to not override the value in server settings  
@@ -423,6 +464,7 @@ Prevents all comparator updates
   
 ## yeetInitialUpdates
 Prevents all onAdded() calls  
+Redstone wire doesn't update neighbors, pistons don't check for power, sand doesn't fall  
 * Type: `Boolean`  
 * Default value: `false`  
 * Allowed options: `true`, `false`  
@@ -444,6 +486,8 @@ Prevents all observer updates
   
 ## yeetRemovalUpdates
 Prevents all onRemoved() calls  
+Containers don't drop items, redstone doesn't depower neighbors, piston heads don't break their base  
+Block entities are left behind and can crash the server (CCE)  
 * Type: `Boolean`  
 * Default value: `false`  
 * Allowed options: `true`, `false`  

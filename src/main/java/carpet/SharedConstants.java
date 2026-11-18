@@ -13,4 +13,7 @@ public final class SharedConstants {
             .orElseThrow(() -> new NoSuchElementException("No value present")).getMetadata().getVersion().toString();
 
     public static final Logger LOG = LogManager.getLogger("carpet");
+
+    // used to skip flag 128 updates
+    public static ThreadLocal<Boolean> shouldSkipUpdates = ThreadLocal.withInitial(() -> false);
 }
