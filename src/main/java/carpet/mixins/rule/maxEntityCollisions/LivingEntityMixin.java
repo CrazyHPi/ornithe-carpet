@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin {
         slice = @Slice(
             from = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/entity/living/LivingEntity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
+                target = "Lnet/minecraft/entity/living/LivingEntity;takeDamage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
             )
         )
     )

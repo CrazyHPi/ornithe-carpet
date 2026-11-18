@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class LocalClientPlayerEntityMixin {
     // clientside check to allow elytra deployment with positive y-velocity
     @ModifyExpressionValue(
-            method = "tickAi",
+            method = "mobTick",
             at = @At(
                     value = "FIELD",
                     target = "Lnet/minecraft/client/entity/living/player/LocalClientPlayerEntity;velocityY:D",

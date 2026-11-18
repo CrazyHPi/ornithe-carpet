@@ -46,7 +46,7 @@ public abstract class ServerWorldMixin extends World implements BlockableEventLo
                 for (PlayerEntity player : this.players) {
                     if (!player.isSpectator()) {
                         numberOfPlayers++;
-                        if (player.isSleptEnough()) {
+                        if (player.isSleepingLongEnough()) {
                             sleepingPlayerCount++;
                         }
                     }
