@@ -15,7 +15,7 @@ public abstract class MinecraftServerMixin {
     private PlayerManager playerManager;
 
     @Inject(
-            method = "stop",
+            method = "shutdown",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/PlayerManager;saveAll()V"

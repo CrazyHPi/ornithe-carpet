@@ -79,7 +79,7 @@ public class ServerNetworkHandler {
         }
         NbtList outputResult = new NbtList();
         for (Text line : output) {
-            outputResult.add(new NbtString(Text.Serializer.toJson(line)));
+            outputResult.addElement(new NbtString(Text.Serializer.toJson(line)));
         }
         if (!output.isEmpty()) {
             result.put("output", outputResult);

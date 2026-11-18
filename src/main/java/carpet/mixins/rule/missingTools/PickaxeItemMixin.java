@@ -16,8 +16,7 @@ import java.util.Set;
 
 @Mixin(PickaxeItem.class)
 public abstract class PickaxeItemMixin extends ToolItem {
-
-    protected PickaxeItemMixin(ToolMaterial material, Set<Block> effectiveBlocks) {
+    protected PickaxeItemMixin(Tier material, Set<Block> effectiveBlocks) {
         super(material, effectiveBlocks);
     }
 

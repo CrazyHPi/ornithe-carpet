@@ -20,18 +20,18 @@ public class TeleportHelper {
 
         ServerWorld worldFrom = player.getServerWorld();
         ServerWorld worldTo = target.getServerWorld();
-        int dimension = target.dimensionId;
-        player.dimensionId = dimension;
+        int dimension = target.dimension;
+        player.dimension = dimension;
 
         player.networkHandler.sendPacket(new PlayerRespawnS2CPacket(dimension, worldFrom.getDifficulty(), worldFrom.getData().getGeneratorType(), player.interactionManager.getGameMode()));
         server.getPlayerManager().updatePermissions(player);
         worldFrom.removeEntityNow(player);
         player.removed = false;
-        player.refreshPositionAndAngles(x, y, z, target.yaw, target.pitch);
+        player.setPositionAndAngles(x, y, z, target.yaw, target.pitch);
 
-        worldFrom.updateEntity(player, false);
+        worldFrom.tickEntity(player, false);
         worldTo.addEntity(player);
-        worldTo.updateEntity(player, false);
+        worldTo.tickEntity(player, false);
 
         player.setWorld(worldTo);
         server.getPlayerManager().onChangedDimension(player, worldFrom);

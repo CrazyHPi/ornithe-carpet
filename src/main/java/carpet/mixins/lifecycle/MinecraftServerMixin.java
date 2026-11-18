@@ -37,12 +37,12 @@ public abstract class MinecraftServerMixin {
         CarpetServer.tick((MinecraftServer) (Object) this);
     }
 
-    @Inject(method = "stop", at = @At("HEAD"))
+    @Inject(method = "shutdown", at = @At("HEAD"))
     private void onServerClosed(CallbackInfo ci) {
         CarpetServer.onServerClosed((MinecraftServer) (Object) this);
     }
 
-    @Inject(method = "stop", at = @At("TAIL"))
+    @Inject(method = "shutdown", at = @At("TAIL"))
     private void onServerDoneClosing(CallbackInfo ci) {
         CarpetServer.onServerDoneClosing((MinecraftServer) (Object) this);
     }

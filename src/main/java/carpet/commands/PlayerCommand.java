@@ -149,13 +149,13 @@ public class PlayerCommand extends CarpetAbstractCommand {
             if (isWhitelistedPlayer(server, playerName) && !source.canUseCommand(2, "gamemode")) {
                 throw new CommandException("You are not allowed to spawn a whitelisted player");
             }
-            Vec3d vec3d = source.getSourcePos();
+            Vec3d vec3d = source.getCommandSourcePos();
             double x = vec3d.x;
             double y = vec3d.y;
             double z = vec3d.z;
             double yaw = 0.0D;
             double pitch = 0.0D;
-            World world = source.getSourceWorld();
+            World world = source.getCommandSourceWorld();
             int dimension = world.dimension.getType().getId();
             int gamemode = server.getDefaultGameMode().getId();
 

@@ -62,10 +62,10 @@ public class ChunkCommand extends CarpetAbstractCommand {
             throw new IncorrectUsageException(getUsage(source));
         }
 
-        world = source.getSourceWorld();
+        world = source.getCommandSourceWorld();
         try {
-            int chunkX = parseChunkPosition(args[1], source.getSourceBlockPos().getX());
-            int chunkZ = parseChunkPosition(args[2], source.getSourceBlockPos().getZ());
+            int chunkX = parseChunkPosition(args[1], source.getCommandSourceBlockPos().getX());
+            int chunkZ = parseChunkPosition(args[2], source.getCommandSourceBlockPos().getZ());
 
             switch (args[0]) {
                 case "load":
@@ -115,7 +115,7 @@ public class ChunkCommand extends CarpetAbstractCommand {
         ServerChunkCache chunkProvider = (ServerChunkCache) world.getChunkSource();
         long i = ChunkPos.toLong(x, z);
         ((ServerChunkCacheA) chunkProvider).getChunks().remove(i);
-        WorldChunk chunk = ((ServerChunkCacheA) chunkProvider).getGenerator().getChunk(x, z);
+        WorldChunk chunk = ((ServerChunkCacheA) chunkProvider).getGenerator().generateChunk(x, z);
         ((ServerChunkCacheA) chunkProvider).getChunks().put(i, chunk);
         chunk.load();
         chunk.setTerrainPopulated(true);
@@ -201,8 +201,8 @@ public class ChunkCommand extends CarpetAbstractCommand {
 
     @Override
     public List<String> getSuggestions(MinecraftServer server, CommandSource source, String[] args, @Nullable BlockPos targetPos) {
-        int chunkX = source.getSourceBlockPos().getX() >> 4;
-        int chunkZ = source.getSourceBlockPos().getZ() >> 4;
+        int chunkX = source.getCommandSourceBlockPos().getX() >> 4;
+        int chunkZ = source.getCommandSourceBlockPos().getZ() >> 4;
 
         if (args.length == 1) {
             return suggestMatching(args, "info", "load", "unload", "regen", "repop", "asyncrepop", "setInvisible", "remove");

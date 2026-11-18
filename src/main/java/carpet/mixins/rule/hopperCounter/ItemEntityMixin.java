@@ -1,7 +1,7 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.helpers.HopperCounter;
 import carpet.CarpetSettings;
+import carpet.helpers.HopperCounter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -16,14 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
     @Shadow
-    public abstract ItemStack getItemStack();
+    public abstract ItemStack getItem();
 
     public ItemEntityMixin(World world) {
         super(world);
     }
 
     @Inject(
-            method = "damage",
+            method = "takeDamage",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/entity/ItemEntity;remove()V"
@@ -31,7 +31,7 @@ public abstract class ItemEntityMixin extends Entity {
     )
     private void logCactusCounter(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (CarpetSettings.cactusCounter && source == DamageSource.CACTUS) {
-            HopperCounter.cactus.add(this.world.getServer(), getItemStack());
+            HopperCounter.cactus.add(this.world.getServer(), getItem());
         }
     }
 }

@@ -40,7 +40,7 @@ public class ServerPlayNetworkHandlerMixin {
             )
     )
     private void checkMove(PlayerMoveC2SPacket packet, CallbackInfo ci) {
-        double movedBy = player.getSourcePos().squaredDistanceTo(firstGoodX, firstGoodY, firstGoodZ);
+        double movedBy = player.getCommandSourcePos().squaredDistanceTo(firstGoodX, firstGoodY, firstGoodZ);
         if (movedBy == 0.0D) return;
         // corrective tick
         if (movedBy < 0.0009 && lastMoved > 0.0009 && Math.abs(player.getServer().getTicks() - lastMovedTick - 20) < 2) {

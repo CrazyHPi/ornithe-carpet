@@ -57,7 +57,7 @@ public abstract class ItemEntityMixin extends Entity {
     }
 
     @Inject(
-            method = "damage",
+            method = "takeDamage",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/entity/ItemEntity;remove()V"

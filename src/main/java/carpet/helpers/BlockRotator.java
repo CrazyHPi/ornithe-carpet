@@ -77,18 +77,18 @@ public class BlockRotator {
     }
 
     private static boolean playerHoldsCactusMainHand(PlayerEntity playerIn) {
-        return (!playerIn.getMainHandStack().isEmpty()
-                && playerIn.getMainHandStack().getItem() instanceof BlockItem
-                && ((BlockItem) (playerIn.getMainHandStack().getItem())).getBlock() == Blocks.CACTUS);
+        return (!playerIn.getItemInMainHand().isEmpty()
+                && playerIn.getItemInMainHand().getItem() instanceof BlockItem
+                && ((BlockItem) (playerIn.getItemInMainHand().getItem())).getBlock() == Blocks.CACTUS);
     }
 
     // used for flip block rotation when placing block with catus offhand
     public static boolean playerHoldsCactusOffHand(Entity entity) {
         if (CarpetSettings.flippinCactus && (entity instanceof PlayerEntity)) {
             PlayerEntity player = (PlayerEntity) entity;
-            return (!player.getOffHandStack().isEmpty()
-                    && player.getOffHandStack().getItem() instanceof BlockItem
-                    && ((BlockItem) (player.getOffHandStack().getItem())).getBlock() == Blocks.CACTUS);
+            return (!player.getItemInOffHand().isEmpty()
+                    && player.getItemInOffHand().getItem() instanceof BlockItem
+                    && ((BlockItem) (player.getItemInOffHand().getItem())).getBlock() == Blocks.CACTUS);
         }
         return false;
     }

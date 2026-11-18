@@ -19,12 +19,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BlockMixin {
 
     @Inject(
-        method = "dropItems(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/item/ItemStack;)V",
-        at = @At(
-            value = "INVOKE",
-            shift = At.Shift.AFTER,
-            target = "Lnet/minecraft/world/World;addEntity(Lnet/minecraft/entity/Entity;)Z"
-        )
+            method = "dropItem",
+            at = @At(
+                    value = "INVOKE",
+                    shift = At.Shift.AFTER,
+                    target = "Lnet/minecraft/world/World;addEntity(Lnet/minecraft/entity/Entity;)Z"
+            )
     )
     private static void doCarefulBreakItemCollide(World world, BlockPos pos, ItemStack stack, CallbackInfo ci, @Local ItemEntity item) {
         if (CarpetSettings.carefulBreak) {

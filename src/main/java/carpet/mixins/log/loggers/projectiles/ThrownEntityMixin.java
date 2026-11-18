@@ -3,7 +3,7 @@ package carpet.mixins.log.loggers.projectiles;
 import carpet.log.framework.LoggerRegistry;
 import carpet.log.loggers.projectiles.TrajectoryLogHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.thrown.ThrownEntity;
+import net.minecraft.entity.projectile.ThrownEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,7 +29,7 @@ public abstract class ThrownEntityMixin extends Entity {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/entity/thrown/ThrownEntity;setPosition(DDD)V"
+                    target = "Lnet/minecraft/entity/projectile/ThrownEntity;setPosition(DDD)V"
             )
     )
     private void tickCheck(CallbackInfo ci) {

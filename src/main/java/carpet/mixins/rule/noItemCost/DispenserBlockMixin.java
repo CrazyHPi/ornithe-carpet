@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(DispenserBlock.class)
 public abstract class DispenserBlockMixin {
-    @Redirect(method = "dispense", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/DispenserBlockEntity;setStack(ILnet/minecraft/item/ItemStack;)V"))
+    @Redirect(method = "dispense", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/DispenserBlockEntity;setItem(ILnet/minecraft/item/ItemStack;)V"))
     public void setStackNoItemCost(DispenserBlockEntity blockEntity, int slot, ItemStack stack) {
         if ("off".equals(CarpetSettings.dispenserNoItemCost)) {
-            blockEntity.setStack(slot, stack);
+            blockEntity.setItem(slot, stack);
         } else if ("wool".equals(CarpetSettings.dispenserNoItemCost) &&
                 blockEntity.getWorld().getBlockState(blockEntity.getPos().down()).getBlock() == Blocks.WOOL) {
-            blockEntity.setStack(slot, stack);
+            blockEntity.setItem(slot, stack);
         }
-        // Otherwise, the redirect skips setStack(), effectively not costing any item
+        // Otherwise, the redirect skips setItem(), effectively not costing any item
     }
 }

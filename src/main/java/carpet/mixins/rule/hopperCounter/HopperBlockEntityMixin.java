@@ -1,7 +1,7 @@
 package carpet.mixins.rule.hopperCounter;
 
-import carpet.helpers.HopperCounter;
 import carpet.CarpetSettings;
+import carpet.helpers.HopperCounter;
 import carpet.utils.WoolTool;
 import net.minecraft.block.HopperBlock;
 import net.minecraft.block.entity.HopperBlockEntity;
@@ -30,9 +30,9 @@ public abstract class HopperBlockEntityMixin extends LootInventoryBlockEntity {
     public abstract int getSize();
 
     @Shadow
-    public abstract void setStack(int slot, ItemStack stack);
+    public abstract void setItem(int slot, ItemStack stack);
 
-    @Inject(method = "pushItems()Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "pushItem()Z", at = @At("HEAD"), cancellable = true)
     private void countItem(CallbackInfoReturnable<Boolean> cir) {
         if (CarpetSettings.hopperCounters) {
             String counter;
@@ -40,10 +40,10 @@ public abstract class HopperBlockEntityMixin extends LootInventoryBlockEntity {
             counter = woolColor != null ? woolColor.getName() : null;
             if (counter != null) {
                 for (int i = 0; i < this.getSize(); ++i) {
-                    if (!this.getStack(i).isEmpty()) {
-                        ItemStack itemStack = this.getStack(i);
+                    if (!this.getItem(i).isEmpty()) {
+                        ItemStack itemStack = this.getItem(i);
                         HopperCounter.COUNTERS.get(counter).add(this.getWorld().getServer(), itemStack);
-                        this.setStack(i, ItemStack.EMPTY);
+                        this.setItem(i, ItemStack.EMPTY);
                     }
                 }
                 cir.setReturnValue(true);

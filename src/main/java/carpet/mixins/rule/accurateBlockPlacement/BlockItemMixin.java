@@ -13,11 +13,16 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BlockItem.class)
 public abstract class BlockItemMixin {
-    @WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getPlacementState(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;FFFILnet/minecraft/entity/living/LivingEntity;)Lnet/minecraft/block/state/BlockState;"))
+    @WrapOperation(
+            method = "useOn",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/block/Block;getPlacementState(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;FFFILnet/minecraft/entity/living/LivingEntity;)Lnet/minecraft/block/state/BlockState;"
+            )
+    )
     public BlockState getPlacementState(
             Block block, World world, BlockPos pos, Direction dir,
             float dx, float dy, float dz, int metadata, LivingEntity entity,

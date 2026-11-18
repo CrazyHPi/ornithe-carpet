@@ -8,7 +8,13 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(FenceGateBlock.class)
 public abstract class FenceGateBlockMixin {
-    @ModifyExpressionValue(method = "canSurvive", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/material/Material;isSolid()Z"))
+    @ModifyExpressionValue(
+            method = "canBePlaced",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/block/material/Material;isSolid()Z"
+            )
+    )
     public boolean relaxBlockSurvival(boolean original) {
         return CarpetSettings.relaxedBlockPlacement || original;
     }

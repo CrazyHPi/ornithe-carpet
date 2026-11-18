@@ -16,7 +16,13 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PlaceableItem.class)
 public abstract class PlaceableItemMixin {
-    @WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getPlacementState(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;FFFILnet/minecraft/entity/living/LivingEntity;)Lnet/minecraft/block/state/BlockState;"))
+    @WrapOperation(
+            method = "useOn",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/block/Block;getPlacementState(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;FFFILnet/minecraft/entity/living/LivingEntity;)Lnet/minecraft/block/state/BlockState;"
+            )
+    )
     public BlockState getPlacementState(
             Block block, World world, BlockPos pos, Direction dir,
             float dx, float dy, float dz, int metadata, LivingEntity entity,

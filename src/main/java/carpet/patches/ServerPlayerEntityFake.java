@@ -47,10 +47,10 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
         ServerPlayerEntityFake instance = new ServerPlayerEntityFake(server, worldIn, gameprofile, interactionManagerIn);
         instance.setSetPosition(x, y, z, (float) yaw, (float) pitch);
         server.getPlayerManager().onLogin(new ConnectionFake(PacketFlow.CLIENTBOUND), instance);
-        if (instance.dimensionId != dimension) {
+        if (instance.dimension != dimension) {
             //player was logged in in a different dimension
-            ServerWorld old_world = server.getWorld(instance.dimensionId);
-            instance.dimensionId = dimension;
+            ServerWorld old_world = server.getWorld(instance.dimension);
+            instance.dimension = dimension;
             old_world.removeEntity(instance);
             instance.removed = false;
             worldIn.addEntity(instance);
@@ -63,10 +63,10 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
         instance.removed = false;
         instance.stepHeight = 0.6F;
         interactionManagerIn.setGameMode(GameMode.byId(gamemode));
-        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(instance, (byte) (instance.headYaw * 256 / 360)), instance.dimensionId);
-        server.getPlayerManager().sendPacket(new EntityTeleportS2CPacket(instance), instance.dimensionId);
+        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(instance, (byte) (instance.headYaw * 256 / 360)), instance.dimension);
+        server.getPlayerManager().sendPacket(new EntityTeleportS2CPacket(instance), instance.dimension);
         server.getPlayerManager().move(instance);
-        instance.dataTracker.set(MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
+        instance.syncedData.set(MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
         createAndAddFakePlayerToTeamBot(instance);
         return instance;
     }
@@ -81,7 +81,7 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
 //        }
         player.getServer().getPlayerManager().remove(player);
         player.networkHandler.sendDisconnect(new TranslatableText("multiplayer.disconnect.duplicate_login"));
-        ServerWorld worldIn = server.getWorld(player.dimensionId);
+        ServerWorld worldIn = server.getWorld(player.dimension);
         ServerPlayerInteractionManager interactionManagerIn = new ServerPlayerInteractionManager(worldIn);
         GameProfile gameprofile = player.getGameProfile();
         gameprofile = fixSkin(gameprofile);
@@ -95,7 +95,7 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
         ((ServerPlayerEntityF) playerShadow).getActionPack().copyFrom(((ServerPlayerEntityF) player).getActionPack());
         playerShadow.stepHeight = 0.6F;
 
-        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(playerShadow, (byte) (player.headYaw * 256 / 360)), playerShadow.dimensionId);
+        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(playerShadow, (byte) (player.headYaw * 256 / 360)), playerShadow.dimension);
         server.getPlayerManager().sendPacket(new PlayerInfoS2CPacket(PlayerInfoS2CPacket.Action.ADD_PLAYER, playerShadow));
         server.getPlayerManager().move(playerShadow);
         createAndAddFakePlayerToTeamBot(playerShadow);
@@ -120,19 +120,19 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
         ((ServerWorldF) worldIn).setLoginMinecartFix(true);
         server.getPlayerManager().onLogin(new ConnectionFake(PacketFlow.CLIENTBOUND), instance);
         ((ServerWorldF) worldIn).setLoginMinecartFix(false);
-        if (instance.dimensionId != 0) //player was logged in in a different dimension
+        if (instance.dimension != 0) //player was logged in in a different dimension
         {
-            worldIn = server.getWorld(instance.dimensionId);
+            worldIn = server.getWorld(instance.dimension);
             instance.setWorld(worldIn);
             server.getPlayerManager().onChangedDimension(instance, worldIn);
             instance.interactionManager.setWorld(worldIn);
         }
         instance.removed = false;
         instance.stepHeight = 0.6F;
-        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(instance, (byte) (instance.headYaw * 256 / 360)), instance.dimensionId);
-        server.getPlayerManager().sendPacket(new EntityTeleportS2CPacket(instance), instance.dimensionId);
+        server.getPlayerManager().sendPacket(new EntityHeadAnglesS2CPacket(instance, (byte) (instance.headYaw * 256 / 360)), instance.dimension);
+        server.getPlayerManager().sendPacket(new EntityTeleportS2CPacket(instance), instance.dimension);
         server.getPlayerManager().move(instance);
-        instance.dataTracker.set(MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
+        instance.syncedData.set(MODEL_PARTS, (byte) 0x7f); // show all model layers (incl. capes)
         createAndAddFakePlayerToTeamBot(instance);
         if (infos.length > 1) {
             ((ServerPlayerEntityF) instance).getActionPack().fromString(infos[1]);
@@ -164,8 +164,8 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
     }
 
     @Override
-    public void onKilled(DamageSource source) {
-        super.onKilled(source);
+    public void die(DamageSource source) {
+        super.die(source);
         logout();
     }
 
@@ -198,7 +198,7 @@ public class ServerPlayerEntityFake extends ServerPlayerEntity {
     }
 
     public void resetToSetPosition() {
-        this.refreshPositionAndAngles(setX, setY, setZ, setYaw, setPitch);
+        this.setPositionAndAngles(setX, setY, setZ, setYaw, setPitch);
     }
 
     private static void createAndAddFakePlayerToTeamBot(ServerPlayerEntityFake player) {

@@ -1,7 +1,7 @@
 plugins {
 	id 'maven-publish'
-	id 'fabric-loom' version '1.14-SNAPSHOT'
-	id 'ploceus' version '1.14-SNAPSHOT'
+	id 'fabric-loom' version '1.19-SNAPSHOT'
+	id 'ploceus' version '1.19-SNAPSHOT'
 	id "com.gradleup.shadow" version "9.3.1" // for mixin extra shadowJar
 }
 
@@ -24,6 +24,10 @@ repositories {
 
 configurations {
 	implementation.extendsFrom shadow
+}
+
+ploceus {
+	setIntermediaryGeneration(2)
 }
 
 dependencies {
