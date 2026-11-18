@@ -48,3 +48,9 @@ Add jvm flag `--add-opens java.base/java.util=ALL-UNNAMED` to allow reflection o
 * Clone the repo.
 * Run `gradle build` task.
 * Complied `.jar` file will be in build/libs/.
+
+### Calamus (intermediary) generation
+
+This mod will move to Ornithe Gen2 since commit [731cab21](https://github.com/CrazyHPi/ornithe-carpet/commit/731cab21).
+
+`v0.2.2` is the last version supporting Gen1.
